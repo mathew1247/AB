@@ -1,0 +1,102 @@
+[
+  {
+    "id": "java-core",
+    "title": "Java Core",
+    "topics": [
+      {
+        "id": "oop",
+        "name": "OOP",
+        "concepts": [
+          {
+            "id": "class-object",
+            "name": "Classes and Objects",
+            "keywords": ["class", "object", "constructor", "new"]
+          },
+          {
+            "id": "inheritance",
+            "name": "Inheritance",
+            "keywords": ["extends", "super", "inherit", "parent class", "child class"]
+          },
+          {
+            "id": "polymorphism",
+            "name": "Polymorphism",
+            "keywords": ["override", "overload", "runtime", "compile time", "dynamic dispatch"]
+          },
+          {
+            "id": "encapsulation",
+            "name": "Encapsulation",
+            "keywords": ["private", "getter", "setter", "access modifier"]
+          },
+          {
+            "id": "abstraction",
+            "name": "Abstraction",
+            "keywords": ["abstract", "interface", "implementation"]
+          }
+        ]
+      },
+      {
+        "id": "collections",
+        "name": "Collections",
+        "concepts": [
+          {
+            "id": "list",
+            "name": "List Interface",
+            "keywords": ["arraylist", "linkedlist", "list", "get", "add"]
+          },
+          {
+            "id": "map",
+            "name": "Map Interface",
+            "keywords": ["hashmap", "treemap", "key", "value", "map"]
+          },
+          {
+            "id": "set",
+            "name": "Set Interface",
+            "keywords": ["hashset", "set", "unique", "duplicate"]
+          }
+        ]
+      },
+      {
+        "id": "exception-handling",
+        "name": "Exception Handling",
+        "concepts": [
+          {
+            "id": "try-catch",
+            "name": "try-catch-finally",
+            "keywords": ["try", "catch", "finally", "throw", "throws"]
+          },
+          {
+            "id": "checked-unchecked",
+            "name": "Checked vs Unchecked Exceptions",
+            "keywords": ["checked", "unchecked", "runtime exception", "compiler"]
+          },
+          {
+            "id": "custom-exceptions",
+            "name": "Custom Exceptions",
+            "keywords": ["custom", "extend", "exception"]
+          }
+        ]
+      },
+      {
+        "id": "multithreading",
+        "name": "Multithreading",
+        "concepts": [
+          {
+            "id": "threads",
+            "name": "Threads",
+            "keywords": ["thread", "runnable", "start", "run", "process"]
+          },
+          {
+            "id": "synchronization",
+            "name": "Synchronization",
+            "keywords": ["synchronized", "lock", "race condition", "monitor"]
+          },
+          {
+            "id": "executor-service",
+            "name": "Executor Service",
+            "keywords": ["executor", "thread pool", "callable", "future"]
+          }
+        ]
+      }
+    ]
+  }
+]
