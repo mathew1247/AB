@@ -20,19 +20,19 @@
   --accent-orange: #FF6B4A;
   --accent-orange-light: #FFF0ED;
 
-  /* Warm Minimalist Dashboard Colors (Be.run Design System) */
-  --berun-bg-outer: #ECE6DD;
-  --berun-bg-card: #F7F3EE;
+  /* Dashboard Colors (Matched with index.html Color Palette) */
+  --berun-bg-outer: #E9ECEF;
+  --berun-bg-card: #FAF6F0;
   --berun-bg-white: #FFFFFF;
-  --berun-bg-dark: #1C1C1E;
-  --berun-bg-taupe: #D0C4B4;
-  --berun-bg-yellow: #FFCC00;
-  --berun-bg-red: #FF5A4E;
+  --berun-bg-dark: #12161A;
+  --berun-bg-taupe: #EEF4FF;
+  --berun-bg-yellow: #2A60F7;
+  --berun-bg-red: #FF6B4A;
 
-  --berun-text-dark: #1C1C1E;
-  --berun-text-body: #666460;
-  --berun-text-muted: #9E9A92;
-  --berun-border: #E5DFD7;
+  --berun-text-dark: #12161A;
+  --berun-text-body: #5A6472;
+  --berun-text-muted: #8C96A3;
+  --berun-border: #E2E8F0;
 
   --radius-sm: 10px;
   --radius-md: 16px;
@@ -595,7 +595,7 @@ body.berun-dashboard-body {
 
 .berun-cal-date-cell.done {
   background: var(--berun-bg-yellow);
-  color: #1C1C1E;
+  color: #FFFFFF;
   font-weight: 800;
 }
 
