@@ -2,7 +2,7 @@ const aiService = require('../services/aiService');
 
 // In-memory store for active interview sessions
 const sessions = {};
-const MAX_QUESTIONS = 5; // Define when the interview should end
+const MAX_QUESTIONS = 10; // Define when the interview should end
 
 // @desc    Handle single POST endpoint for interview flow
 // @route   POST /api/interview
