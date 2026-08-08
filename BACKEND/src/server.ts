@@ -9,10 +9,9 @@ async function main(): Promise<void> {
     try {
       await connectDatabase();
     } catch (err) {
-      logger.error("MongoDB connection failed - exiting.", {
+      logger.error("MongoDB connection failed - continuing server startup.", {
         error: err instanceof Error ? err.message : String(err),
       });
-      process.exit(1);
     }
   }
 

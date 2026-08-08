@@ -16,6 +16,9 @@ export function allowedOrigins(): string[] {
 }
 
 export function isOriginAllowed(origin: string): boolean {
+  if (env.NODE_ENV === "development") {
+    return true; // allow any origin in local development (preventing CORS issues on arbitrary ports)
+  }
   const origins = allowedOrigins();
   if (origins.length === 0) {
     return true; // nothing configured -> permissive (dev); fail-fast in production via assertCorsConfigured
