@@ -1,69 +1,671 @@
-// Camply Web UI Interactive Logic
+// Camply & Be.run Dashboard Interactive Logic with Single Course Carousel, Dual-Card Progress Modal & Topic-Wise Daily Coverage Cards Modal
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Camply UI loaded successfully.');
+    console.log('Dashboard application initialized successfully.');
 
-  // Smooth scroll for nav links
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', function (e) {
-      if (this.getAttribute('href').startsWith('#')) {
-        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-        this.classList.add('active');
-      }
+    // Keyboard Shortcuts (Cmd/Ctrl + K for search, Escape for closing modals)
+    document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            const searchField = document.getElementById('search-input-field');
+            if (searchField) searchField.focus();
+        }
+        if (e.key === 'Escape') {
+            closeProgressModal();
+            closeCalendarDateModal();
+            closeModal();
+        }
     });
-  });
+
+    // Render initial course if carousel is present
+    renderCourse(currentCourseIndex);
 });
 
-// Filter Cabin Cards by Category
-function setFilter(buttonEl, category) {
-  // Update active tab styling
-  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-  buttonEl.classList.add('active');
-
-  const cards = document.querySelectorAll('.cabin-card');
-  cards.forEach(card => {
-    if (category === 'all' || card.getAttribute('data-category') === category) {
-      card.style.display = 'block';
-      card.style.animation = 'fadeIn 0.4s ease';
-    } else {
-      card.style.display = 'none';
+// Detailed 8 Courses Data Structure with Completed and Pending Topics
+const courses = [
+    {
+        id: 1,
+        name: "Python Development",
+        tags: "Python • OOP • Flask",
+        level: "Intermediate",
+        progress: 82,
+        completedTopicsCount: 12,
+        totalTopicsCount: 15,
+        icon: "🐍",
+        completed: [
+            "Python Basics & Syntax",
+            "Variables & Data Types",
+            "Functions & Scope",
+            "Collections (Lists, Dicts, Sets)",
+            "Object-Oriented Programming (OOP)",
+            "Inheritance & Polymorphism",
+            "File I/O & Exception Handling",
+            "List Comprehensions & Generators",
+            "Decorators & Context Managers",
+            "Virtual Environments & Pip",
+            "Package Structure & Modules",
+            "Built-in Standard Library"
+        ],
+        pending: [
+            "Flask Web Framework",
+            "REST APIs with Flask",
+            "Unit Testing & PyTest"
+        ]
+    },
+    {
+        id: 2,
+        name: "SQL & DBMS",
+        tags: "SQL • Joins • Queries",
+        level: "Intermediate",
+        progress: 68,
+        completedTopicsCount: 8,
+        totalTopicsCount: 12,
+        icon: "🛢️",
+        completed: [
+            "Relational Database Concepts",
+            "SQL SELECT, WHERE, ORDER BY",
+            "INNER JOIN & LEFT JOIN",
+            "RIGHT JOIN & FULL OUTER JOIN",
+            "Aggregate Functions & GROUP BY",
+            "HAVING & Filtering Operations",
+            "Subqueries & CTEs",
+            "Primary Keys & Foreign Keys"
+        ],
+        pending: [
+            "Database Indexing & B-Trees",
+            "Query Optimization & EXPLAIN",
+            "ACID Transactions & Isolation",
+            "Database Normalization (1NF-3NF)"
+        ]
+    },
+    {
+        id: 3,
+        name: "Data Structures",
+        tags: "Arrays • Strings • Hashing",
+        level: "Intermediate",
+        progress: 56,
+        completedTopicsCount: 7,
+        totalTopicsCount: 12,
+        icon: "⚡",
+        completed: [
+            "Array Manipulation & Two Pointers",
+            "String Searching & Sliding Window",
+            "Hash Maps & Hash Sets",
+            "Linked Lists (Singly & Doubly)",
+            "Stacks & Queues Implementation",
+            "Binary Search Algorithms",
+            "Sorting Algorithms (Merge & Quick)"
+        ],
+        pending: [
+            "Binary Trees & Traversal",
+            "Binary Search Trees (BST)",
+            "Heaps & Priority Queues",
+            "Graph Representation & BFS/DFS",
+            "Dynamic Programming Basics"
+        ]
+    },
+    {
+        id: 4,
+        name: "JavaScript",
+        tags: "ES6 • DOM • Async JavaScript",
+        level: "Intermediate",
+        progress: 74,
+        completedTopicsCount: 9,
+        totalTopicsCount: 12,
+        icon: "📜",
+        completed: [
+            "ES6+ Syntax (let, const)",
+            "Arrow Functions & Lexical Scope",
+            "Array Methods (map, filter, reduce)",
+            "Object Destructuring & Spread",
+            "DOM Selection & Manipulation",
+            "Event Handling & Delegation",
+            "Promises & Callback Chains",
+            "Async / Await Syntax",
+            "Fetch API & Network Requests"
+        ],
+        pending: [
+            "Closures & Scope Chain",
+            "Prototypal Inheritance",
+            "Event Loop & Microtask Queue"
+        ]
+    },
+    {
+        id: 5,
+        name: "Frontend Development",
+        tags: "HTML • CSS • JavaScript",
+        level: "Intermediate",
+        progress: 78,
+        completedTopicsCount: 11,
+        totalTopicsCount: 14,
+        icon: "💻",
+        completed: [
+            "Semantic HTML5 Markup",
+            "CSS Flexbox Layouts",
+            "CSS Grid Systems",
+            "Responsive Media Queries",
+            "CSS Variables & Design Tokens",
+            "Vanilla JS DOM Manipulation",
+            "CSS Animations & Transitions",
+            "Form Validation & UX Patterns",
+            "Web Accessibility (a11y)",
+            "Browser Performance Optimization",
+            "Asset Pipeline & Optimization"
+        ],
+        pending: [
+            "State Management Patterns",
+            "Single Page Application (SPA)",
+            "Build Tools & Bundlers"
+        ]
+    },
+    {
+        id: 6,
+        name: "Backend Development",
+        tags: "Python • Flask • REST APIs",
+        level: "Intermediate",
+        progress: 48,
+        completedTopicsCount: 6,
+        totalTopicsCount: 12,
+        icon: "⚙️",
+        completed: [
+            "Client-Server Architecture",
+            "HTTP Request Methods & Headers",
+            "Flask Application Routing",
+            "JSON Request/Response Handling",
+            "Environment Variables & Config",
+            "Error Handling & HTTP Status Codes"
+        ],
+        pending: [
+            "JWT Authentication & Security",
+            "Database ORM (SQLAlchemy)",
+            "API Rate Limiting & Throttling",
+            "Background Task Queues",
+            "Docker Containerization",
+            "Cloud Deployment & CI/CD"
+        ]
+    },
+    {
+        id: 7,
+        name: "REST APIs",
+        tags: "HTTP • JSON • API Design",
+        level: "Intermediate",
+        progress: 61,
+        completedTopicsCount: 7,
+        totalTopicsCount: 11,
+        icon: "🔌",
+        completed: [
+            "REST Architectural Principles",
+            "Resource Naming Conventions",
+            "HTTP Verbs (GET, POST, PUT, DELETE)",
+            "Status Codes (200, 400, 404, 500)",
+            "JSON Schema & Payload Design",
+            "Query Parameters & Filtering",
+            "API Versioning Strategies"
+        ],
+        pending: [
+            "API Authentication (OAuth 2.0)",
+            "CORS & Security Headers",
+            "OpenAPI / Swagger Specs",
+            "Webhooks & Real-time Events"
+        ]
+    },
+    {
+        id: 8,
+        name: "System Design",
+        tags: "Architecture • Scalability • APIs",
+        level: "Advanced",
+        progress: 35,
+        completedTopicsCount: 4,
+        totalTopicsCount: 12,
+        icon: "🏗️",
+        completed: [
+            "Scalability (Vertical vs Horizontal)",
+            "Load Balancers & Reverse Proxies",
+            "Caching Strategies (Redis/Memcached)",
+            "CDN & Static Content Delivery"
+        ],
+        pending: [
+            "Database Sharding & Replication",
+            "Microservices vs Monolith Architecture",
+            "Message Queues (Kafka, RabbitMQ)",
+            "Consistent Hashing & Partitioning",
+            "Rate Limiters & API Gateways",
+            "CAP Theorem & PACELC Tradeoffs",
+            "Distributed File Systems",
+            "Real-Time System Design Patterns"
+        ]
     }
-  });
+];
+
+let currentCourseIndex = 0;
+
+// Render course slide inside technical skills card
+function renderCourse(index) {
+    const course = courses[index];
+    if (!course) return;
+
+    const iconEl = document.getElementById('course-icon');
+    const titleEl = document.getElementById('course-title');
+    const tagsEl = document.getElementById('course-tags');
+    const levelEl = document.getElementById('course-level');
+    const percentEl = document.getElementById('course-percent');
+    const progressFill = document.getElementById('course-progress-fill');
+    const topicsEl = document.getElementById('course-topics');
+    const indicatorEl = document.getElementById('course-counter-indicator');
+    const prevBtn = document.getElementById('prev-course-btn');
+    const nextBtn = document.getElementById('next-course-btn');
+    const slideWrapper = document.getElementById('course-slide-wrapper');
+
+    if (!slideWrapper) return;
+
+    // Apply smooth fade/slide transition
+    slideWrapper.style.opacity = '0';
+    slideWrapper.style.transform = 'translateX(10px)';
+
+    setTimeout(() => {
+        if (iconEl) iconEl.innerText = course.icon;
+        if (titleEl) titleEl.innerText = course.name;
+        if (tagsEl) tagsEl.innerText = course.tags;
+        if (levelEl) levelEl.innerText = course.level;
+        if (percentEl) percentEl.innerText = `${course.progress}% Complete`;
+        if (progressFill) progressFill.style.width = `${course.progress}%`;
+        if (topicsEl) topicsEl.innerText = `${course.completedTopicsCount} Completed · ${course.pending.length} Pending`;
+        if (indicatorEl) indicatorEl.innerText = `${index + 1} / ${courses.length}`;
+
+        // Disable buttons at boundaries
+        if (prevBtn) {
+            prevBtn.disabled = (index === 0);
+            prevBtn.style.opacity = (index === 0) ? '0.4' : '1';
+            prevBtn.style.cursor = (index === 0) ? 'not-allowed' : 'pointer';
+        }
+
+        if (nextBtn) {
+            nextBtn.disabled = (index === courses.length - 1);
+            nextBtn.style.opacity = (index === courses.length - 1) ? '0.4' : '1';
+            nextBtn.style.cursor = (index === courses.length - 1) ? 'not-allowed' : 'pointer';
+        }
+
+        slideWrapper.style.opacity = '1';
+        slideWrapper.style.transform = 'translateX(0)';
+    }, 120);
 }
 
-// Toggle Favorite Heart Button
-function toggleFavorite(btn) {
-  const svg = btn.querySelector('svg');
-  if (btn.classList.contains('active')) {
-    btn.classList.remove('active');
-    svg.setAttribute('fill', 'none');
-    svg.style.color = 'currentColor';
-  } else {
-    btn.classList.add('active');
-    svg.setAttribute('fill', '#EF4444');
-    svg.style.color = '#EF4444';
-  }
+function nextCourse() {
+    if (currentCourseIndex < courses.length - 1) {
+        currentCourseIndex++;
+        renderCourse(currentCourseIndex);
+    }
 }
 
-// Modal Popup Handlers
+function prevCourse() {
+    if (currentCourseIndex > 0) {
+        currentCourseIndex--;
+        renderCourse(currentCourseIndex);
+    }
+}
+
+// Open Progress Modal displaying Dual Cards (Card A: Completed Topics, Card B: Incomplete Topics)
+function openProgressModal() {
+    const course = courses[currentCourseIndex];
+    if (!course) return;
+
+    const modal = document.getElementById('progress-modal');
+    const nameEl = document.getElementById('modal-course-name');
+    const percentEl = document.getElementById('modal-course-percent');
+    const summaryEl = document.getElementById('modal-topics-summary');
+    const completedListEl = document.getElementById('modal-completed-list');
+    const pendingListEl = document.getElementById('modal-pending-list');
+
+    if (nameEl) nameEl.innerText = course.name;
+    if (percentEl) percentEl.innerText = `${course.progress}% Completed`;
+    if (summaryEl) summaryEl.innerText = `${course.completedTopicsCount} Completed · ${course.pending.length} Incomplete`;
+
+    // Render Card A: Completed Topics (Light Gold/Beige Card)
+    if (completedListEl) {
+        completedListEl.innerHTML = course.completed.map(item => `
+            <div style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; color: #1C1C1E; font-weight: 600; padding: 0.35rem 0; border-bottom: 1px solid rgba(28, 28, 30, 0.08);">
+                <span style="font-size: 0.95rem;">📄</span> ${item}
+            </div>
+        `).join('');
+    }
+
+    // Render Card B: Incomplete Topics (Sleek Dark Card)
+    if (pendingListEl) {
+        pendingListEl.innerHTML = course.pending.map(item => `
+            <div style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; color: #E5E5EA; font-weight: 500; padding: 0.35rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+                <span style="font-size: 0.95rem; color: #FFCC00;">⚙️</span> ${item}
+            </div>
+        `).join('');
+    }
+
+    if (modal) modal.classList.add('active');
+}
+
+function closeProgressModal() {
+    const modal = document.getElementById('progress-modal');
+    if (modal) modal.classList.remove('active');
+}
+
+// Exact Topic-Wise Daily Coverage Dataset for Calendar Dates
+const calendarDateTopics = {
+    1: {
+        dateTitle: "June 1, 2026",
+        badgeSummary: "3 Topics Covered",
+        cards: [
+            {
+                title: "Python OOP & Inheritance",
+                category: "Python • Intermediate",
+                icon: "🐍",
+                score: "92% Score",
+                badge: "Topic 1 of 3",
+                badgeBg: "rgba(46, 125, 50, 0.12)",
+                badgeColor: "#2E7D32",
+                subtopics: "Covered: Classes, Method Overriding, Polymorphism"
+            },
+            {
+                title: "SQL INNER & LEFT JOIN Queries",
+                category: "Database • Queries",
+                icon: "🛢️",
+                score: "88% Score",
+                badge: "Topic 2 of 3",
+                badgeBg: "rgba(46, 125, 50, 0.12)",
+                badgeColor: "#2E7D32",
+                subtopics: "Covered: INNER JOIN, LEFT JOIN, Aggregations"
+            },
+            {
+                title: "Data Structures - Hash Map Lookup",
+                category: "DSA • Algorithms",
+                icon: "⚡",
+                score: "95% Score",
+                badge: "Topic 3 of 3",
+                badgeBg: "rgba(46, 125, 50, 0.12)",
+                badgeColor: "#2E7D32",
+                subtopics: "Covered: Hash Functions, Collision Resolution"
+            }
+        ]
+    },
+    22: {
+        dateTitle: "June 22, 2026 (Yesterday)",
+        badgeSummary: "3 Topics Covered Yesterday",
+        cards: [
+            {
+                title: "Python Generators & Decorators",
+                category: "Python • Advanced",
+                icon: "🐍",
+                score: "89% Score",
+                badge: "Yesterday • Topic 1",
+                badgeBg: "rgba(46, 125, 50, 0.12)",
+                badgeColor: "#2E7D32",
+                subtopics: "Covered: Yield, Decorator Wrappers, Closures"
+            },
+            {
+                title: "SQL Grouping & Having Clauses",
+                category: "Database • Query Optimization",
+                icon: "🛢️",
+                score: "94% Score",
+                badge: "Yesterday • Topic 2",
+                badgeBg: "rgba(46, 125, 50, 0.12)",
+                badgeColor: "#2E7D32",
+                subtopics: "Covered: GROUP BY, HAVING, COUNT/SUM/AVG"
+            },
+            {
+                title: "Arrays & Sliding Window Pattern",
+                category: "DSA • Problem Solving",
+                icon: "⚡",
+                score: "86% Score",
+                badge: "Yesterday • Topic 3",
+                badgeBg: "rgba(46, 125, 50, 0.12)",
+                badgeColor: "#2E7D32",
+                subtopics: "Covered: Fixed & Dynamic Subarray Search"
+            }
+        ]
+    },
+    23: {
+        dateTitle: "June 23, 2026 (Today)",
+        badgeSummary: "2 Topics Covered Today",
+        cards: [
+            {
+                title: "JavaScript Promises & Async/Await",
+                category: "JavaScript • ES6+",
+                icon: "📜",
+                score: "95% Score",
+                badge: "Today • Topic 1",
+                badgeBg: "rgba(66, 133, 244, 0.12)",
+                badgeColor: "#4285F4",
+                subtopics: "Covered: Event Loop, Microtasks, Async Handling"
+            },
+            {
+                title: "CSS Flexbox & Responsive Grid Systems",
+                category: "Frontend • CSS3 Design",
+                icon: "💻",
+                score: "91% Score",
+                badge: "Today • Topic 2",
+                badgeBg: "rgba(66, 133, 244, 0.12)",
+                badgeColor: "#4285F4",
+                subtopics: "Covered: Flex Layouts, Media Queries, Grid Columns"
+            }
+        ]
+    },
+    5: {
+        dateTitle: "June 5, 2026",
+        badgeSummary: "2 Topics Covered",
+        cards: [
+            {
+                title: "Binary Search & Two Pointers",
+                category: "DSA • Algorithms",
+                icon: "⚡",
+                score: "85% Score",
+                badge: "Completed ✓",
+                badgeBg: "rgba(46, 125, 50, 0.12)",
+                badgeColor: "#2E7D32",
+                subtopics: "Covered: Sorted Arrays, Target Index Search"
+            },
+            {
+                title: "REST API Design & Verbs",
+                category: "REST APIs • Web",
+                icon: "🔌",
+                score: "90% Score",
+                badge: "Completed ✓",
+                badgeBg: "rgba(46, 125, 50, 0.12)",
+                badgeColor: "#2E7D32",
+                subtopics: "Covered: GET, POST, PUT, DELETE Endpoint Design"
+            }
+        ]
+    },
+    17: {
+        dateTitle: "June 17, 2026",
+        badgeSummary: "1 Scheduled Topic",
+        cards: [
+            {
+                title: "System Design & Caching Architecture",
+                category: "System Design • Advanced",
+                icon: "🏗️",
+                score: "Scheduled 4:00 PM",
+                badge: "Scheduled ⏰",
+                badgeBg: "rgba(255, 153, 0, 0.15)",
+                badgeColor: "#D97706",
+                subtopics: "Upcoming: Redis Caching, Load Balancers"
+            }
+        ]
+    },
+    19: {
+        dateTitle: "June 19, 2026",
+        badgeSummary: "1 Scheduled Topic",
+        cards: [
+            {
+                title: "Backend JWT Authentication & Security",
+                category: "Backend • Security",
+                icon: "⚙️",
+                score: "Scheduled 2:30 PM",
+                badge: "Scheduled ⏰",
+                badgeBg: "rgba(255, 153, 0, 0.15)",
+                badgeColor: "#D97706",
+                subtopics: "Upcoming: Token Verification & Headers"
+            }
+        ]
+    }
+};
+
+function selectCalendarDate(dayNumber) {
+    const modal = document.getElementById('calendar-date-modal');
+    const titleEl = document.getElementById('date-modal-title');
+    const summaryEl = document.getElementById('date-modal-summary');
+    const cardsGrid = document.getElementById('date-cards-grid');
+
+    // Generate topic cards dynamically if date not explicitly mapped
+    const activity = calendarDateTopics[dayNumber] || {
+        dateTitle: `June ${dayNumber}, 2026`,
+        badgeSummary: `${dayNumber % 2 === 0 ? '2' : '3'} Topics Covered`,
+        cards: dayNumber % 2 === 0 ? [
+            {
+                title: "Data Structures - Linked List Operations",
+                category: "DSA • Algorithms",
+                icon: "⚡",
+                score: "87% Score",
+                badge: "Topic 1 of 2",
+                badgeBg: "rgba(46, 125, 50, 0.12)",
+                badgeColor: "#2E7D32",
+                subtopics: "Covered: Node Traversal & Reversal"
+            },
+            {
+                title: "SQL Subqueries & Nested Queries",
+                category: "Database • Queries",
+                icon: "🛢️",
+                score: "91% Score",
+                badge: "Topic 2 of 2",
+                badgeBg: "rgba(46, 125, 50, 0.12)",
+                badgeColor: "#2E7D32",
+                subtopics: "Covered: Correlated Subqueries & CTEs"
+            }
+        ] : [
+            {
+                title: "Python Functions & Scope",
+                category: "Python • Basics",
+                icon: "🐍",
+                score: "94% Score",
+                badge: "Topic 1 of 3",
+                badgeBg: "rgba(46, 125, 50, 0.12)",
+                badgeColor: "#2E7D32",
+                subtopics: "Covered: Global/Local Scope, Lambda"
+            },
+            {
+                title: "JavaScript DOM Selection & Events",
+                category: "Frontend • JS",
+                icon: "📜",
+                score: "89% Score",
+                badge: "Topic 2 of 3",
+                badgeBg: "rgba(46, 125, 50, 0.12)",
+                badgeColor: "#2E7D32",
+                subtopics: "Covered: querySelector, Event Listeners"
+            },
+            {
+                title: "REST API Status Codes & JSON",
+                category: "APIs • Web",
+                icon: "🔌",
+                score: "88% Score",
+                badge: "Topic 3 of 3",
+                badgeBg: "rgba(46, 125, 50, 0.12)",
+                badgeColor: "#2E7D32",
+                subtopics: "Covered: HTTP 200/400/500 Code Specs"
+            }
+        ]
+    };
+
+    if (titleEl) titleEl.innerText = `Topic Coverage for ${activity.dateTitle}`;
+    if (summaryEl) summaryEl.innerText = activity.badgeSummary;
+
+    if (cardsGrid) {
+        cardsGrid.innerHTML = activity.cards.map(card => `
+            <div style="background: #FFFFFF; border-radius: 20px; padding: 1.4rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid var(--berun-border); display: flex; flex-direction: column; justify-content: space-between; gap: 1rem;">
+                <div>
+                    <!-- Top Row: Icon + Badge -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                        <div style="width: 42px; height: 42px; border-radius: 50%; background: #F7F3EE; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+                            ${card.icon}
+                        </div>
+                        <span style="background: ${card.badgeBg}; color: ${card.badgeColor}; font-size: 0.72rem; font-weight: 800; padding: 0.25rem 0.65rem; border-radius: var(--radius-pill);">
+                            ${card.badge}
+                        </span>
+                    </div>
+
+                    <!-- Title & Subtitle -->
+                    <h4 style="font-size: 1.05rem; font-weight: 800; color: #1C1C1E; line-height: 1.2;">
+                        ${card.title}
+                    </h4>
+                    <div style="font-size: 0.78rem; font-weight: 600; color: #666460; margin-top: 0.3rem;">
+                        ${card.category}
+                    </div>
+                </div>
+
+                <!-- Bottom Row: Subtopics + Practice Button -->
+                <div style="border-top: 1px solid #F0EAEE; padding-top: 0.8rem; margin-top: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-size: 0.85rem; font-weight: 800; color: #1C1C1E;">${card.score}</div>
+                        <div style="font-size: 0.7rem; color: #666460; font-weight: 600;">${card.subtopics}</div>
+                    </div>
+                    <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.4rem 0.9rem;">
+                        Practice →
+                    </a>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    if (modal) modal.classList.add('active');
+}
+
+function closeCalendarDateModal() {
+    const modal = document.getElementById('calendar-date-modal');
+    if (modal) modal.classList.remove('active');
+}
+
+// Active Sidebar Navigation Icon
+function setActiveSidebar(el, sectionName) {
+    document.querySelectorAll('.berun-nav-btn').forEach(btn => btn.classList.remove('active'));
+    el.classList.add('active');
+    showToast(`Navigated to ${sectionName}`);
+}
+
+// Generic Modal Handlers
 function openModal(title, description) {
-  const modal = document.getElementById('action-modal');
-  const titleEl = document.getElementById('modal-title');
-  const descEl = document.getElementById('modal-desc');
+    const modal = document.getElementById('action-modal');
+    const titleEl = document.getElementById('modal-title');
+    const descEl = document.getElementById('modal-desc');
 
-  if (title) titleEl.innerText = title;
-  if (description) descEl.innerText = description;
+    if (title) titleEl.innerText = title;
+    if (description) descEl.innerText = description;
 
-  modal.classList.add('active');
+    modal.classList.add('active');
 }
 
-function closeModal(event) {
-  const modal = document.getElementById('action-modal');
-  modal.classList.remove('active');
+function closeModal() {
+    const modal = document.getElementById('action-modal');
+    if (modal) modal.classList.remove('active');
 }
 
 // Filter Search Handler
-function filterCabins() {
-  const location = document.getElementById('input-location').value;
-  openModal(`Searching Cabins in ${location || 'Selected Area'}`, 'Filtering available verified cabins with optimal availability and amenities.');
+function handleSearch(query) {
+    if (!query) return;
+    console.log('Searching health data for:', query);
+}
+
+// Toast Notification System
+function showToast(message) {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `<span>✨</span><span>${message}</span>`;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    }, 2500);
 }

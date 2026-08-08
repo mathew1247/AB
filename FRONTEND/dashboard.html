@@ -24,7 +24,7 @@
             <!-- Brand Logo -->
             <div class="berun-logo-icon" onclick="showToast('Be.run Dashboard Home')" title="Be.run Workspace">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z" fill="currentColor"/>
+                    <path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z" fill="currentColor" />
                 </svg>
                 <span style="font-size: 0.65rem; margin-top: 2px; font-weight: 800;">Be.run</span>
             </div>
@@ -55,7 +55,8 @@
                 </button>
 
                 <!-- Calendar -->
-                <button class="berun-nav-btn" title="Training Days Calendar" onclick="setActiveSidebar(this, 'Calendar')">
+                <button class="berun-nav-btn" title="Training Days Calendar"
+                    onclick="setActiveSidebar(this, 'Calendar')">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                         <line x1="16" y1="2" x2="16" y2="6" />
@@ -67,7 +68,8 @@
 
             <div class="berun-sidebar-bottom">
                 <!-- Notifications Bell -->
-                <button class="berun-nav-btn" title="Notifications" onclick="showToast('Notifications: 2 new workout reports')">
+                <button class="berun-nav-btn" title="Notifications"
+                    onclick="showToast('Notifications: 2 new workout reports')">
                     <span class="berun-badge-dot"></span>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
@@ -76,15 +78,19 @@
                 </button>
 
                 <!-- Settings Gear -->
-                <button class="berun-nav-btn" title="Settings" onclick="openModal('Dashboard Settings', 'Configure your health metric goals and device synchronization.')">
+                <button class="berun-nav-btn" title="Settings"
+                    onclick="openModal('Dashboard Settings', 'Configure your health metric goals and device synchronization.')">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="3" />
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
                     </svg>
                 </button>
 
                 <!-- User Avatar Circle -->
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid #FFFFFF;" alt="Amanda Profile">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100"
+                    style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid #FFFFFF;"
+                    alt="Amanda Profile">
             </div>
         </aside>
 
@@ -105,11 +111,13 @@
                             <circle cx="11" cy="11" r="8" />
                             <line x1="21" y1="21" x2="16.65" y2="16.65" />
                         </svg>
-                        <input type="text" class="berun-search-input" placeholder="Search for health data" onkeyup="handleSearch(this.value)">
+                        <input type="text" class="berun-search-input" placeholder="Search for health data"
+                            onkeyup="handleSearch(this.value)">
                     </div>
 
                     <!-- Upgrade Action Button -->
-                    <button class="berun-btn-dark" onclick="openModal('Upgrade Premium Plan', 'Unlock advanced heart rate metrics, personal trainer AI, and custom habit analytics.')">
+                    <button class="berun-btn-dark"
+                        onclick="openModal('Upgrade Premium Plan', 'Unlock advanced heart rate metrics, personal trainer AI, and custom habit analytics.')">
                         Upgrade
                     </button>
                 </div>
@@ -118,52 +126,74 @@
             <!-- Top Grid Section (Workout Results & Training Days) -->
             <section class="berun-grid-top">
 
-                <!-- Left Card: Workout Results for Today -->
-                <article class="berun-workout-card">
+                <!-- Left Card: Technical Skills Carousel (Replaces Workout Results for Today) -->
+                <article class="berun-workout-card" id="tech-skills-carousel-card">
+                    <!-- Top Header Row -->
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                        <h2 class="berun-card-title">
-                            Your Workout<br>Results for Today
-                        </h2>
-                        <!-- Lock Icon Circle -->
-                        <div style="width: 32px; height: 32px; border-radius: 50%; background: #1C1C1E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
-                            🔒
+                        <div>
+                            <h2 class="berun-card-title">Technical Skills</h2>
+                            <p style="font-size: 0.78rem; color: #4A463D; margin-top: 0.2rem; font-weight: 500;">
+                                Explore and continue your interview preparation.
+                            </p>
+                        </div>
+                        <!-- Step / Counter Indicator -->
+                        <span id="course-counter-indicator"
+                            style="background: #1C1C1E; color: #FFFFFF; font-size: 0.75rem; font-weight: 800; padding: 0.3rem 0.7rem; border-radius: var(--radius-pill);">
+                            1 / 8
+                        </span>
+                    </div>
+
+                    <!-- Single Course Display Slide Container -->
+                    <div id="course-slide-wrapper">
+                        <!-- Icon, Title & Tags -->
+                        <div
+                            style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.4rem;">
+                            <div style="display: flex; align-items: center; gap: 0.7rem;">
+                                <span id="course-icon" style="font-size: 2.2rem; line-height: 1;">🐍</span>
+                                <div>
+                                    <div id="course-title"
+                                        style="font-size: 1.15rem; font-weight: 800; color: #1C1C1E;">Python Development
+                                    </div>
+                                    <div id="course-tags" style="font-size: 0.78rem; color: #575246; font-weight: 600;">
+                                        Python • OOP • Flask</div>
+                                </div>
+                            </div>
+                            <span id="course-level"
+                                style="background: rgba(28, 28, 30, 0.1); color: #1C1C1E; padding: 0.2rem 0.6rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 800;">
+                                Intermediate
+                            </span>
+                        </div>
+
+                        <!-- Progress Bar & Topics -->
+                        <div style="margin-top: 0.4rem;">
+                            <div
+                                style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 800; color: #1C1C1E; margin-bottom: 0.3rem;">
+                                <span id="course-percent">82% Complete</span>
+                                <span id="course-topics" style="color: #575246; font-weight: 600;">12 / 15 Topics
+                                    Completed</span>
+                            </div>
+                            <div
+                                style="height: 8px; background: rgba(28, 28, 30, 0.15); border-radius: var(--radius-pill); width: 100%; overflow: hidden;">
+                                <div id="course-progress-fill"
+                                    style="height: 100%; width: 82%; background: #1C1C1E; border-radius: var(--radius-pill); transition: width 0.3s ease;">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- 3 Overlapping Glow Circles Diagram -->
-                    <div class="berun-bubble-diagram">
-                        <!-- Black Circle: Activity time -->
-                        <div class="bubble-black">
-                            <span style="font-size: 0.95rem; font-weight: 800;">2.30</span>
-                            <span style="font-size: 0.68rem; opacity: 0.8;">hours</span>
+                    <!-- Navigation Controls & Action Button Row -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                        <div style="display: flex; gap: 0.4rem;">
+                            <button id="prev-course-btn" class="carousel-nav-btn" onclick="prevCourse()">← Previous</button>
+                            <button id="next-course-btn" class="carousel-nav-btn" onclick="nextCourse()">Next →</button>
                         </div>
-
-                        <!-- Yellow Glowing Circle: Calories intake -->
-                        <div class="bubble-yellow">
-                            <span style="font-size: 1.1rem; font-weight: 800;">1,875</span>
-                            <span style="font-size: 0.72rem; font-weight: 600;">kcal</span>
-                        </div>
-
-                        <!-- Red Glowing Circle: Calories burned -->
-                        <div class="bubble-red">
-                            <span style="font-size: 0.95rem; font-weight: 800;">850</span>
-                            <span style="font-size: 0.68rem; font-weight: 600;">kcal</span>
-                        </div>
-                    </div>
-
-                    <!-- Legend Row -->
-                    <div class="berun-legend-row">
-                        <div class="legend-item">
-                            <span class="legend-bar" style="background: var(--berun-bg-yellow);"></span>
-                            Calories intake
-                        </div>
-                        <div class="legend-item">
-                            <span class="legend-bar" style="background: var(--berun-bg-red);"></span>
-                            Calories burned
-                        </div>
-                        <div class="legend-item">
-                            <span class="legend-bar" style="background: var(--berun-bg-dark);"></span>
-                            Activity time
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <button onclick="openProgressModal()" class="berun-btn-dark" style="font-size: 0.78rem; padding: 0.45rem 1rem;">
+                                Progress
+                            </button>
+                            <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.78rem; padding: 0.45rem 1rem;">
+                                Continue Learning →
+                            </a>
                         </div>
                     </div>
                 </article>
@@ -187,51 +217,54 @@
                         <span class="berun-cal-day-label">S</span>
                         <span class="berun-cal-day-label">S</span>
 
-                        <span class="berun-cal-date-cell done">1</span>
-                        <span class="berun-cal-date-cell">2</span>
-                        <span class="berun-cal-date-cell">3</span>
-                        <span class="berun-cal-date-cell">4</span>
-                        <span class="berun-cal-date-cell done">5</span>
-                        <span class="berun-cal-date-cell">6</span>
-                        <span class="berun-cal-date-cell">7</span>
+                        <span class="berun-cal-date-cell done" onclick="selectCalendarDate(1)" title="View topics covered on June 1">1</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(2)">2</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(3)">3</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(4)">4</span>
+                        <span class="berun-cal-date-cell done" onclick="selectCalendarDate(5)" title="View topics covered on June 5">5</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(6)">6</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(7)">7</span>
 
-                        <span class="berun-cal-date-cell">8</span>
-                        <span class="berun-cal-date-cell">9</span>
-                        <span class="berun-cal-date-cell">10</span>
-                        <span class="berun-cal-date-cell">11</span>
-                        <span class="berun-cal-date-cell">12</span>
-                        <span class="berun-cal-date-cell">13</span>
-                        <span class="berun-cal-date-cell">14</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(8)">8</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(9)">9</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(10)">10</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(11)">11</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(12)">12</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(13)">13</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(14)">14</span>
 
-                        <span class="berun-cal-date-cell">15</span>
-                        <span class="berun-cal-date-cell">16</span>
-                        <span class="berun-cal-date-cell scheduled">17</span>
-                        <span class="berun-cal-date-cell">18</span>
-                        <span class="berun-cal-date-cell scheduled">19</span>
-                        <span class="berun-cal-date-cell">20</span>
-                        <span class="berun-cal-date-cell">21</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(15)">15</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(16)">16</span>
+                        <span class="berun-cal-date-cell scheduled" onclick="selectCalendarDate(17)" title="View scheduled session for June 17">17</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(18)">18</span>
+                        <span class="berun-cal-date-cell scheduled" onclick="selectCalendarDate(19)" title="View scheduled session for June 19">19</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(20)">20</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(21)">21</span>
 
-                        <span class="berun-cal-date-cell">22</span>
-                        <span class="berun-cal-date-cell" style="border: 1px solid #8E8E93;">23</span>
-                        <span class="berun-cal-date-cell">24</span>
-                        <span class="berun-cal-date-cell">25</span>
-                        <span class="berun-cal-date-cell">26</span>
-                        <span class="berun-cal-date-cell">27</span>
-                        <span class="berun-cal-date-cell" style="border: 1px solid #8E8E93;">28</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(22)">22</span>
+                        <span class="berun-cal-date-cell" style="border: 1px solid #8E8E93;" onclick="selectCalendarDate(23)" title="View active session for June 23">23</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(24)">24</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(25)">25</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(26)">26</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(27)">27</span>
+                        <span class="berun-cal-date-cell" style="border: 1px solid #8E8E93;" onclick="selectCalendarDate(28)" title="View topics covered on June 28">28</span>
                     </div>
 
                     <!-- Bottom Legend -->
                     <div class="berun-cal-legend">
                         <div style="display: flex; align-items: center; gap: 0.4rem;">
-                            <span style="width: 8px; height: 8px; border: 1px solid #8E8E93; border-radius: 50%;"></span>
+                            <span
+                                style="width: 8px; height: 8px; border: 1px solid #8E8E93; border-radius: 50%;"></span>
                             Current day
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.4rem;">
-                            <span style="width: 8px; height: 8px; background: var(--berun-bg-yellow); border-radius: 50%;"></span>
+                            <span
+                                style="width: 8px; height: 8px; background: var(--berun-bg-yellow); border-radius: 50%;"></span>
                             Done
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.4rem;">
-                            <span style="width: 8px; height: 8px; border: 1px stroke #8E8E93; border-radius: 50%;"></span>
+                            <span
+                                style="width: 8px; height: 8px; border: 1px stroke #8E8E93; border-radius: 50%;"></span>
                             Scheduled
                         </div>
                     </div>
@@ -248,27 +281,35 @@
                     <article class="berun-white-card">
                         <div class="berun-steps-content">
                             <div>
-                                <h3 style="font-size: 1rem; font-weight: 800; color: var(--berun-text-dark);">Steps for Today</h3>
-                                <p style="font-size: 0.78rem; color: var(--berun-text-body); margin-top: 0.1rem;">Keep your body toned</p>
+                                <h3 style="font-size: 1rem; font-weight: 800; color: var(--berun-text-dark);">Steps for
+                                    Today</h3>
+                                <p style="font-size: 0.78rem; color: var(--berun-text-body); margin-top: 0.1rem;">Keep
+                                    your body toned</p>
                             </div>
 
                             <!-- Semi-gauge Arc Diagram -->
                             <div style="text-align: center; position: relative;">
                                 <svg class="berun-gauge-svg" viewBox="0 0 100 55">
-                                    <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#E5DFD7" stroke-width="7" stroke-linecap="round"/>
-                                    <path d="M 10 50 A 40 40 0 0 1 72 20" fill="none" stroke="#FF5A4E" stroke-width="7" stroke-linecap="round"/>
+                                    <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#E5DFD7" stroke-width="7"
+                                        stroke-linecap="round" />
+                                    <path d="M 10 50 A 40 40 0 0 1 72 20" fill="none" stroke="#FF5A4E" stroke-width="7"
+                                        stroke-linecap="round" />
                                 </svg>
                                 <div style="position: absolute; bottom: 5px; left: 0; right: 0;">
                                     <div style="font-size: 0.65rem; color: var(--berun-text-muted);">Goal</div>
-                                    <div style="font-size: 1.1rem; font-weight: 800; color: var(--berun-text-dark);">8,500</div>
+                                    <div style="font-size: 1.1rem; font-weight: 800; color: var(--berun-text-dark);">
+                                        8,500</div>
                                 </div>
-                                <span style="position: absolute; top: 0; right: -5px; font-size: 0.68rem; font-weight: 700; color: var(--berun-text-body);">5,201</span>
+                                <span
+                                    style="position: absolute; top: 0; right: -5px; font-size: 0.68rem; font-weight: 700; color: var(--berun-text-body);">5,201</span>
                             </div>
                         </div>
 
                         <!-- Change Goal Button -->
                         <div style="margin-top: 0.8rem;">
-                            <button style="background: var(--berun-bg-dark); color: #FFFFFF; border: none; padding: 0.4rem 0.9rem; border-radius: var(--radius-pill); font-size: 0.78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;" onclick="openModal('Change Daily Step Goal', 'Set a new target step goal for your daily routine.')">
+                            <button
+                                style="background: var(--berun-bg-dark); color: #FFFFFF; border: none; padding: 0.4rem 0.9rem; border-radius: var(--radius-pill); font-size: 0.78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;"
+                                onclick="openModal('Change Daily Step Goal', 'Set a new target step goal for your daily routine.')">
                                 Change Goal ✏️
                             </button>
                         </div>
@@ -276,152 +317,195 @@
 
                     <!-- Weight Loss Plan Card -->
                     <article class="berun-white-card">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                            <h3 style="font-size: 1rem; font-weight: 800; color: var(--berun-text-dark);">Weight Loss Plan</h3>
-                            <span style="font-size: 0.82rem; font-weight: 800; color: var(--berun-text-dark);">68% <span style="font-weight: 500; color: var(--berun-text-body); font-size: 0.75rem;">Completed</span></span>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                            <h3 style="font-size: 1rem; font-weight: 800; color: var(--berun-text-dark);">Weight Loss
+                                Plan</h3>
+                            <span style="font-size: 0.82rem; font-weight: 800; color: var(--berun-text-dark);">68% <span
+                                    style="font-weight: 500; color: var(--berun-text-body); font-size: 0.75rem;">Completed</span></span>
                         </div>
 
                         <!-- Progress Bar Slider -->
-                        <div style="position: relative; height: 10px; background: #E5DFD7; border-radius: var(--radius-pill); width: 100%; margin: 1rem 0;">
-                            <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 68%; background: var(--berun-bg-dark); border-radius: var(--radius-pill);"></div>
-                            <div style="position: absolute; left: 68%; top: -18px; transform: translateX(-50%); background: #1C1C1E; color: #FFFFFF; padding: 0.15rem 0.5rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 800;">
+                        <div
+                            style="position: relative; height: 10px; background: #E5DFD7; border-radius: var(--radius-pill); width: 100%; margin: 1rem 0;">
+                            <div
+                                style="position: absolute; left: 0; top: 0; bottom: 0; width: 68%; background: var(--berun-bg-dark); border-radius: var(--radius-pill);">
+                            </div>
+                            <div
+                                style="position: absolute; left: 68%; top: -18px; transform: translateX(-50%); background: #1C1C1E; color: #FFFFFF; padding: 0.15rem 0.5rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 800;">
                                 53.2 kg
                             </div>
                         </div>
 
-                        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: var(--berun-text-body);">
+                        <div
+                            style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: var(--berun-text-body);">
                             <span>58 kg</span>
                             <span>50 kg</span>
                         </div>
                     </article>
                 </div>
 
-                <!-- Right Column: My Habits Card -->
+                <!-- Right Column: Top Company Questions Card (Replaces My Habits) -->
                 <article class="berun-habits-card">
                     <div class="berun-habits-header">
-                        <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--berun-text-dark);">My Habits</h3>
-                        <button style="background: none; border: none; font-size: 0.82rem; font-weight: 700; color: var(--berun-text-dark); cursor: pointer; display: flex; align-items: center; gap: 0.4rem;" onclick="openModal('Add New Habit', 'Create a new training or wellness routine habit.')">
-                            Add New <span style="width: 20px; height: 20px; border-radius: 50%; background: #1C1C1E; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem;">+</span>
-                        </button>
+                        <div>
+                            <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--berun-text-dark);">Top Company Questions</h3>
+                            <p style="font-size: 0.75rem; color: var(--berun-text-body); margin-top: 0.1rem; font-weight: 500;">
+                                Practice questions inspired by common interview patterns
+                            </p>
+                        </div>
+                        <span style="font-size: 0.72rem; font-weight: 800; background: #1C1C1E; color: #FFFFFF; padding: 0.25rem 0.65rem; border-radius: var(--radius-pill);">
+                            7 Companies
+                        </span>
                     </div>
 
-                    <!-- Habits Rows -->
-                    <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                    <!-- Company Questions List Rows -->
+                    <div style="display: flex; flex-direction: column; gap: 0.7rem; max-height: 340px; overflow-y: auto; padding-right: 0.2rem;">
 
-                        <!-- Habit 1: Stretching -->
+                        <!-- 1. Google -->
                         <div class="berun-habit-row">
                             <div class="habit-user-info">
-                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100" class="habit-avatar" alt="Trainer">
+                                <div style="width: 34px; height: 34px; border-radius: 50%; background: #4285F4; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; font-weight: 800;">
+                                    G
+                                </div>
                                 <div>
-                                    <div class="habit-name">Stretching</div>
-                                    <div class="habit-sub">Trainer: Alice McCain</div>
+                                    <div class="habit-name">Google</div>
+                                    <div class="habit-sub">DSA, Algorithms</div>
                                 </div>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div style="font-size: 0.75rem; color: var(--berun-text-body); font-weight: 600;">
-                                    Sessions completed: <strong>9/12</strong>
-                                </div>
-                                <div class="habit-progress-pills">
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment"></span>
-                                    <span class="progress-pill-segment"></span>
-                                    <span class="progress-pill-segment"></span>
-                                </div>
-                                <button style="background: none; border: none; color: var(--berun-text-muted); cursor: pointer;">•••</button>
+                            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                <span class="tag-badge" style="background: rgba(66, 133, 244, 0.12); color: #4285F4; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
+                                    High Frequency
+                                </span>
+                                <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                    Practice →
+                                </a>
                             </div>
                         </div>
 
-                        <!-- Habit 2: Yoga training -->
+                        <!-- 2. Microsoft -->
                         <div class="berun-habit-row">
                             <div class="habit-user-info">
-                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100" class="habit-avatar" alt="Trainer">
+                                <div style="width: 34px; height: 34px; border-radius: 50%; background: #00A4EF; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; font-weight: 800;">
+                                    M
+                                </div>
                                 <div>
-                                    <div class="habit-name">Yoga training</div>
-                                    <div class="habit-sub">Trainer: Jennifer Lubin</div>
+                                    <div class="habit-name">Microsoft</div>
+                                    <div class="habit-sub">DSA, OOP</div>
                                 </div>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div style="font-size: 0.75rem; color: var(--berun-text-body); font-weight: 600;">
-                                    Sessions completed: <strong>6/10</strong>
-                                </div>
-                                <div class="habit-progress-pills">
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment"></span>
-                                    <span class="progress-pill-segment"></span>
-                                    <span class="progress-pill-segment"></span>
-                                    <span class="progress-pill-segment"></span>
-                                </div>
-                                <button style="background: none; border: none; color: var(--berun-text-muted); cursor: pointer;">•••</button>
+                            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                <span class="tag-badge" style="background: rgba(0, 164, 239, 0.12); color: #00A4EF; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
+                                    Core Patterns
+                                </span>
+                                <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                    Practice →
+                                </a>
                             </div>
                         </div>
 
-                        <!-- Habit 3: Massage -->
+                        <!-- 3. Amazon -->
                         <div class="berun-habit-row">
                             <div class="habit-user-info">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100" class="habit-avatar" alt="Masseur">
+                                <div style="width: 34px; height: 34px; border-radius: 50%; background: #FF9900; color: #1C1C1E; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; font-weight: 800;">
+                                    A
+                                </div>
                                 <div>
-                                    <div class="habit-name">Massage</div>
-                                    <div class="habit-sub">Masseur: Johnson Cooper</div>
+                                    <div class="habit-name">Amazon</div>
+                                    <div class="habit-sub">DSA, Problem Solving</div>
                                 </div>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div style="font-size: 0.75rem; color: var(--berun-text-body); font-weight: 600;">
-                                    Sessions completed: <strong>4/8</strong>
-                                </div>
-                                <div class="habit-progress-pills">
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment"></span>
-                                    <span class="progress-pill-segment"></span>
-                                    <span class="progress-pill-segment"></span>
-                                    <span class="progress-pill-segment"></span>
-                                </div>
-                                <button style="background: none; border: none; color: var(--berun-text-muted); cursor: pointer;">•••</button>
+                            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                <span class="tag-badge" style="background: rgba(255, 153, 0, 0.15); color: #D97706; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
+                                    Problem Solving
+                                </span>
+                                <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                    Practice →
+                                </a>
                             </div>
                         </div>
 
-                        <!-- Habit 4: Ab exercises -->
+                        <!-- 4. Meta -->
                         <div class="berun-habit-row">
                             <div class="habit-user-info">
-                                <div style="width: 34px; height: 34px; border-radius: 50%; background: #E5DFD7; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">
-                                    🏋️
+                                <div style="width: 34px; height: 34px; border-radius: 50%; background: #0668E1; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; font-weight: 800;">
+                                    ∞
                                 </div>
                                 <div>
-                                    <div class="habit-name">Ab exercises</div>
+                                    <div class="habit-name">Meta</div>
+                                    <div class="habit-sub">JavaScript, DSA</div>
                                 </div>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div style="font-size: 0.75rem; color: var(--berun-text-body); font-weight: 600;">
-                                    Sessions completed: <strong>8/10</strong>
+                            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                <span class="tag-badge" style="background: rgba(6, 104, 225, 0.12); color: #0668E1; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
+                                    Speed & Accuracy
+                                </span>
+                                <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                    Practice →
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 5. Apple -->
+                        <div class="berun-habit-row">
+                            <div class="habit-user-info">
+                                <div style="width: 34px; height: 34px; border-radius: 50%; background: #1C1C1E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; font-weight: 800;">
+                                    🍏
                                 </div>
-                                <div class="habit-progress-pills">
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment active"></span>
-                                    <span class="progress-pill-segment"></span>
-                                    <span class="progress-pill-segment"></span>
+                                <div>
+                                    <div class="habit-name">Apple</div>
+                                    <div class="habit-sub">System Design, Programming</div>
                                 </div>
-                                <button style="background: none; border: none; color: var(--berun-text-muted); cursor: pointer;">•••</button>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                <span class="tag-badge" style="background: rgba(28, 28, 30, 0.1); color: #1C1C1E; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
+                                    Architecture Focus
+                                </span>
+                                <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                    Practice →
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 6. Infosys -->
+                        <div class="berun-habit-row">
+                            <div class="habit-user-info">
+                                <div style="width: 34px; height: 34px; border-radius: 50%; background: #007CC3; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800;">
+                                    Inf
+                                </div>
+                                <div>
+                                    <div class="habit-name">Infosys</div>
+                                    <div class="habit-sub">SQL, Programming</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                <span class="tag-badge" style="background: rgba(0, 124, 195, 0.12); color: #007CC3; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
+                                    Foundational
+                                </span>
+                                <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                    Practice →
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 7. TCS -->
+                        <div class="berun-habit-row">
+                            <div class="habit-user-info">
+                                <div style="width: 34px; height: 34px; border-radius: 50%; background: #E20074; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800;">
+                                    TCS
+                                </div>
+                                <div>
+                                    <div class="habit-name">TCS</div>
+                                    <div class="habit-sub">Python, SQL, Aptitude</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                <span class="tag-badge" style="background: rgba(226, 0, 116, 0.12); color: #E20074; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
+                                    Comprehensive
+                                </span>
+                                <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                    Practice →
+                                </a>
                             </div>
                         </div>
 
@@ -434,12 +518,124 @@
 
     </div>
 
+    <!-- Reusable Calendar Date Activity & Covered Topics Modal Overlay -->
+    <div class="modal-overlay" id="calendar-date-modal" onclick="if(event.target === this) closeCalendarDateModal()">
+        <div class="modal-card" style="max-width: 780px; text-align: left; padding: 2.2rem; border-radius: var(--radius-xl); position: relative; max-height: 90vh; overflow-y: auto; background: var(--berun-bg-card);">
+            <!-- Modal Header Row -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.2rem;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 0.8rem;">
+                        <h3 id="date-modal-title" style="font-size: 1.4rem; font-weight: 800; color: #1C1C1E; line-height: 1.2;">
+                            Topic Coverage for Selected Date
+                        </h3>
+                        <span id="date-modal-summary" style="font-size: 0.72rem; font-weight: 800; background: #1C1C1E; color: #FFFFFF; padding: 0.2rem 0.65rem; border-radius: var(--radius-pill);">
+                            3 Topics Covered
+                        </span>
+                    </div>
+                    <p style="font-size: 0.8rem; font-weight: 600; color: #666460; margin-top: 0.2rem;">
+                        Topic-wise breakdown of concepts, queries, and algorithm problems practiced on this day.
+                    </p>
+                </div>
+                <button onclick="closeCalendarDateModal()" style="background: rgba(28, 28, 30, 0.08); border: none; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 700; color: #1C1C1E; cursor: pointer;">
+                    ×
+                </button>
+            </div>
+
+            <!-- Date Activity Cards Grid (Populated dynamically) -->
+            <div id="date-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.2rem; margin-top: 0.8rem;">
+                <!-- Dynamically populated cards matching screenshot aesthetic -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Reusable Dual-Card Course Progress Modal Overlay (Matching Screenshot Cards A & B Design) -->
+    <div class="modal-overlay" id="progress-modal" onclick="if(event.target === this) closeProgressModal()">
+        <div class="modal-card" style="max-width: 840px; text-align: left; padding: 2.2rem; border-radius: var(--radius-xl); position: relative; max-height: 90vh; overflow-y: auto; background: var(--berun-bg-card);">
+            <!-- Modal Header Row -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.2rem;">
+                <div>
+                    <h3 id="modal-course-name" style="font-size: 1.5rem; font-weight: 800; color: #1C1C1E; line-height: 1.2;">
+                        Python Development
+                    </h3>
+                    <div id="modal-topics-summary" style="font-size: 0.85rem; font-weight: 700; color: #666460; margin-top: 0.2rem;">
+                        12 Completed · 3 Incomplete
+                    </div>
+                </div>
+                <button onclick="closeProgressModal()" style="background: rgba(28, 28, 30, 0.08); border: none; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 700; color: #1C1C1E; cursor: pointer; transition: background 0.2s ease;">
+                    ×
+                </button>
+            </div>
+
+            <!-- Dual Cards Container (Card A Left & Card B Right) -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 0.5rem;">
+
+                <!-- CARD A: Left Card (Light Warm Gold/Beige Card for Completed Topics) -->
+                <div style="background: linear-gradient(135deg, #E8DCC9 0%, #D8CBB6 100%); border-radius: 24px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06); border: 1px solid rgba(255, 255, 255, 0.5);">
+                    <div>
+                        <!-- Card Header -->
+                        <div style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem;">
+                            <div style="width: 38px; height: 38px; border-radius: 12px; background: #1C1C1E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 1rem;">
+                                ✓
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1.1rem; font-weight: 800; color: #1C1C1E;">Completed Topics</h4>
+                                <div style="font-size: 0.75rem; color: #575246; font-weight: 600;">Topics masterfully passed</div>
+                            </div>
+                        </div>
+
+                        <!-- Completed Topics Items List -->
+                        <div id="modal-completed-list" style="display: flex; flex-direction: column; gap: 0.4rem; max-height: 220px; overflow-y: auto; padding-right: 0.3rem;">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Bottom Action Bar (Card A) -->
+                    <div style="margin-top: 1.2rem; background: #1C1C1E; color: #FFFFFF; padding: 0.8rem 1rem; border-radius: 14px; display: flex; justify-content: space-between; align-items: center;">
+                        <span id="modal-course-percent" style="font-size: 0.9rem; font-weight: 800;">82% Completed</span>
+                        <span style="font-size: 0.72rem; font-weight: 600; color: var(--berun-bg-yellow);">Verified ✓</span>
+                    </div>
+                </div>
+
+                <!-- CARD B: Right Card (Sleek Dark Card for Incomplete Topics) -->
+                <div style="background: linear-gradient(135deg, #242426 0%, #161618 100%); border-radius: 24px; padding: 1.5rem; color: #FFFFFF; display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.08);">
+                    <div>
+                        <!-- Card Header -->
+                        <div style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem;">
+                            <div style="width: 38px; height: 38px; border-radius: 12px; background: rgba(255, 255, 255, 0.1); color: #FFCC00; display: flex; align-items: center; justify-content: center; font-size: 1rem; border: 1px solid rgba(255, 204, 0, 0.3);">
+                                ⚙️
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1.1rem; font-weight: 800; color: #FFFFFF;">Incomplete Topics</h4>
+                                <div style="font-size: 0.75rem; color: #8E8E93; font-weight: 600;">Topics remaining to practice</div>
+                            </div>
+                        </div>
+
+                        <!-- Incomplete Topics Items List -->
+                        <div id="modal-pending-list" style="display: flex; flex-direction: column; gap: 0.4rem; max-height: 220px; overflow-y: auto; padding-right: 0.3rem;">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Bottom Action Bar (Card B CTA Button) -->
+                    <div style="margin-top: 1.2rem; background: linear-gradient(135deg, #E8DCC9 0%, #D8CBB6 100%); color: #1C1C1E; padding: 0.8rem 1rem; border-radius: 14px; text-align: center;">
+                        <a href="practice.html" style="text-decoration: none; color: #1C1C1E; font-size: 0.88rem; font-weight: 800; display: block;">
+                            Continue Learning →
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <!-- Action Modal Popup -->
     <div class="modal-overlay" id="action-modal" onclick="if(event.target === this) closeModal()">
         <div class="modal-card">
             <h3 class="modal-title" id="modal-title" style="color: var(--berun-text-dark);">Action Title</h3>
-            <p class="modal-desc" id="modal-desc" style="color: var(--berun-text-body);">Detailed instruction or confirmation message.</p>
-            <button class="berun-btn-dark" style="width: 100%; justify-content: center;" onclick="closeModal()">Close</button>
+            <p class="modal-desc" id="modal-desc" style="color: var(--berun-text-body);">Detailed instruction or
+                confirmation message.</p>
+            <button class="berun-btn-dark" style="width: 100%; justify-content: center;"
+                onclick="closeModal()">Close</button>
         </div>
     </div>
 
