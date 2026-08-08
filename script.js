@@ -194,7 +194,7 @@ const courses = [
     aiRecommended: "Capstone Project & Final Demo",
     masteryPerformance: "50% (+7%)",
     icon: "🚀",
-    image: "assets/candidate_spotlight.png",
+    image: "assets/global_deployment.png",
     completed: [
       "Production Deployment Checklist",
       "Capstone Project & Final Demo"
