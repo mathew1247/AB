@@ -1331,7 +1331,8 @@
             document.getElementById('mcq-options-container').innerHTML = '<div style="text-align: center; width: 100%; color: var(--text-sub); margin-top: 1rem;">Connecting to Cerebras Cloud Engine...</div>';
 
             try {
-                const res = await fetch('http://localhost:5000/api/practice/questions', {
+                const apiBase = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:5000' : '';
+                const res = await fetch(`${apiBase}/api/practice/questions`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -1613,7 +1614,8 @@
             panel.scrollTop = panel.scrollHeight;
 
             try {
-                const res = await fetch('http://localhost:5000/api/practice/chat', {
+                const apiBase = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:5000' : '';
+                const res = await fetch(`${apiBase}/api/practice/chat`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

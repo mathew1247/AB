@@ -20,19 +20,19 @@
   --accent-orange: #FF6B4A;
   --accent-orange-light: #FFF0ED;
 
-  /* Warm Minimalist Dashboard Colors (Be.run Design System) */
-  --berun-bg-outer: #ECE6DD;
-  --berun-bg-card: #F7F3EE;
-  --berun-bg-white: #FFFFFF;
-  --berun-bg-dark: #1C1C1E;
-  --berun-bg-taupe: #D0C4B4;
-  --berun-bg-yellow: #FFCC00;
-  --berun-bg-red: #FF5A4E;
+  /* Shared Identical Color Theme Palette for index.html & dashboard.html */
+  --berun-bg-outer: var(--bg-page);
+  --berun-bg-card: #FAF6F0;
+  --berun-bg-white: var(--bg-card);
+  --berun-bg-dark: var(--text-dark);
+  --berun-bg-taupe: var(--accent-blue-light);
+  --berun-bg-yellow: var(--accent-blue);
+  --berun-bg-red: var(--accent-orange);
 
-  --berun-text-dark: #1C1C1E;
-  --berun-text-body: #666460;
-  --berun-text-muted: #9E9A92;
-  --berun-border: #E5DFD7;
+  --berun-text-dark: var(--text-dark);
+  --berun-text-body: var(--text-body);
+  --berun-text-muted: var(--text-muted);
+  --berun-border: rgba(0, 0, 0, 0.08);
 
   --radius-sm: 10px;
   --radius-md: 16px;
@@ -595,7 +595,7 @@ body.berun-dashboard-body {
 
 .berun-cal-date-cell.done {
   background: var(--berun-bg-yellow);
-  color: #1C1C1E;
+  color: #FFFFFF;
   font-weight: 800;
 }
 

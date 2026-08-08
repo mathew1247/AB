@@ -8,7 +8,7 @@
     <meta name="description"
         content="Practice with an AI interviewer that adapts to your answers, challenges your knowledge, and prepares you for real-world technical interviews.">
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="FRONTEND/styles.css">
     <!-- Favicon -->
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
@@ -80,7 +80,7 @@
                 </p>
 
                 <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-top: 1rem;">
-                    <a href="dashboard.html"
+                    <a href="FRONTEND/dashboard.html"
                         onclick="localStorage.setItem('selectedCandidate', document.getElementById('session-code-select').value)"
                         class="btn btn-dark btn-lg" id="btn-get-started"
                         style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
@@ -147,7 +147,7 @@
                 <!-- Phone Mockup Container -->
                 <div class="phone-mockup-wrapper" id="phone-mockup-container"
                     style="border-radius: 28px; overflow: hidden; border: 8px solid #0F172A; background: #0F172A; box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);">
-                    <img src="assets/candidate_spotlight.png" alt="Candidate Spotlight - Ace Technical Interviews"
+                    <img src="FRONTEND/assets/candidate_spotlight.png" alt="Candidate Spotlight - Ace Technical Interviews"
                         class="phone-mockup-img" id="phone-mockup-img"
                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=600';"
                         style="border-radius: 20px; width: 100%; height: auto; display: block; object-fit: cover;">
@@ -299,7 +299,7 @@
 
     <!-- Toast Notification Container -->
     <div class="toast-container" id="toast-container"></div>
-    <script src="script.js"></script>
+    <script src="FRONTEND/script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const selectEl = document.getElementById('session-code-select');
@@ -309,28 +309,56 @@
             const selectedText = document.getElementById('custom-dropdown-selected-text');
             const arrow = document.getElementById('custom-dropdown-arrow');
 
-            const candidateList = [
+            let candidateList = [
                 { id: '001', name: 'Sarah Johnson' },
                 { id: '002', name: 'Alex Turner' },
                 { id: '003', name: 'Emily Chen' },
-                { id: '004', name: 'Marcus Vance' },
-                { id: '005', name: 'Priya Sharma' },
-                { id: '006', name: 'David Miller' },
-                { id: '007', name: 'Elena Rostova' },
-                { id: '008', name: 'James Wilson' },
-                { id: '009', name: 'Aisha Patel' },
-                { id: '010', name: 'Carlos Mendez' },
-                { id: '011', name: 'Sophia Wang' },
-                { id: '012', name: 'Michael Brown' },
-                { id: '013', name: 'Olivia Taylor' },
-                { id: '014', name: 'Lucas Santos' },
-                { id: '015', name: 'Emma Watson' },
-                { id: '016', name: 'Liam O\'Connor' },
-                { id: '017', name: 'Chloe Bennett' },
-                { id: '018', name: 'Noah Kim' },
-                { id: '019', name: 'Zoe Garcia' },
-                { id: '020', name: 'Alexander Wright' }
+                { id: '004', name: 'David Miller' },
+                { id: '005', name: 'Michael Brown' },
+                { id: '006', name: 'Wendy Foster' },
+                { id: '007', name: 'Ethan Brooks' },
+                { id: '008', name: 'Harold Whitfield' },
+                { id: '009', name: 'Zara Ahmadi' },
+                { id: '010', name: 'Gerald Combs' },
+                { id: '011', name: 'Mia Alvarez' },
+                { id: '012', name: 'Chen Wei' },
+                { id: '013', name: 'Ravi Patel' },
+                { id: '014', name: 'Bethany Cole' },
+                { id: '015', name: 'Noah Kim' },
+                { id: '016', name: 'Isabella Rossi' },
+                { id: '017', name: 'Tyler Brooks' },
+                { id: '018', name: 'Diane Foster' },
+                { id: '019', name: 'Frank DeLuca' },
+                { id: '020', name: 'Priyanka Sharma' }
             ];
+
+            fetch('FRONTEND/candidates.json')
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.candidates && data.candidates.length > 0) {
+                        candidateList = data.candidates.map(c => ({
+                            id: c.member.id.replace('CAND-', '').padStart(3, '0'),
+                            name: c.member.name
+                        }));
+                        renderCustomOptions();
+                        selectCandidate(activeVal);
+                    }
+                })
+                .catch(() => {
+                    fetch('candidates.json')
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data && data.candidates && data.candidates.length > 0) {
+                                candidateList = data.candidates.map(c => ({
+                                    id: c.member.id.replace('CAND-', '').padStart(3, '0'),
+                                    name: c.member.name
+                                }));
+                                renderCustomOptions();
+                                selectCandidate(activeVal);
+                            }
+                        })
+                        .catch(() => {});
+                });
 
             let activeVal = localStorage.getItem('selectedCandidate') || '001';
             activeVal = activeVal.replace('CAND-', '').padStart(3, '0');
