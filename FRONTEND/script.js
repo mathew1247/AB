@@ -942,7 +942,169 @@ const trainingMonths = [
     }
 ];
 
-let currentTrainingMonthIndex = 5; // Default June 2026
+let currentTrainingMonthIndex = 0; // Fixed to January 2026
+
+// Candidates Dataset Map (Derived from candidates.json)
+const candidateDatasetMap = {
+    "CAND-001": {
+        id: "CAND-001",
+        name: "Sarah Johnson",
+        jobRole: "Senior Data Engineer",
+        yearsExperience: 9,
+        education: "MS Computer Science",
+        status: "COMPLETED",
+        missions: [
+            { day: 7, title: "Embeddings Explained", passed: true, attempts: 1 },
+            { day: 8, title: "Vector Databases Overview", passed: true, attempts: 1 },
+            { day: 10, title: "Retrieval & Matching Engine", passed: true, attempts: 2 },
+            { day: 12, title: "Prompt Engineering Fundamentals", passed: true, attempts: 4 },
+            { day: 16, title: "Chatbot Backend & API Integration", passed: true, attempts: 1 },
+            { day: 22, title: "Multi-Agent Orchestration", passed: true, attempts: 2 },
+            { day: 23, title: "Model Context Protocol (MCP)", passed: true, attempts: 2 },
+            { day: 28, title: "Docker & Kubernetes Deployment", passed: true, attempts: 3 },
+            { day: 29, title: "Monitoring, Logging & Observability", skipped: true },
+            { day: 31, title: "Capstone Project & Final Demo", passed: true, attempts: 1 }
+        ],
+        signals: { commitDays: 28, missionsCompleted: 30, missionsFirstTry: 20 }
+    },
+    "CAND-002": {
+        id: "CAND-002",
+        name: "Alex Turner",
+        jobRole: "Backend Software Engineer",
+        yearsExperience: 5,
+        education: "B.Tech Computer Science",
+        status: "COMPLETED",
+        missions: [
+            { day: 7, title: "Embeddings Explained", passed: true, attempts: 3 },
+            { day: 8, title: "Vector Databases Overview", passed: true, attempts: 2 },
+            { day: 10, title: "Retrieval & Matching Engine", passed: true, attempts: 4 },
+            { day: 12, title: "Prompt Engineering Fundamentals", passed: true, attempts: 5 },
+            { day: 13, title: "Function Calling & Structured Outputs", passed: true, attempts: 4 },
+            { day: 16, title: "Chatbot Backend & API Integration", passed: true, attempts: 1 },
+            { day: 18, title: "Streaming Responses", passed: true, attempts: 1 },
+            { day: 22, title: "Multi-Agent Orchestration", passed: true, attempts: 3 },
+            { day: 28, title: "Docker & Kubernetes Deployment", passed: true, attempts: 1 },
+            { day: 31, title: "Capstone Project & Final Demo", passed: true, attempts: 2 }
+        ],
+        signals: { commitDays: 22, missionsCompleted: 29, missionsFirstTry: 10 }
+    },
+    "CAND-003": {
+        id: "CAND-003",
+        name: "Emily Chen",
+        jobRole: "AI Engineer",
+        yearsExperience: 6,
+        education: "MS Artificial Intelligence",
+        status: "COMPLETED",
+        missions: [
+            { day: 7, title: "Embeddings Explained", passed: true, attempts: 1 },
+            { day: 8, title: "Vector Databases Overview", passed: true, attempts: 1 },
+            { day: 10, title: "Retrieval & Matching Engine", passed: true, attempts: 1 },
+            { day: 11, title: "RAG End-to-End & LLM API Basics", passed: true, attempts: 1 },
+            { day: 12, title: "Prompt Engineering Fundamentals", passed: true, attempts: 1 },
+            { day: 13, title: "Function Calling & Structured Outputs", passed: true, attempts: 1 },
+            { day: 21, title: "LangChain Agents", passed: true, attempts: 1 },
+            { day: 22, title: "Multi-Agent Orchestration", passed: true, attempts: 1 },
+            { day: 23, title: "Model Context Protocol (MCP)", passed: true, attempts: 1 },
+            { day: 31, title: "Capstone Project & Final Demo", passed: true, attempts: 1 }
+        ],
+        signals: { commitDays: 31, missionsCompleted: 31, missionsFirstTry: 30 }
+    },
+    "CAND-004": {
+        id: "CAND-004",
+        name: "David Miller",
+        jobRole: "Business Analyst",
+        yearsExperience: 8,
+        education: "MBA",
+        status: "COMPLETED",
+        missions: [
+            { day: 7, title: "Embeddings Explained", passed: true, attempts: 4 },
+            { day: 8, title: "Vector Databases Overview", passed: true, attempts: 5 },
+            { day: 10, title: "Retrieval & Matching Engine", passed: true, attempts: 5 },
+            { day: 12, title: "Prompt Engineering Fundamentals", passed: true, attempts: 3 },
+            { day: 16, title: "Chatbot Backend & API Integration", passed: true, attempts: 2 },
+            { day: 20, title: "Conversation Memory & Context Management", passed: true, attempts: 3 },
+            { day: 22, title: "Multi-Agent Orchestration", passed: true, attempts: 4 },
+            { day: 23, title: "Model Context Protocol (MCP)", passed: true, attempts: 5 },
+            { day: 28, title: "Docker & Kubernetes Deployment", skipped: true },
+            { day: 31, title: "Capstone Project & Final Demo", passed: true, attempts: 2 }
+        ],
+        signals: { commitDays: 18, missionsCompleted: 28, missionsFirstTry: 6 }
+    },
+    "CAND-005": {
+        id: "CAND-005",
+        name: "Michael Brown",
+        jobRole: "DevOps Engineer",
+        yearsExperience: 10,
+        education: "B.Tech Information Technology",
+        status: "COMPLETED",
+        missions: [
+            { day: 7, title: "Embeddings Explained", passed: true, attempts: 2 },
+            { day: 8, title: "Vector Databases Overview", passed: true, attempts: 2 },
+            { day: 10, title: "Retrieval & Matching Engine", passed: true, attempts: 2 },
+            { day: 12, title: "Prompt Engineering Fundamentals", passed: true, attempts: 4 },
+            { day: 18, title: "Streaming Responses", passed: true, attempts: 1 },
+            { day: 22, title: "Multi-Agent Orchestration", passed: true, attempts: 2 },
+            { day: 23, title: "Model Context Protocol (MCP)", passed: true, attempts: 3 },
+            { day: 28, title: "Docker & Kubernetes Deployment", passed: true, attempts: 1 },
+            { day: 29, title: "Monitoring, Logging & Observability", passed: true, attempts: 1 },
+            { day: 31, title: "Capstone Project & Final Demo", passed: true, attempts: 1 }
+        ],
+        signals: { commitDays: 30, missionsCompleted: 31, missionsFirstTry: 22 }
+    }
+};
+
+// Helper: Get candidate from URL parameter or localStorage
+function getActiveCandidate() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let candId = urlParams.get('candidateId') || localStorage.getItem('selectedCandidateId') || 'CAND-001';
+
+    // Normalize short format e.g. "001" -> "CAND-001"
+    if (!candId.startsWith('CAND-')) {
+        candId = 'CAND-' + candId;
+    }
+
+    if (candidateDatasetMap[candId]) {
+        return candidateDatasetMap[candId];
+    }
+
+    // Dynamic fallback candidate generator for 006 to 020
+    const numStr = candId.replace('CAND-', '');
+    const num = parseInt(numStr, 10) || 1;
+    const names = [
+        "Sarah Johnson", "Alex Turner", "Emily Chen", "David Miller", "Michael Brown",
+        "Wendy Foster", "Ethan Brooks", "Harold Whitfield", "Zara Ahmadi", "Gerald Combs",
+        "Mia Alvarez", "Chen Wei", "Ravi Patel", "Bethany Cole", "Noah Kim",
+        "Isabella Rossi", "Tyler Brooks", "Diane Foster", "Frank DeLuca", "Priyanka Sharma"
+    ];
+    const roles = [
+        "Senior Data Engineer", "Backend Software Engineer", "AI Engineer", "Business Analyst", "DevOps Engineer",
+        "Marketing Manager", "CS Intern", "Distinguished Engineer", "AI Specialist", "IT Support Specialist",
+        "UX Researcher", "Mobile Developer", "Software Engineer", "HR Manager", "Principal Architect",
+        "Software Engineer", "Junior Developer", "AI Engineer", "Systems Engineer", "Full Stack Developer"
+    ];
+
+    const idx = (num - 1) % names.length;
+    return {
+        id: candId,
+        name: names[idx],
+        jobRole: roles[idx],
+        yearsExperience: (num * 2) % 15 + 1,
+        education: "B.Tech Computer Science",
+        status: "COMPLETED",
+        missions: [
+            { day: 1, title: "Environment Setup", passed: true, attempts: 1 },
+            { day: 5, title: "Data Foundations", passed: true, attempts: 1 },
+            { day: 7, title: "Embeddings Explained", passed: true, attempts: 2 },
+            { day: 8, title: "Vector Databases", passed: true, attempts: 1 },
+            { day: 12, title: "Prompt Engineering", passed: true, attempts: 3 },
+            { day: 16, title: "API Integration", passed: true, attempts: 1 },
+            { day: 22, title: "Multi-Agent Orchestration", passed: true, attempts: 2 },
+            { day: 28, title: "Kubernetes Deployment", passed: true, attempts: 1 },
+            { day: 31, title: "Capstone Project", passed: true, attempts: 1 }
+        ],
+        signals: { commitDays: 25, missionsCompleted: 28, missionsFirstTry: 18 }
+    };
+}
 
 function renderTrainingMonth() {
     const monthData = trainingMonths[currentTrainingMonthIndex];
@@ -967,6 +1129,30 @@ function renderTrainingMonth() {
         nextBtn.style.cursor = currentTrainingMonthIndex === trainingMonths.length - 1 ? 'not-allowed' : 'pointer';
     }
 
+    // Active Candidate Details Integration
+    const candidate = getActiveCandidate();
+
+    const greetingTitleEl = document.getElementById('greeting-title');
+    if (greetingTitleEl) {
+        greetingTitleEl.innerText = `Hi, ${candidate.name}!`;
+    }
+    const greetingDescEl = greetingTitleEl ? greetingTitleEl.nextElementSibling : null;
+    if (greetingDescEl) {
+        greetingDescEl.innerText = `${candidate.jobRole} • ${candidate.yearsExperience} Yrs Exp • ID: ${candidate.id}`;
+    }
+
+    const statQuestionsEl = document.getElementById('stat-questions');
+    if (statQuestionsEl) statQuestionsEl.innerText = `${candidate.signals.missionsCompleted} Solved`;
+
+    const statStreakEl = document.getElementById('stat-streak');
+    if (statStreakEl) statStreakEl.innerText = `${candidate.signals.commitDays} Days 🔥`;
+
+    const statAccuracyEl = document.getElementById('stat-accuracy');
+    if (statAccuracyEl) {
+        const acc = Math.round((candidate.signals.missionsFirstTry / Math.max(candidate.signals.missionsCompleted, 1)) * 100);
+        statAccuracyEl.innerText = `${acc}%`;
+    }
+
     if (gridEl) {
         let html = `
             <span class="berun-cal-day-label">M</span>
@@ -987,24 +1173,107 @@ function renderTrainingMonth() {
         for (let day = 1; day <= monthData.daysInMonth; day++) {
             let classes = 'berun-cal-date-cell';
             let inlineStyle = '';
-            let titleText = `View topics for ${monthData.name.split(' ')[0]} ${day}`;
 
-            if (monthData.doneDays.includes(day)) {
+            const mission = candidate.missions.find(m => m.day === day);
+
+            if (mission) {
+                if (mission.passed) {
+                    classes += ' done';
+                } else if (mission.skipped) {
+                    classes += ' scheduled';
+                } else {
+                    classes += ' scheduled';
+                }
+            } else if (monthData.doneDays.includes(day)) {
                 classes += ' done';
             } else if (monthData.scheduledDays.includes(day)) {
                 classes += ' scheduled';
-                titleText = `Scheduled session for ${monthData.name.split(' ')[0]} ${day}`;
             }
 
             if (monthData.currentDay === day) {
                 inlineStyle = 'border: 1px solid #8E8E93;';
-                titleText = `Active session for ${monthData.name.split(' ')[0]} ${day}`;
             }
+
+            const titleText = mission ? `${mission.title} (${mission.passed ? 'Passed' : mission.skipped ? 'Skipped' : 'Attempted'})` : `Day ${day}`;
 
             html += `<span class="${classes}" ${inlineStyle ? `style="${inlineStyle}"` : ''} onclick="selectCalendarDate(${day})" title="${titleText}">${day}</span>`;
         }
 
         gridEl.innerHTML = html;
+    }
+}
+
+function selectCalendarDate(dayNumber) {
+    const modal = document.getElementById('calendar-date-modal');
+    const titleEl = document.getElementById('date-modal-title');
+    const summaryEl = document.getElementById('date-modal-summary');
+    const cardsGrid = document.getElementById('date-cards-grid');
+
+    const candidate = getActiveCandidate();
+    const monthData = trainingMonths[currentTrainingMonthIndex] || trainingMonths[1];
+
+    const mission = candidate.missions.find(m => m.day === dayNumber);
+
+    const activity = {
+        dateTitle: `${monthData.name.split(' ')[0]} ${dayNumber}, 2026 — ${candidate.name} (${candidate.id})`,
+        badgeSummary: mission ? (mission.passed ? `Passed • ${mission.attempts} attempt${mission.attempts > 1 ? 's' : ''}` : mission.skipped ? 'Skipped Mission' : 'Attempted') : 'Practice Day',
+        cards: mission ? [
+            {
+                title: mission.title,
+                category: `Candidate Mission • Day ${mission.day}`,
+                icon: mission.passed ? "🎯" : "⚙️",
+                score: mission.passed ? "Passed ✓" : "Skipped",
+                badge: mission.passed ? `Passed (${mission.attempts} Att)` : "Skipped",
+                badgeBg: mission.passed ? "rgba(46, 125, 50, 0.12)" : "rgba(255, 153, 0, 0.15)",
+                badgeColor: mission.passed ? "#2E7D32" : "#D97706",
+                subtopics: `Candidate: ${candidate.name} (${candidate.jobRole})`
+            }
+        ] : [
+            {
+                title: `Day ${dayNumber} General Practice Session`,
+                category: "AI Engineering • Practice",
+                icon: "⚡",
+                score: "Completed",
+                badge: "Practice",
+                badgeBg: "rgba(46, 125, 50, 0.12)",
+                badgeColor: "#2E7D32",
+                subtopics: `Candidate: ${candidate.name}`
+            }
+        ]
+    };
+
+    if (titleEl) titleEl.innerText = activity.dateTitle;
+    if (summaryEl) summaryEl.innerText = activity.badgeSummary;
+
+    if (cardsGrid) {
+        cardsGrid.innerHTML = activity.cards.map(card => `
+            <div style="background: #FFFFFF; border-radius: 20px; padding: 1.4rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid var(--berun-border); display: flex; flex-direction: column; justify-content: space-between; gap: 1rem;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                        <div style="width: 42px; height: 42px; border-radius: 50%; background: #F7F3EE; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+                            ${card.icon}
+                        </div>
+                        <span style="background: ${card.badgeBg}; color: ${card.badgeColor}; font-size: 0.72rem; font-weight: 800; padding: 0.25rem 0.65rem; border-radius: var(--radius-pill);">
+                            ${card.badge}
+                        </span>
+                    </div>
+
+                    <h4 style="font-size: 1.05rem; font-weight: 800; color: #1C1C1E; line-height: 1.2;">
+                        ${card.title}
+                    </h4>
+                    <p style="font-size: 0.78rem; color: #666460; font-weight: 600; margin-top: 0.25rem;">
+                        ${card.category}
+                    </p>
+                    <p style="font-size: 0.75rem; color: #1C1C1E; font-weight: 700; margin-top: 0.6rem;">
+                        ${card.subtopics}
+                    </p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    if (modal) {
+        modal.classList.add('active');
     }
 }
 

@@ -125,15 +125,6 @@
                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=600';"
                         style="border-radius: 20px; width: 100%; height: auto; display: block; object-fit: cover;">
                 </div>
-
-                <!-- Floating Interactive Video Play Button Overlay matching screenshot -->
-                <button class="play-overlay-btn" id="play-video-btn"
-                    onclick="openModal('Watch InterviewAI Experience', 'Explore how candidates practice interactive AI interview sessions in real time.')"
-                    title="Watch Preview Video">
-                    <svg class="play-icon" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                    </svg>
-                </button>
             </div>
         </main>
 
@@ -290,6 +281,27 @@
     <!-- Toast Notification Container -->
     <div class="toast-container" id="toast-container"></div>
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectEl = document.getElementById('session-code-select');
+            const getStartedBtn = document.getElementById('btn-get-started');
+
+            function syncCandidateSelection() {
+                if (!selectEl) return;
+                const val = selectEl.value;
+                const candId = 'CAND-' + val;
+                localStorage.setItem('selectedCandidateId', candId);
+                if (getStartedBtn) {
+                    getStartedBtn.href = `dashboard.html?candidateId=${candId}`;
+                }
+            }
+
+            if (selectEl) {
+                selectEl.addEventListener('change', syncCandidateSelection);
+                syncCandidateSelection();
+            }
+        });
+    </script>
 </body>
 
 </html>
