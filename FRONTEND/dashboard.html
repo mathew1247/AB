@@ -184,15 +184,15 @@
                     <!-- Navigation Controls & Action Button Row -->
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
                         <div style="display: flex; gap: 0.4rem;">
-                            <button id="prev-course-btn" class="carousel-nav-btn" onclick="prevCourse()">← Previous</button>
-                            <button id="next-course-btn" class="carousel-nav-btn" onclick="nextCourse()">Next →</button>
+                            <button id="prev-course-btn" class="carousel-nav-btn" onclick="prevCourse()">Previous</button>
+                            <button id="next-course-btn" class="carousel-nav-btn" onclick="nextCourse()">Next</button>
                         </div>
                         <div style="display: flex; gap: 0.5rem; align-items: center;">
                             <button onclick="openProgressModal()" class="berun-btn-dark" style="font-size: 0.78rem; padding: 0.45rem 1rem;">
                                 Progress
                             </button>
-                            <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.78rem; padding: 0.45rem 1rem;">
-                                Continue Learning →
+                            <a href="practice.html" id="tech-skill-continue-btn" class="berun-btn-dark" style="text-decoration: none; font-size: 0.78rem; padding: 0.45rem 1rem;">
+                                Continue Learning
                             </a>
                         </div>
                     </div>
@@ -275,75 +275,122 @@
             <!-- Bottom Grid Section (Steps + Weight Loss Left, My Habits Right) -->
             <section class="berun-grid-bottom">
 
-                <!-- Left Column Stack -->
-                <div class="berun-left-stack">
-                    <!-- Steps for Today Card -->
-                    <article class="berun-white-card">
-                        <div class="berun-steps-content">
-                            <div>
-                                <h3 style="font-size: 1rem; font-weight: 800; color: var(--berun-text-dark);">Steps for
-                                    Today</h3>
-                                <p style="font-size: 0.78rem; color: var(--berun-text-body); margin-top: 0.1rem;">Keep
-                                    your body toned</p>
+                <!-- Left Column: Monthly Topic Progress Tracker Card (Controlled with Buttons) -->
+                <article class="berun-habits-card" style="height: 100%; display: flex; flex-direction: column; justify-content: space-between; background: var(--berun-bg-card); border-radius: var(--radius-xl); padding: 1.4rem;">
+                    <!-- Top Header Row with Navigation Buttons -->
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem;">
+                        <div>
+                            <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--berun-text-dark); display: flex; align-items: center; gap: 0.4rem;">
+                                Monthly Topic Progress
+                            </h3>
+                            <p style="font-size: 0.75rem; color: var(--berun-text-body); margin-top: 0.15rem; font-weight: 500;">
+                                Track monthly accuracy & mastery progress for each topic
+                            </p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <button id="prev-topic-graph-btn" class="carousel-nav-btn" onclick="prevTopicGraph()" disabled style="opacity: 0.4; cursor: not-allowed;">Previous</button>
+                            <button id="next-topic-graph-btn" class="carousel-nav-btn" onclick="nextTopicGraph()">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Topic Selector Tabs -->
+                    <div style="display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.3rem; margin-bottom: 0.8rem;">
+                        <button class="topic-graph-tab active" data-key="dsa" onclick="switchTopicGraph('dsa', this)" style="background: #1C1C1E; color: #FFFFFF; border: none; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                            Data Structures
+                        </button>
+                        <button class="topic-graph-tab" data-key="algo" onclick="switchTopicGraph('algo', this)" style="background: #EAE3D9; color: #666460; border: none; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                            Algorithms
+                        </button>
+                        <button class="topic-graph-tab" data-key="sql" onclick="switchTopicGraph('sql', this)" style="background: #EAE3D9; color: #666460; border: none; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                            SQL Queries
+                        </button>
+                        <button class="topic-graph-tab" data-key="sys" onclick="switchTopicGraph('sys', this)" style="background: #EAE3D9; color: #666460; border: none; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                            System Design
+                        </button>
+                        <button class="topic-graph-tab" data-key="py" onclick="switchTopicGraph('py', this)" style="background: #EAE3D9; color: #666460; border: none; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                            Python & OOP
+                        </button>
+                    </div>
+
+                    <!-- Slide Wrapper for Smooth Transition -->
+                    <div id="topic-graph-slide-wrapper" style="transition: opacity 0.2s ease, transform 0.2s ease; will-change: opacity, transform;">
+                        <!-- Graph Chart Display Container -->
+                        <div style="background: #F7F3EE; border: 1px solid #E2D9CC; border-radius: 18px; padding: 1rem; margin-bottom: 0.8rem; position: relative;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                                <span id="graph-topic-name" style="font-size: 0.82rem; font-weight: 800; color: #1C1C1E;">
+                                    Data Structures Mastery
+                                </span>
+                                <span id="graph-peak-score" style="font-size: 0.82rem; font-weight: 800; color: #2E7D32;">
+                                     92% Peak Accuracy
+                                </span>
                             </div>
 
-                            <!-- Semi-gauge Arc Diagram -->
-                            <div style="text-align: center; position: relative;">
-                                <svg class="berun-gauge-svg" viewBox="0 0 100 55">
-                                    <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#E5DFD7" stroke-width="7"
-                                        stroke-linecap="round" />
-                                    <path d="M 10 50 A 40 40 0 0 1 72 20" fill="none" stroke="#FF5A4E" stroke-width="7"
-                                        stroke-linecap="round" />
+                            <!-- SVG Line & Area Graph Chart -->
+                            <div style="width: 100%; height: 140px; position: relative;">
+                                <svg viewBox="0 0 400 130" style="width: 100%; height: 100%; overflow: visible;" id="topic-progress-svg">
+                                    <defs>
+                                        <linearGradient id="graphGradient" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stop-color="#FFCC00" stop-opacity="0.45" />
+                                            <stop offset="100%" stop-color="#FFCC00" stop-opacity="0.0" />
+                                        </linearGradient>
+                                    </defs>
+
+                                    <!-- Grid Line Dividers -->
+                                    <line x1="0" y1="20" x2="400" y2="20" stroke="#E2D9CC" stroke-dasharray="3,3" stroke-width="1" />
+                                    <line x1="0" y1="60" x2="400" y2="60" stroke="#E2D9CC" stroke-dasharray="3,3" stroke-width="1" />
+                                    <line x1="0" y1="100" x2="400" y2="100" stroke="#E2D9CC" stroke-dasharray="3,3" stroke-width="1" />
+
+                                    <!-- Gradient Fill Area -->
+                                    <path id="graph-area-path" d="M 30 90 Q 130 65, 230 40 T 370 15 L 370 115 L 30 115 Z" fill="url(#graphGradient)" />
+
+                                    <!-- Main Curve Line -->
+                                    <path id="graph-line-path" d="M 30 90 Q 130 65, 230 40 T 370 15" fill="none" stroke="#1C1C1E" stroke-width="3" stroke-linecap="round" />
+
+                                    <!-- Month Data Points & Nodes -->
+                                    <!-- May: 45% -->
+                                    <circle id="node-may" cx="30" cy="90" r="5" fill="#FFCC00" stroke="#1C1C1E" stroke-width="2" />
+                                    <text id="text-may" x="30" y="80" text-anchor="middle" font-size="10" font-weight="700" fill="#666460">45%</text>
+
+                                    <!-- June: 62% -->
+                                    <circle id="node-june" cx="140" cy="65" r="5" fill="#FFCC00" stroke="#1C1C1E" stroke-width="2" />
+                                    <text id="text-june" x="140" y="55" text-anchor="middle" font-size="10" font-weight="700" fill="#666460">62%</text>
+
+                                    <!-- July: 78% -->
+                                    <circle id="node-july" cx="250" cy="40" r="5" fill="#FFCC00" stroke="#1C1C1E" stroke-width="2" />
+                                    <text id="text-july" x="250" y="30" text-anchor="middle" font-size="10" font-weight="700" fill="#666460">78%</text>
+
+                                    <!-- August: 92% -->
+                                    <circle id="node-aug" cx="370" cy="15" r="6" fill="#1C1C1E" stroke="#FFCC00" stroke-width="2" />
+                                    <text id="text-aug" x="370" y="8" text-anchor="middle" font-size="10" font-weight="800" fill="#1C1C1E">92%</text>
                                 </svg>
-                                <div style="position: absolute; bottom: 5px; left: 0; right: 0;">
-                                    <div style="font-size: 0.65rem; color: var(--berun-text-muted);">Goal</div>
-                                    <div style="font-size: 1.1rem; font-weight: 800; color: var(--berun-text-dark);">
-                                        8,500</div>
+
+                                <!-- Month Labels Row -->
+                                <div style="display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: 700; color: #666460; padding: 0 0.5rem; margin-top: 0.2rem;">
+                                    <span>May</span>
+                                    <span>June</span>
+                                    <span>July</span>
+                                    <span style="color: #1C1C1E; font-weight: 800;">August (Current)</span>
                                 </div>
-                                <span
-                                    style="position: absolute; top: 0; right: -5px; font-size: 0.68rem; font-weight: 700; color: var(--berun-text-body);">5,201</span>
                             </div>
                         </div>
 
-                        <!-- Change Goal Button -->
-                        <div style="margin-top: 0.8rem;">
-                            <button
-                                style="background: var(--berun-bg-dark); color: #FFFFFF; border: none; padding: 0.4rem 0.9rem; border-radius: var(--radius-pill); font-size: 0.78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;"
-                                onclick="openModal('Change Daily Step Goal', 'Set a new target step goal for your daily routine.')">
-                                Change Goal ✏️
-                            </button>
-                        </div>
-                    </article>
-
-                    <!-- Weight Loss Plan Card -->
-                    <article class="berun-white-card">
-                        <div
-                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
-                            <h3 style="font-size: 1rem; font-weight: 800; color: var(--berun-text-dark);">Weight Loss
-                                Plan</h3>
-                            <span style="font-size: 0.82rem; font-weight: 800; color: var(--berun-text-dark);">68% <span
-                                    style="font-weight: 500; color: var(--berun-text-body); font-size: 0.75rem;">Completed</span></span>
-                        </div>
-
-                        <!-- Progress Bar Slider -->
-                        <div
-                            style="position: relative; height: 10px; background: #E5DFD7; border-radius: var(--radius-pill); width: 100%; margin: 1rem 0;">
-                            <div
-                                style="position: absolute; left: 0; top: 0; bottom: 0; width: 68%; background: var(--berun-bg-dark); border-radius: var(--radius-pill);">
+                        <!-- Key Stats Footer Row -->
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; background: #F7F3EE; padding: 0.7rem 0.9rem; border-radius: 14px; border: 1px solid #E2D9CC; text-align: center;">
+                            <div>
+                                <div style="font-size: 0.68rem; color: #666460; font-weight: 600;">Total Questions</div>
+                                <div id="stat-questions" style="font-size: 0.92rem; font-weight: 800; color: #1C1C1E;">142 Solved</div>
                             </div>
-                            <div
-                                style="position: absolute; left: 68%; top: -18px; transform: translateX(-50%); background: #1C1C1E; color: #FFFFFF; padding: 0.15rem 0.5rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 800;">
-                                53.2 kg
+                            <div style="border-left: 1px solid #E2D9CC; border-right: 1px solid #E2D9CC;">
+                                <div style="font-size: 0.68rem; color: #666460; font-weight: 600;">Avg Accuracy</div>
+                                <div id="stat-accuracy" style="font-size: 0.92rem; font-weight: 800; color: #2E7D32;">88.4%</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.68rem; color: #666460; font-weight: 600;">Active Streak</div>
+                                <div id="stat-streak" style="font-size: 0.92rem; font-weight: 800; color: #1C1C1E;">18 Days 🔥</div>
                             </div>
                         </div>
-
-                        <div
-                            style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: var(--berun-text-body);">
-                            <span>58 kg</span>
-                            <span>50 kg</span>
-                        </div>
-                    </article>
-                </div>
+                    </div>
+                </article>
 
                 <!-- Right Column: Top Company Questions Card (Replaces My Habits) -->
                 <article class="berun-habits-card">
@@ -377,8 +424,8 @@
                                 <span class="tag-badge" style="background: rgba(66, 133, 244, 0.12); color: #4285F4; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
                                     High Frequency
                                 </span>
-                                <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
-                                    Practice →
+                                <a href="practice.html?company=Google&topics=DSA,Algorithms" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                    Practice
                                 </a>
                             </div>
                         </div>
@@ -398,8 +445,8 @@
                                 <span class="tag-badge" style="background: rgba(0, 164, 239, 0.12); color: #00A4EF; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
                                     Core Patterns
                                 </span>
-                                <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
-                                    Practice →
+                                <a href="practice.html?company=Microsoft&topics=DSA,OOP" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                    Practice
                                 </a>
                             </div>
                         </div>
@@ -419,8 +466,8 @@
                                 <span class="tag-badge" style="background: rgba(255, 153, 0, 0.15); color: #D97706; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
                                     Problem Solving
                                 </span>
-                                <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
-                                    Practice →
+                                <a href="practice.html?company=Amazon&topics=DSA,Problem%20Solving" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                    Practice
                                 </a>
                             </div>
                         </div>
@@ -440,8 +487,8 @@
                                 <span class="tag-badge" style="background: rgba(6, 104, 225, 0.12); color: #0668E1; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
                                     Speed & Accuracy
                                 </span>
-                                <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
-                                    Practice →
+                                <a href="practice.html?company=Meta&topics=JavaScript,DSA" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                    Practice
                                 </a>
                             </div>
                         </div>
@@ -461,8 +508,8 @@
                                 <span class="tag-badge" style="background: rgba(28, 28, 30, 0.1); color: #1C1C1E; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
                                     Architecture Focus
                                 </span>
-                                <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
-                                    Practice →
+                                <a href="practice.html?company=Apple&topics=System%20Design,Programming" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                    Practice
                                 </a>
                             </div>
                         </div>
@@ -482,8 +529,8 @@
                                 <span class="tag-badge" style="background: rgba(0, 124, 195, 0.12); color: #007CC3; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
                                     Foundational
                                 </span>
-                                <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
-                                    Practice →
+                                <a href="practice.html?company=Infosys&topics=SQL,Programming" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                    Practice
                                 </a>
                             </div>
                         </div>
@@ -503,8 +550,8 @@
                                 <span class="tag-badge" style="background: rgba(226, 0, 116, 0.12); color: #E20074; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
                                     Comprehensive
                                 </span>
-                                <a href="practice.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
-                                    Practice →
+                                <a href="practice.html?company=TCS&topics=Python,SQL,Aptitude" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                    Practice
                                 </a>
                             </div>
                         </div>

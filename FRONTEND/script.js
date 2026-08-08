@@ -272,6 +272,12 @@ function renderCourse(index) {
         if (topicsEl) topicsEl.innerText = `${course.completedTopicsCount} Completed · ${course.pending.length} Pending`;
         if (indicatorEl) indicatorEl.innerText = `${index + 1} / ${courses.length}`;
 
+        // Dynamic link to practice.html with skill and topics
+        const continueBtn = document.getElementById('tech-skill-continue-btn');
+        if (continueBtn) {
+            continueBtn.href = `practice.html?skill=${encodeURIComponent(course.name)}&topics=${encodeURIComponent(course.tags)}`;
+        }
+
         // Disable buttons at boundaries
         if (prevBtn) {
             prevBtn.disabled = (index === 0);
@@ -668,4 +674,170 @@ function showToast(message) {
             toast.remove();
         }, 300);
     }, 2500);
+}
+
+// Monthly Topic Progress Graph Switcher
+const topicGraphDatasets = {
+    'dsa': {
+        name: 'Data Structures Mastery',
+        peak: '92% Peak Accuracy',
+        lineD: 'M 30 90 Q 130 65, 230 40 T 370 15',
+        areaD: 'M 30 90 Q 130 65, 230 40 T 370 15 L 370 115 L 30 115 Z',
+        nodes: [{ cx: 30, cy: 90, val: '45%' }, { cx: 140, cy: 65, val: '62%' }, { cx: 250, cy: 40, val: '78%' }, { cx: 370, cy: 15, val: '92%' }],
+        questions: '142 Solved',
+        accuracy: '88.4%',
+        streak: '18 Days 🔥'
+    },
+    'algo': {
+        name: 'Algorithms & Problem Solving',
+        peak: '88% Peak Accuracy',
+        lineD: 'M 30 98 Q 130 75, 230 48 T 370 22',
+        areaD: 'M 30 98 Q 130 75, 230 48 T 370 22 L 370 115 L 30 115 Z',
+        nodes: [{ cx: 30, cy: 98, val: '40%' }, { cx: 140, cy: 75, val: '55%' }, { cx: 250, cy: 48, val: '72%' }, { cx: 370, cy: 22, val: '88%' }],
+        questions: '118 Solved',
+        accuracy: '85.0%',
+        streak: '14 Days 🔥'
+    },
+    'sql': {
+        name: 'SQL & Database Queries',
+        peak: '95% Peak Accuracy',
+        lineD: 'M 30 85 Q 130 55, 230 32 T 370 10',
+        areaD: 'M 30 85 Q 130 55, 230 32 T 370 10 L 370 115 L 30 115 Z',
+        nodes: [{ cx: 30, cy: 85, val: '50%' }, { cx: 140, cy: 55, val: '68%' }, { cx: 250, cy: 32, val: '84%' }, { cx: 370, cy: 10, val: '95%' }],
+        questions: '96 Solved',
+        accuracy: '92.1%',
+        streak: '21 Days 🔥'
+    },
+    'sys': {
+        name: 'System Design Architecture',
+        peak: '82% Peak Accuracy',
+        lineD: 'M 30 105 Q 130 82, 230 58 T 370 30',
+        areaD: 'M 30 105 Q 130 82, 230 58 T 370 30 L 370 115 L 30 115 Z',
+        nodes: [{ cx: 30, cy: 105, val: '30%' }, { cx: 140, cy: 82, val: '48%' }, { cx: 250, cy: 58, val: '65%' }, { cx: 370, cy: 30, val: '82%' }],
+        questions: '64 Solved',
+        accuracy: '80.5%',
+        streak: '9 Days 🔥'
+    },
+    'py': {
+        name: 'Python & Core OOP',
+        peak: '96% Peak Accuracy',
+        lineD: 'M 30 75 Q 130 48, 230 28 T 370 8',
+        areaD: 'M 30 75 Q 130 48, 230 28 T 370 8 L 370 115 L 30 115 Z',
+        nodes: [{ cx: 30, cy: 75, val: '58%' }, { cx: 140, cy: 48, val: '74%' }, { cx: 250, cy: 28, val: '86%' }, { cx: 370, cy: 8, val: '96%' }],
+        questions: '156 Solved',
+        accuracy: '94.2%',
+        streak: '25 Days 🔥'
+    }
+};
+
+function switchTopicGraph(topicKey, btn) {
+    const data = topicGraphDatasets[topicKey];
+    if (!data) return;
+
+    // Toggle active tab buttons
+    document.querySelectorAll('.topic-graph-tab').forEach(b => {
+        b.style.background = '#EAE3D9';
+        b.style.color = '#666460';
+        b.classList.remove('active');
+    });
+
+    if (btn) {
+        btn.style.background = '#1C1C1E';
+        btn.style.color = '#FFFFFF';
+        btn.classList.add('active');
+    }
+
+    // Update Header Text & Stats
+    const topicNameEl = document.getElementById('graph-topic-name');
+    const peakScoreEl = document.getElementById('graph-peak-score');
+    const statQuestionsEl = document.getElementById('stat-questions');
+    const statAccuracyEl = document.getElementById('stat-accuracy');
+    const statStreakEl = document.getElementById('stat-streak');
+
+    if (topicNameEl) topicNameEl.innerText = data.name;
+    if (peakScoreEl) peakScoreEl.innerText = data.peak;
+    if (statQuestionsEl) statQuestionsEl.innerText = data.questions;
+    if (statAccuracyEl) statAccuracyEl.innerText = data.accuracy;
+    if (statStreakEl) statStreakEl.innerText = data.streak;
+
+    // Update SVG Paths
+    const linePath = document.getElementById('graph-line-path');
+    const areaPath = document.getElementById('graph-area-path');
+
+    if (linePath) linePath.setAttribute('d', data.lineD);
+    if (areaPath) areaPath.setAttribute('d', data.areaD);
+
+    // Update Nodes & Text
+    const months = ['may', 'june', 'july', 'aug'];
+    months.forEach((m, idx) => {
+        const circle = document.getElementById(`node-${m}`);
+        const text = document.getElementById(`text-${m}`);
+        const nodeData = data.nodes[idx];
+
+        if (circle && nodeData) {
+            circle.setAttribute('cy', nodeData.cy);
+        }
+        if (text && nodeData) {
+            text.setAttribute('y', nodeData.cy - 10);
+            text.innerText = nodeData.val;
+        }
+    });
+}
+
+// Button Navigation Controller for Monthly Topic Progress Card
+let currentTopicGraphIndex = 0;
+const topicGraphKeys = ['dsa', 'algo', 'sql', 'sys', 'py'];
+
+function renderTopicGraphSlide(index) {
+    const key = topicGraphKeys[index];
+    if (!key) return;
+
+    const wrapper = document.getElementById('topic-graph-slide-wrapper');
+    const counterEl = document.getElementById('topic-graph-counter');
+    const prevBtn = document.getElementById('prev-topic-graph-btn');
+    const nextBtn = document.getElementById('next-topic-graph-btn');
+
+    if (wrapper) {
+        wrapper.style.opacity = '0';
+        wrapper.style.transform = 'translateX(10px)';
+    }
+
+    setTimeout(() => {
+        // Find matching tab button
+        const targetTab = document.querySelector(`.topic-graph-tab[data-key="${key}"]`);
+        switchTopicGraph(key, targetTab);
+
+        if (counterEl) counterEl.innerText = `${index + 1} / ${topicGraphKeys.length}`;
+
+        if (prevBtn) {
+            prevBtn.disabled = (index === 0);
+            prevBtn.style.opacity = (index === 0) ? '0.4' : '1';
+            prevBtn.style.cursor = (index === 0) ? 'not-allowed' : 'pointer';
+        }
+
+        if (nextBtn) {
+            nextBtn.disabled = (index === topicGraphKeys.length - 1);
+            nextBtn.style.opacity = (index === topicGraphKeys.length - 1) ? '0.4' : '1';
+            nextBtn.style.cursor = (index === topicGraphKeys.length - 1) ? 'not-allowed' : 'pointer';
+        }
+
+        if (wrapper) {
+            wrapper.style.opacity = '1';
+            wrapper.style.transform = 'translateX(0)';
+        }
+    }, 120);
+}
+
+function nextTopicGraph() {
+    if (currentTopicGraphIndex < topicGraphKeys.length - 1) {
+        currentTopicGraphIndex++;
+        renderTopicGraphSlide(currentTopicGraphIndex);
+    }
+}
+
+function prevTopicGraph() {
+    if (currentTopicGraphIndex > 0) {
+        currentTopicGraphIndex--;
+        renderTopicGraphSlide(currentTopicGraphIndex);
+    }
 }

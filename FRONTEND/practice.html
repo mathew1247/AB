@@ -4,14 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SETO AI Studio — Technical Practice Studio</title>
-    <meta name="description" content="SETO AI Technical Practice Studio & AI Chat Workspace.">
+    <title>Company Practice & Technical MCQ Studio — InterviewAI</title>
+    <meta name="description" content="Company-specific practice questions, MCQs, and topic preparation hub.">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap"
+        rel="stylesheet">
     <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✦</text></svg>">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
 
     <style>
         :root {
@@ -23,6 +26,8 @@
             --text-sub: #636873;
             --text-muted: #9AA0AC;
             --accent-black: #121418;
+            --accent-green: #10B981;
+            --accent-red: #EF4444;
             --radius-pill: 9999px;
             --radius-sm: 10px;
             --radius-md: 16px;
@@ -36,7 +41,8 @@
             padding: 0;
         }
 
-        html, body.seto-body {
+        html,
+        body.seto-body {
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--canvas-gradient);
             height: 100vh;
@@ -51,11 +57,11 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 1-Column App Window Container (No Scroll, Full Width) */
+        /* 1-Column App Window Container (No Scroll) */
         .seto-window {
             background: var(--app-bg);
             width: 100%;
-            max-width: 1100px;
+            max-width: 1120px;
             height: 100%;
             max-height: calc(100vh - 2.4rem);
             border-radius: var(--radius-xl);
@@ -70,13 +76,13 @@
         /* Main Workspace */
         .seto-main {
             background: var(--main-bg);
-            padding: 1.8rem 2.5rem 1.4rem 2.5rem;
+            padding: 1.5rem 2.5rem 1.4rem 2.5rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
             height: 100%;
-            overflow: hidden;
+            overflow-y: auto;
         }
 
         .main-top-navbar {
@@ -85,35 +91,20 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
-        }
-
-        .brand-logo-row {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-weight: 800;
-            font-size: 1.2rem;
-            color: var(--text-dark);
-        }
-
-        .brand-flower-icon {
-            font-size: 1.3rem;
-            color: var(--text-dark);
+            flex-shrink: 0;
         }
 
         .btn-dash-pill {
-            background: #121418;
-            color: #FFFFFF;
-            border: none;
-            padding: 0.48rem 1.1rem;
-            border-radius: var(--radius-pill);
-            font-size: 0.78rem;
-            font-weight: 800;
-            cursor: pointer;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
+            justify-content: center;
+            padding: 0.48rem 1.1rem;
+            border-radius: var(--radius-pill);
+            background: #121418;
+            color: #FFFFFF;
+            font-size: 0.78rem;
+            font-weight: 800;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
@@ -139,86 +130,228 @@
             box-shadow: 0 4px 14px rgba(124, 58, 237, 0.12);
         }
 
-        .hero-star-graphic {
-            font-size: 3rem;
-            background: linear-gradient(135deg, #F9A8D4 0%, #C084FC 50%, #818CF8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.8rem;
-            filter: drop-shadow(0 6px 12px rgba(192, 132, 252, 0.2));
-        }
-
-        .hero-welcome-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: var(--text-dark);
-            letter-spacing: -0.02em;
-            margin-bottom: 0.3rem;
-        }
-
-        .hero-welcome-sub {
-            font-size: 0.86rem;
-            color: var(--text-sub);
-            font-weight: 500;
-            margin-bottom: 2rem;
-        }
-
-        /* 3 Feature Cards Row */
-        .feature-cards-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.2rem;
+        /* Company Practice Banner Header */
+        .company-banner-card {
             width: 100%;
-            max-width: 680px;
-            margin-bottom: 2.2rem;
-        }
-
-        .feature-card-item {
+            max-width: 780px;
             background: #FFFFFF;
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 1.2rem 1.1rem;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            border-radius: 22px;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            margin-bottom: 1.2rem;
+            flex-shrink: 0;
         }
 
-        .feature-card-item:hover {
-            border-color: #CBD5E1;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-            transform: translateY(-2px);
+        .company-badge-left {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
         }
 
-        .feature-card-icon {
-            font-size: 1.4rem;
-            margin-bottom: 0.7rem;
+        .company-logo-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .feature-card-title {
-            font-size: 0.86rem;
+        .company-title-text {
+            font-size: 1.25rem;
             font-weight: 800;
             color: var(--text-dark);
-            margin-bottom: 0.25rem;
+            line-height: 1.2;
         }
 
-        .feature-card-desc {
-            font-size: 0.73rem;
-            color: var(--text-muted);
-            line-height: 1.4;
+        .company-topics-pills {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.25rem;
+        }
+
+        .topic-tag-pill {
+            background: #F3F4F6;
+            color: #374151;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.18rem 0.55rem;
+            border-radius: var(--radius-pill);
+        }
+
+        .quiz-score-badge {
+            background: #F3E8FF;
+            color: #7C3AED;
+            padding: 0.4rem 0.9rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.78rem;
+            font-weight: 800;
+            border: 1px solid #E9D5FF;
+        }
+
+        /* MCQ Quiz Container Card */
+        .mcq-container-card {
+            width: 100%;
+            max-width: 780px;
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 1.6rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+            margin-bottom: 1.2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .mcq-question-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .question-number-tag {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #7C3AED;
+            background: #F3E8FF;
+            padding: 0.2rem 0.65rem;
+            border-radius: var(--radius-pill);
+        }
+
+        .question-text-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.45;
+            margin-bottom: 1.2rem;
+        }
+
+        /* Options Grid */
+        .mcq-options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .mcq-option-btn {
+            background: #FAF9F9;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 0.8rem 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .mcq-option-btn:hover {
+            border-color: #CBD5E1;
+            background: #FFFFFF;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+        }
+
+        .mcq-option-btn.correct {
+            background: #ECFDF5 !important;
+            border-color: #10B981 !important;
+            color: #065F46 !important;
+            font-weight: 800;
+        }
+
+        .mcq-option-btn.incorrect {
+            background: #FEF2F2 !important;
+            border-color: #EF4444 !important;
+            color: #991B1B !important;
+            font-weight: 800;
+        }
+
+        .option-key-badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #E5E7EB;
+            color: #374151;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 800;
+            margin-right: 0.6rem;
+            flex-shrink: 0;
+        }
+
+        /* Instant Feedback Explanation Box */
+        .feedback-explanation-box {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 16px;
+            padding: 0.9rem 1.1rem;
+            font-size: 0.8rem;
+            color: #334155;
+            line-height: 1.45;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .feedback-explanation-box.show {
+            display: block;
+        }
+
+        /* MCQ Action Buttons Bar */
+        .mcq-nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 0.8rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-mcq-nav {
+            background: var(--accent-black);
+            color: #FFFFFF;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.78rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .btn-mcq-nav:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
         }
 
         /* Bottom Command Input Box Container */
         .command-box-wrapper {
             width: 100%;
-            max-width: 680px;
+            max-width: 780px;
+            flex-shrink: 0;
         }
 
         .command-card {
             background: #FFFFFF;
             border: 1px solid var(--border-color);
             border-radius: 24px;
-            padding: 1rem 1.2rem;
+            padding: 0.9rem 1.1rem;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.03);
         }
 
@@ -231,7 +364,7 @@
             color: var(--text-dark);
             font-weight: 500;
             background: transparent;
-            margin-bottom: 0.9rem;
+            margin-bottom: 0.8rem;
         }
 
         .command-toolbar {
@@ -281,7 +414,7 @@
             cursor: pointer;
         }
 
-        /* Modal Overlay for Video Tutorials (Triggered by Help button) */
+        /* Video Tutorials Modal Overlay */
         .video-modal-overlay {
             position: fixed;
             top: 0;
@@ -394,7 +527,7 @@
 
             <!-- Main Top Bar -->
             <div class="main-top-navbar">
-                <a href="dashboard.html" class="btn-dash-pill" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; padding: 0.48rem 1.1rem; border-radius: 9999px; background: #121418; color: #FFFFFF; font-size: 0.78rem; font-weight: 800; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <a href="dashboard.html" class="btn-dash-pill">
                     Back to Dashboard
                 </a>
                 <div style="display: flex; gap: 0.7rem; align-items: center;">
@@ -405,51 +538,76 @@
                 </div>
             </div>
 
-            <!-- Hero Section -->
-            <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-                <div class="hero-star-graphic">✦</div>
-                <h1 class="hero-welcome-title">Welcome, Allison!</h1>
-                <p class="hero-welcome-sub">How can I help you today?</p>
+            <!-- Company Practice Banner Header -->
+            <div class="company-banner-card">
+                <div class="company-badge-left">
+                    <div class="company-logo-avatar" id="company-avatar" style="background: #4285F4;">
+                        G
+                    </div>
+                    <div>
+                        <div class="company-title-text" id="company-title">Google Practice Hub</div>
+                        <div class="company-topics-pills" id="company-topics-container">
+                            <span class="topic-tag-pill">DSA</span>
+                            <span class="topic-tag-pill">Algorithms</span>
+                        </div>
+                    </div>
+                </div>
 
-                <!-- 3 Feature Cards Row -->
-                <div class="feature-cards-row">
-                    <!-- Card 1 -->
-                    <div class="feature-card-item">
-                        <div class="feature-card-icon" style="color: #F59E0B;">⭐</div>
-                        <div class="feature-card-title">Generate visual</div>
-                        <div class="feature-card-desc">Create images from text prompts instantly</div>
+                <div class="quiz-score-badge" id="score-tracker-badge">
+                    Score: <span id="score-count">0</span> / <span id="total-count">3</span>
+                </div>
+            </div>
+
+            <!-- MCQ Quiz Container Card -->
+            <div class="mcq-container-card">
+                <div>
+                    <div class="mcq-question-header">
+                        <span class="question-number-tag" id="question-progress-label">Question 1 of 3</span>
+                        <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;"
+                            id="topic-focus-tag">Topic: Data Structures</span>
                     </div>
 
-                    <!-- Card 2 -->
-                    <div class="feature-card-item">
-                        <div class="feature-card-icon" style="color: #EC4899;">✏️</div>
-                        <div class="feature-card-title">Improve prompt</div>
-                        <div class="feature-card-desc">Enhance your prompt automatically</div>
+                    <h2 class="question-text-title" id="mcq-question-text">
+                        In a Binary Search Tree (BST), what is the time complexity of searching for an element in the
+                        worst case?
+                    </h2>
+
+                    <!-- Options Grid -->
+                    <div class="mcq-options-list" id="mcq-options-container">
+                        <!-- Rendered by JS -->
                     </div>
 
-                    <!-- Card 3 -->
-                    <div class="feature-card-item">
-                        <div class="feature-card-icon" style="color: #8B5CF6;">🎨</div>
-                        <div class="feature-card-title">Explore styles</div>
-                        <div class="feature-card-desc">Apply curated visual aesthetics and styles</div>
+                    <!-- Instant Feedback Explanation Box -->
+                    <div class="feedback-explanation-box" id="feedback-explanation">
+                        <!-- Rendered by JS -->
                     </div>
+                </div>
+
+                <!-- MCQ Action Navigation Bar -->
+                <div class="mcq-nav-bar">
+                    <button class="btn-mcq-nav" id="prev-btn" onclick="prevQuestion()" disabled>← Previous</button>
+                    <button class="btn-mcq-nav" id="next-btn" onclick="nextQuestion()">Next Question →</button>
                 </div>
             </div>
 
             <!-- Bottom Command Input Section -->
             <div class="command-box-wrapper">
                 <div class="command-card">
-                    <input type="text" class="command-input-line" value="✦ Initiate a query or send a command to the AI..." placeholder="Type your prompt...">
+                    <input type="text" class="command-input-line" id="ai-chat-input"
+                        value="✦ Explain this topic in detail or request another question..."
+                        placeholder="Ask AI Assistant for help...">
 
                     <div class="command-toolbar">
                         <div class="toolbar-left-pills">
-                            <button class="btn-toolbar-pill"><span>📎</span> Attach</button>
-                            <button class="btn-toolbar-pill"><span>⚙️</span> Settings</button>
-                            <button class="btn-toolbar-pill"><span>🎛️</span> Options</button>
+                            <button class="btn-toolbar-pill"><span>📎</span> Attach Code</button>
+                            <button class="btn-toolbar-pill"><span>💡</span> Hint</button>
+                            <button class="btn-toolbar-pill"><span>⚙️</span> Options</button>
                         </div>
                         <div class="toolbar-right-actions">
-                            <span style="font-size: 1.1rem; color: var(--text-sub); cursor: pointer;">🎙️</span>
-                            <button class="btn-circle-send">↑</button>
+                            <span style="font-size: 1.1rem; color: var(--text-sub); cursor: pointer;"
+                                title="Voice Assistant">🎙️</span>
+                            <button class="btn-circle-send" onclick="sendAiMessage()"
+                                title="Send to AI Assistant">↑</button>
                         </div>
                     </div>
                 </div>
@@ -473,7 +631,8 @@
                     </p>
                 </div>
                 <div style="display: flex; align-items: center; gap: 0.8rem;">
-                    <span style="background: #FF0000; color: #FFFFFF; font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 4px;">
+                    <span
+                        style="background: #FF0000; color: #FFFFFF; font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 4px;">
                         YouTube
                     </span>
                     <button class="modal-close-btn" onclick="toggleVideoHelpModal()" title="Close Modal">✕</button>
@@ -482,18 +641,24 @@
 
             <!-- Modal Video Grid -->
             <div class="modal-video-grid">
-
                 <!-- Clip 1: Python OOP -->
                 <div class="modal-video-card">
                     <div class="modal-iframe-box">
-                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/Jeznw_jak5w" title="Python OOP Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px; border: none;"></iframe>
+                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/Jeznw_jak5w"
+                            title="Python OOP Tutorial" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen style="border-radius: 12px; border: none;"></iframe>
                     </div>
                     <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
-                            <span style="background: rgba(46, 125, 50, 0.12); color: #2E7D32; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">Python • OOP</span>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                            <span
+                                style="background: rgba(46, 125, 50, 0.12); color: #2E7D32; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">Python
+                                • OOP</span>
                             <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600;">15 mins</span>
                         </div>
-                        <div style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
+                        <div
+                            style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
                             Python Object Oriented Programming (OOP)
                         </div>
                         <div style="font-size: 0.72rem; color: var(--text-sub);">
@@ -505,14 +670,21 @@
                 <!-- Clip 2: SQL Joins -->
                 <div class="modal-video-card">
                     <div class="modal-iframe-box">
-                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/9yeOJ0ZMUYw" title="SQL Joins Masterclass" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px; border: none;"></iframe>
+                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/9yeOJ0ZMUYw"
+                            title="SQL Joins Masterclass" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen style="border-radius: 12px; border: none;"></iframe>
                     </div>
                     <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
-                            <span style="background: rgba(0, 124, 195, 0.12); color: #007CC3; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">SQL • Database</span>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                            <span
+                                style="background: rgba(0, 124, 195, 0.12); color: #007CC3; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">SQL
+                                • Database</span>
                             <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600;">12 mins</span>
                         </div>
-                        <div style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
+                        <div
+                            style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
                             SQL Joins Masterclass: INNER & LEFT JOINs
                         </div>
                         <div style="font-size: 0.72rem; color: var(--text-sub);">
@@ -524,14 +696,21 @@
                 <!-- Clip 3: Data Structures -->
                 <div class="modal-video-card">
                     <div class="modal-iframe-box">
-                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/8hly31xKLI0" title="Data Structures Crash Course" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px; border: none;"></iframe>
+                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/8hly31xKLI0"
+                            title="Data Structures Crash Course" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen style="border-radius: 12px; border: none;"></iframe>
                     </div>
                     <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
-                            <span style="background: rgba(255, 153, 0, 0.15); color: #D97706; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">DSA • Data Structures</span>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                            <span
+                                style="background: rgba(255, 153, 0, 0.15); color: #D97706; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">DSA
+                                • Data Structures</span>
                             <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600;">18 mins</span>
                         </div>
-                        <div style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
+                        <div
+                            style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
                             Data Structures Crash Course for Interviews
                         </div>
                         <div style="font-size: 0.72rem; color: var(--text-sub);">
@@ -543,14 +722,21 @@
                 <!-- Clip 4: JavaScript Async -->
                 <div class="modal-video-card">
                     <div class="modal-iframe-box">
-                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/V_Kr9OSfDeU" title="JavaScript Promises" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px; border: none;"></iframe>
+                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/V_Kr9OSfDeU"
+                            title="JavaScript Promises" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen style="border-radius: 12px; border: none;"></iframe>
                     </div>
                     <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
-                            <span style="background: rgba(42, 96, 247, 0.12); color: #2A60F7; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">JavaScript • ES6</span>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                            <span
+                                style="background: rgba(42, 96, 247, 0.12); color: #2A60F7; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">JavaScript
+                                • ES6</span>
                             <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600;">10 mins</span>
                         </div>
-                        <div style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
+                        <div
+                            style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
                             JavaScript Promises & Async / Await
                         </div>
                         <div style="font-size: 0.72rem; color: var(--text-sub);">
@@ -562,14 +748,21 @@
                 <!-- Clip 5: System Design -->
                 <div class="modal-video-card">
                     <div class="modal-iframe-box">
-                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/iuqZvajTOyA" title="System Design Primer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px; border: none;"></iframe>
+                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/iuqZvajTOyA"
+                            title="System Design Primer" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen style="border-radius: 12px; border: none;"></iframe>
                     </div>
                     <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
-                            <span style="background: rgba(18, 20, 24, 0.1); color: #121418; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">System Design</span>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                            <span
+                                style="background: rgba(18, 20, 24, 0.1); color: #121418; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">System
+                                Design</span>
                             <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600;">20 mins</span>
                         </div>
-                        <div style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
+                        <div
+                            style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
                             System Design Primer for Technical Interviews
                         </div>
                         <div style="font-size: 0.72rem; color: var(--text-sub);">
@@ -581,14 +774,21 @@
                 <!-- Clip 6: React Fundamentals -->
                 <div class="modal-video-card">
                     <div class="modal-iframe-box">
-                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/SqcY0GlETPk" title="React Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px; border: none;"></iframe>
+                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/SqcY0GlETPk"
+                            title="React Tutorial" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen style="border-radius: 12px; border: none;"></iframe>
                     </div>
                     <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
-                            <span style="background: rgba(66, 133, 244, 0.12); color: #4285F4; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">Frontend • React</span>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                            <span
+                                style="background: rgba(66, 133, 244, 0.12); color: #4285F4; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">Frontend
+                                • React</span>
                             <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600;">14 mins</span>
                         </div>
-                        <div style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
+                        <div
+                            style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
                             React.js Full Course - Components & State Management
                         </div>
                         <div style="font-size: 0.72rem; color: var(--text-sub);">
@@ -596,13 +796,557 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
-    <!-- Toggle Script for Help Video Modal -->
+    <!-- Company Topics & MCQ Quiz Engine Logic -->
     <script>
+        // Company MCQ Datasets tailored for specified topics
+        const companyDataMap = {
+            'Google': {
+                name: 'Google Practice Hub',
+                avatar: 'G',
+                avatarBg: '#4285F4',
+                topics: ['DSA', 'Algorithms'],
+                questions: [
+                    {
+                        topic: 'DSA & Trees',
+                        question: 'In a Binary Search Tree (BST), what is the worst-case time complexity for searching an element?',
+                        options: ['O(1)', 'O(log N)', 'O(N)', 'O(N log N)'],
+                        correctIndex: 2,
+                        explanation: 'Correct! In an unbalanced skewed Binary Search Tree, search degrades to linear O(N) time complexity.'
+                    },
+                    {
+                        topic: 'Algorithms & Graphs',
+                        question: 'Which graph traversal algorithm uses a First-In-First-Out (FIFO) Queue data structure?',
+                        options: ['Depth-First Search (DFS)', 'Breadth-First Search (BFS)', 'Dijkstra Algorithm', 'Prim Algorithm'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Breadth-First Search (BFS) explores graph nodes level-by-level using a FIFO Queue.'
+                    },
+                    {
+                        topic: 'Sorting Algorithms',
+                        question: 'What is the average time complexity of the QuickSort algorithm?',
+                        options: ['O(N)', 'O(N^2)', 'O(N log N)', 'O(log N)'],
+                        correctIndex: 2,
+                        explanation: 'Correct! QuickSort achieves an average time complexity of O(N log N) with randomized pivot selection.'
+                    }
+                ]
+            },
+            'Microsoft': {
+                name: 'Microsoft Practice Hub',
+                avatar: 'M',
+                avatarBg: '#00A4EF',
+                topics: ['DSA', 'OOP'],
+                questions: [
+                    {
+                        topic: 'Object Oriented Programming',
+                        question: 'Which OOP principle allows a subclass to provide a specific implementation of a method declared in its superclass?',
+                        options: ['Encapsulation', 'Method Overriding (Polymorphism)', 'Abstraction', 'Multiple Inheritance'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Method Overriding enables dynamic polymorphism where a subclass replaces a superclass method.'
+                    },
+                    {
+                        topic: 'Data Structures',
+                        question: 'Which data structure combination is optimal for implementing an LFU (Least Frequently Used) Cache in O(1) time?',
+                        options: ['Array + Stack', 'Hash Map + Doubly Linked List', 'Min Heap + Array', 'Priority Queue + Trie'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Combining a Hash Map with Doubly Linked Lists provides O(1) time for LFU lookup and eviction.'
+                    },
+                    {
+                        topic: 'OOP Concepts',
+                        question: 'What is the primary difference between an Interface and an Abstract Class?',
+                        options: ['Abstract classes cannot have constructors', 'A class can inherit multiple abstract classes', 'Interfaces cannot store instance state/fields', 'Abstract classes cannot have concrete methods'],
+                        correctIndex: 2,
+                        explanation: 'Correct! Interfaces define pure behavioral contracts without holding non-static instance fields.'
+                    }
+                ]
+            },
+            'Amazon': {
+                name: 'Amazon Practice Hub',
+                avatar: 'A',
+                avatarBg: '#FF9900',
+                topics: ['DSA', 'Problem Solving'],
+                questions: [
+                    {
+                        topic: 'Arrays & Hashing',
+                        question: 'Given an array of integers, which algorithm achieves O(N) time complexity to find two numbers that sum to a target?',
+                        options: ['Brute-force nested loops', 'Hash Map for complement lookup', 'Binary Search on unsorted array', 'Selection Sort'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Storing complements in a Hash Map allows single-pass O(N) solution for the Two-Sum problem.'
+                    },
+                    {
+                        topic: 'Sliding Window',
+                        question: 'Which data structure is optimal for solving the Sliding Window Maximum problem in O(N) time?',
+                        options: ['Min Heap', 'Monotonic Deque', 'Stack', 'Binary Search Tree'],
+                        correctIndex: 1,
+                        explanation: 'Correct! A Monotonic Deque maintains indices of useful maximum elements in O(N) amortized time.'
+                    },
+                    {
+                        topic: 'Shortest Path Graphs',
+                        question: 'What is the optimal algorithm for finding shortest paths from a single source in a graph with non-negative edge weights?',
+                        options: ['Floyd-Warshall', 'Bellman-Ford', 'Dijkstra Algorithm', 'Kruskal Algorithm'],
+                        correctIndex: 2,
+                        explanation: 'Correct! Dijkstra Algorithm efficiently finds single-source shortest paths in non-negative weighted graphs.'
+                    }
+                ]
+            },
+            'Meta': {
+                name: 'Meta Practice Hub',
+                avatar: '∞',
+                avatarBg: '#0668E1',
+                topics: ['JavaScript', 'DSA'],
+                questions: [
+                    {
+                        topic: 'JavaScript Engine',
+                        question: 'In JavaScript, what is the output of typeof null?',
+                        options: ['"null"', '"undefined"', '"object"', '"boolean"'],
+                        correctIndex: 2,
+                        explanation: 'Correct! typeof null returns "object" due to a historic bug in JS 1.0 type tagging.'
+                    },
+                    {
+                        topic: 'DOM & Event Loop',
+                        question: 'What is Event Delegation in JavaScript DOM event handling?',
+                        options: ['Attaching listeners to every element', 'Attaching a single event listener to a parent element to handle bubbled events', 'Canceling event bubbling', 'Executing async promises'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Event Delegation leverages event bubbling by listening at a parent level.'
+                    },
+                    {
+                        topic: 'JS Async & Promises',
+                        question: 'How does the JavaScript Event Loop handle Micro-tasks (Promises) relative to Macro-tasks (setTimeout)?',
+                        options: ['Macro-tasks execute before Micro-tasks', 'Micro-tasks run immediately after call stack empties before the next Macro-task', 'They execute in parallel threads', 'Micro-tasks run every 10ms'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Micro-task queue is exhausted completely after the current execution context before any Macro-task.'
+                    }
+                ]
+            },
+            'Apple': {
+                name: 'Apple Practice Hub',
+                avatar: '🍏',
+                avatarBg: '#1C1C1E',
+                topics: ['System Design', 'Programming'],
+                questions: [
+                    {
+                        topic: 'System Design Architecture',
+                        question: 'Which architectural pattern separates read operations from write operations for maximum scalability?',
+                        options: ['MVC Pattern', 'CQRS (Command Query Responsibility Segregation)', 'Monolithic Architecture', 'Peer-to-Peer'],
+                        correctIndex: 1,
+                        explanation: 'Correct! CQRS separates write (Command) and read (Query) data models for performance.'
+                    },
+                    {
+                        topic: 'Caching Strategies',
+                        question: 'What strategy helps mitigate the Thundering Herd problem in high-concurrency caching systems?',
+                        options: ['Reducing cache TTL', 'Mutex locking / Probabilistic early expiration', 'Round-robin load balancing', 'Increasing database connections'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Using Mutex locking or probabilistic early expiration prevents simultaneous database stampedes.'
+                    },
+                    {
+                        topic: 'HTTP Protocol',
+                        question: 'Which HTTP status code signifies that a requested resource has been permanently moved to a new URI?',
+                        options: ['301 Moved Permanently', '302 Found', '404 Not Found', '502 Bad Gateway'],
+                        correctIndex: 0,
+                        explanation: 'Correct! HTTP 301 indicates permanent redirection to a new target URL.'
+                    }
+                ]
+            },
+            'Infosys': {
+                name: 'Infosys Practice Hub',
+                avatar: 'Inf',
+                avatarBg: '#007CC3',
+                topics: ['SQL', 'Programming'],
+                questions: [
+                    {
+                        topic: 'SQL Queries',
+                        question: 'Which SQL clause is used to filter aggregated group results AFTER the GROUP BY clause?',
+                        options: ['WHERE', 'HAVING', 'ORDER BY', 'DISTINCT'],
+                        correctIndex: 1,
+                        explanation: 'Correct! HAVING filters grouped aggregate results, whereas WHERE filters individual rows.'
+                    },
+                    {
+                        topic: 'Database DDL vs DML',
+                        question: 'What is the primary difference between DELETE and TRUNCATE in SQL?',
+                        options: ['TRUNCATE can be rolled back; DELETE cannot', 'DELETE is DML (deletes row-by-row); TRUNCATE is DDL (deallocates table pages)', 'DELETE removes tables; TRUNCATE removes database', 'TRUNCATE supports WHERE clause'],
+                        correctIndex: 1,
+                        explanation: 'Correct! DELETE is DML logging row deletions; TRUNCATE is DDL deallocating data pages.'
+                    },
+                    {
+                        topic: 'SQL Joins',
+                        question: 'Which SQL join returns all records from the left table and matching records from the right table?',
+                        options: ['INNER JOIN', 'RIGHT JOIN', 'LEFT JOIN (LEFT OUTER JOIN)', 'FULL OUTER JOIN'],
+                        correctIndex: 2,
+                        explanation: 'Correct! LEFT JOIN includes all left table rows regardless of matching rows in the right table.'
+                    }
+                ]
+            },
+            'TCS': {
+                name: 'TCS Practice Hub',
+                avatar: 'TCS',
+                avatarBg: '#E20074',
+                topics: ['Python', 'SQL', 'Aptitude'],
+                questions: [
+                    {
+                        topic: 'Python Fundamentals',
+                        question: 'In Python, what is the key structural difference between a List and a Tuple?',
+                        options: ['Tuples are mutable; Lists are immutable', 'Lists are mutable; Tuples are immutable', 'Lists cannot store duplicate items', 'Tuples only accept numbers'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Lists are mutable sequences, while Tuples are immutable fixed sequences.'
+                    },
+                    {
+                        topic: 'Python Comprehension',
+                        question: 'What is the output of [x**2 for x in range(4)] in Python?',
+                        options: ['[1, 4, 9, 16]', '[0, 1, 4, 9]', '[0, 2, 4, 6]', '[1, 2, 3, 4]'],
+                        correctIndex: 1,
+                        explanation: 'Correct! range(4) generates 0, 1, 2, 3. Squaring each yields [0, 1, 4, 9].'
+                    },
+                    {
+                        topic: 'Aptitude & Math',
+                        question: 'A train 150m long is moving at 54 km/h. How many seconds will it take to cross a 250m long platform?',
+                        options: ['20.0 seconds', '26.7 seconds', '30.0 seconds', '15.0 seconds'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Total distance = 150 + 250 = 400m. Speed = 54 * (5/18) = 15 m/s. Time = 400 / 15 = 26.67 seconds.'
+                    }
+                ]
+            }
+        };
+
+        // Technical Skills MCQ Datasets
+        const skillDataMap = {
+            'Java': {
+                name: 'Java & Core OOP Practice Hub',
+                avatar: '☕',
+                avatarBg: '#E53E3E',
+                topics: ['Java', 'OOP', 'Data Structures'],
+                questions: [
+                    {
+                        topic: 'Java Memory Model',
+                        question: 'Which memory region in Java stores objects created dynamically via the new keyword?',
+                        options: ['Call Stack', 'Heap Memory', 'Method Area', 'Native Register'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Dynamic objects in Java are instantiated in Heap Memory and garbage collected when unreferenced.'
+                    },
+                    {
+                        topic: 'Java Collections Framework',
+                        question: 'What is the default initial capacity of an ArrayList in Java?',
+                        options: ['5', '10', '16', '20'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Default initial capacity of a Java ArrayList is 10 elements.'
+                    },
+                    {
+                        topic: 'Java Keywords & OOP',
+                        question: 'Which keyword in Java prevents a class from being subclassed or inherited?',
+                        options: ['static', 'abstract', 'final', 'synchronized'],
+                        correctIndex: 2,
+                        explanation: 'Correct! The final keyword applied to a class prevents inheritance.'
+                    }
+                ]
+            },
+            'Python': {
+                name: 'Python Data Structures & Algorithms Hub',
+                avatar: '🐍',
+                avatarBg: '#3182CE',
+                topics: ['Python', 'DSA', 'Algorithms'],
+                questions: [
+                    {
+                        topic: 'Python Heaps & Priority Queues',
+                        question: 'Which Python standard library module provides Min-Heap operations?',
+                        options: ['queue', 'collections', 'heapq', 'bisect'],
+                        correctIndex: 2,
+                        explanation: 'Correct! heapq provides min-heap algorithm implementations for Python lists.'
+                    },
+                    {
+                        topic: 'Python Dictionaries',
+                        question: 'What is the average time complexity for checking if a key exists in a Python Dictionary (key in dict)?',
+                        options: ['O(N)', 'O(1)', 'O(log N)', 'O(N log N)'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Python Dictionaries use Hash Tables providing average O(1) lookup time.'
+                    },
+                    {
+                        topic: 'Python Iterators',
+                        question: 'What is a Python Generator function?',
+                        options: ['A function returning a list', 'A function using yield to return a lazy iterator', 'A class constructor', 'A lambda expression'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Generators use the yield statement to produce lazy iterators.'
+                    }
+                ]
+            },
+            'System Design': {
+                name: 'System Design & Microservices Hub',
+                avatar: '🏗️',
+                avatarBg: '#805AD5',
+                topics: ['System Design', 'Microservices', 'Architecture'],
+                questions: [
+                    {
+                        topic: 'Microservices Architecture',
+                        question: 'Which component in microservices architecture routes client requests and enforces rate limiting?',
+                        options: ['Database Shard', 'API Gateway', 'Message Broker', 'DNS Resolver'],
+                        correctIndex: 1,
+                        explanation: 'Correct! API Gateways serve as the single entry point for routing, authentication, and rate limiting.'
+                    },
+                    {
+                        topic: 'Distributed Systems',
+                        question: 'What is the trade-off enforced by the CAP Theorem during a network partition?',
+                        options: ['Choose between Availability and Consistency', 'Choose between Speed and Storage', 'Choose between Security and Latency', 'Choose between SQL and NoSQL'],
+                        correctIndex: 0,
+                        explanation: 'Correct! CAP theorem states during network partition (P), a system must trade off Availability vs Consistency.'
+                    },
+                    {
+                        topic: 'Caching Strategies',
+                        question: 'Which cache eviction policy removes the item that was accessed least recently?',
+                        options: ['LFU (Least Frequently Used)', 'LRU (Least Recently Used)', 'FIFO (First In First Out)', 'LIFO (Last In First Out)'],
+                        correctIndex: 1,
+                        explanation: 'Correct! LRU discards the least recently accessed item when capacity limit is reached.'
+                    }
+                ]
+            },
+            'SQL': {
+                name: 'SQL & Database Querying Hub',
+                avatar: '🛢️',
+                avatarBg: '#D69E2E',
+                topics: ['SQL', 'Database', 'PostgreSQL'],
+                questions: [
+                    {
+                        topic: 'Database Indexing',
+                        question: 'Which SQL index data structure is optimal for equality and range queries on ordered data?',
+                        options: ['Hash Index', 'B-Tree Index', 'GIN Index', 'GiST Index'],
+                        correctIndex: 1,
+                        explanation: 'Correct! B-Tree Indexing supports both fast point lookups and range queries.'
+                    },
+                    {
+                        topic: 'Database Transactions',
+                        question: 'What does ACID stand for in Database Transactions?',
+                        options: ['Array, Code, Input, Data', 'Atomicity, Consistency, Isolation, Durability', 'Async, Concurrency, Index, Driver', 'Access, Control, Integrate, Deploy'],
+                        correctIndex: 1,
+                        explanation: 'Correct! ACID properties guarantee reliable database transactions.'
+                    },
+                    {
+                        topic: 'SQL Window Functions',
+                        question: 'Which SQL window function ranks rows without skipping numbers when ties occur?',
+                        options: ['RANK()', 'DENSE_RANK()', 'ROW_NUMBER()', 'NTILE()'],
+                        correctIndex: 1,
+                        explanation: 'Correct! DENSE_RANK() assigns consecutive rank values without gaps.'
+                    }
+                ]
+            },
+            'JavaScript': {
+                name: 'JavaScript ES6+ & Async Hub',
+                avatar: '📜',
+                avatarBg: '#DD6B20',
+                topics: ['JavaScript', 'Async', 'Promises'],
+                questions: [
+                    {
+                        topic: 'JavaScript Scope',
+                        question: 'What is a Closure in JavaScript?',
+                        options: ['An IIFE function', 'A function bundled with references to its surrounding lexical environment', 'A promise rejection handler', 'A DOM event listener'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Closures grant access to an outer function scope from an inner function.'
+                    },
+                    {
+                        topic: 'JS Async & Promises',
+                        question: 'What is the return type of an async function in JavaScript?',
+                        options: ['Object', 'Promise', 'Undefined', 'Callback'],
+                        correctIndex: 1,
+                        explanation: 'Correct! async functions always return a Promise implicitly.'
+                    },
+                    {
+                        topic: 'JS Promise Utility',
+                        question: 'Which method executes multiple promises concurrently and resolves when ALL promises fulfill?',
+                        options: ['Promise.race()', 'Promise.all()', 'Promise.any()', 'Promise.settled()'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Promise.all() fulfills when all input promises fulfill.'
+                    }
+                ]
+            },
+            'Frontend Development': {
+                name: 'React & Frontend Engineering Hub',
+                avatar: '💻',
+                avatarBg: '#38B2AC',
+                topics: ['React', 'Frontend', 'State Management'],
+                questions: [
+                    {
+                        topic: 'React Hooks',
+                        question: 'Which React Hook is used to perform side effects (e.g. data fetching, subscriptions) in functional components?',
+                        options: ['useState', 'useEffect', 'useMemo', 'useRef'],
+                        correctIndex: 1,
+                        explanation: 'Correct! useEffect executes side effects after component rendering.'
+                    },
+                    {
+                        topic: 'React Virtual DOM',
+                        question: 'What is the Virtual DOM in React framework?',
+                        options: ['A direct browser DOM copy', 'An in-memory lightweight representation of the real DOM tree', 'A backend database model', 'A WebGL canvas'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Virtual DOM allows React to compute fast diffing before batch updating the real DOM.'
+                    },
+                    {
+                        topic: 'React Reconciliation',
+                        question: 'Why should you provide a unique key prop when rendering a dynamic list of items in React?',
+                        options: ['To trigger hover animations', 'To help React identify which items have changed, added, or removed', 'To style elements', 'To bind click handlers'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Keys give elements stable identities during list reconciliation diffing.'
+                    }
+                ]
+            },
+            'Data Structures': {
+                name: 'Data Structures Mastery Hub',
+                avatar: '⚡',
+                avatarBg: '#E53E3E',
+                topics: ['DSA', 'Trees', 'Graphs'],
+                questions: [
+                    {
+                        topic: 'Heap Data Structure',
+                        question: 'What is the worst-case time complexity for inserting an element into a Min-Heap of size N?',
+                        options: ['O(1)', 'O(log N)', 'O(N)', 'O(N log N)'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Inserting an element into a heap takes O(log N) due to heapify-up bubbling.'
+                    },
+                    {
+                        topic: 'Trie Data Structure',
+                        question: 'Which data structure is optimal for prefix matching and autocomplete search queries?',
+                        options: ['Binary Tree', 'Trie (Prefix Tree)', 'Hash Table', 'Red-Black Tree'],
+                        correctIndex: 1,
+                        explanation: 'Correct! Tries provide fast O(L) prefix search where L is key length.'
+                    },
+                    {
+                        topic: 'AVL Trees',
+                        question: 'What is the balance factor of a valid AVL Tree node?',
+                        options: ['Height(Left) - Height(Right) = -1, 0, or 1', 'Number of child nodes', 'Tree depth', 'Node count'],
+                        correctIndex: 0,
+                        explanation: 'Correct! AVL Trees strictly maintain a balance factor of -1, 0, or 1 for all nodes.'
+                    }
+                ]
+            }
+        };
+
+        // Combined Dataset Lookup
+        const activePracticeMap = { ...companyDataMap, ...skillDataMap };
+
+        // App State
+        let currentCompanyKey = 'Google';
+        let currentQuestionIndex = 0;
+        let currentScore = 0;
+        let userAnswers = {};
+
+        // Parse URL Parameters for Company or Skill
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const companyParam = urlParams.get('company');
+            const skillParam = urlParams.get('skill');
+
+            if (companyParam && activePracticeMap[companyParam]) {
+                currentCompanyKey = companyParam;
+            } else if (skillParam && activePracticeMap[skillParam]) {
+                currentCompanyKey = skillParam;
+            } else if (skillParam) {
+                // Find matching skill key by partial name match
+                const match = Object.keys(activePracticeMap).find(k => k.toLowerCase().includes(skillParam.toLowerCase()) || skillParam.toLowerCase().includes(k.toLowerCase()));
+                if (match) currentCompanyKey = match;
+            }
+
+            initCompanyPractice();
+        });
+
+        function initCompanyPractice() {
+            const company = activePracticeMap[currentCompanyKey] || activePracticeMap['Google'];
+
+            // Render Header Banner
+            document.getElementById('company-title').innerText = company.name;
+            const avatarEl = document.getElementById('company-avatar');
+            avatarEl.innerText = company.avatar;
+            avatarEl.style.background = company.avatarBg;
+
+            const topicsContainer = document.getElementById('company-topics-container');
+            topicsContainer.innerHTML = company.topics.map(t => `<span class="topic-tag-pill">${t}</span>`).join('');
+
+            document.getElementById('total-count').innerText = company.questions.length;
+
+            currentQuestionIndex = 0;
+            currentScore = 0;
+            userAnswers = {};
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const company = activePracticeMap[currentCompanyKey] || activePracticeMap['Google'];
+            const q = company.questions[currentQuestionIndex];
+
+            document.getElementById('question-progress-label').innerText = `Question ${currentQuestionIndex + 1} of ${company.questions.length}`;
+            document.getElementById('topic-focus-tag').innerText = `Topic: ${q.topic}`;
+            document.getElementById('mcq-question-text').innerText = q.question;
+
+            const optionsContainer = document.getElementById('mcq-options-container');
+            const keys = ['A', 'B', 'C', 'D'];
+
+            optionsContainer.innerHTML = q.options.map((opt, idx) => {
+                let btnClass = 'mcq-option-btn';
+                if (userAnswers[currentQuestionIndex] !== undefined) {
+                    if (idx === q.correctIndex) btnClass += ' correct';
+                    else if (idx === userAnswers[currentQuestionIndex]) btnClass += ' incorrect';
+                }
+
+                return `
+                    <button class="${btnClass}" onclick="selectOption(${idx})" ${userAnswers[currentQuestionIndex] !== undefined ? 'disabled' : ''}>
+                        <div style="display: flex; align-items: center;">
+                            <span class="option-key-badge">${keys[idx]}</span>
+                            <span>${opt}</span>
+                        </div>
+                        ${userAnswers[currentQuestionIndex] !== undefined && idx === q.correctIndex ? '<span>✓</span>' : ''}
+                    </button>
+                `;
+            }).join('');
+
+            // Explanation box
+            const expBox = document.getElementById('feedback-explanation');
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                expBox.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+                expBox.classList.add('show');
+            } else {
+                expBox.classList.remove('show');
+            }
+
+            // Update Navigation Buttons
+            document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
+            document.getElementById('next-btn').disabled = currentQuestionIndex === company.questions.length - 1;
+
+            document.getElementById('score-count').innerText = currentScore;
+        }
+
+        function selectOption(index) {
+            if (userAnswers[currentQuestionIndex] !== undefined) return;
+
+            userAnswers[currentQuestionIndex] = index;
+            const company = activePracticeMap[currentCompanyKey] || activePracticeMap['Google'];
+            const q = company.questions[currentQuestionIndex];
+
+            if (index === q.correctIndex) {
+                currentScore++;
+            }
+
+            renderQuestion();
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            const company = activePracticeMap[currentCompanyKey] || activePracticeMap['Google'];
+            if (currentQuestionIndex < company.questions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            }
+        }
+
+        function sendAiMessage() {
+            const input = document.getElementById('ai-chat-input');
+            const company = activePracticeMap[currentCompanyKey] || activePracticeMap['Google'];
+            if (input && input.value.trim() !== '') {
+                alert(`AI Assistant: "I'm analyzing your question about ${currentCompanyKey} (${company.topics.join(', ')}): '${input.value}'. Here is a detailed breakdown of the solution..."`);
+                input.value = '';
+            }
+        }
+
         function toggleVideoHelpModal() {
             const modal = document.getElementById('video-help-modal');
             if (modal) {
