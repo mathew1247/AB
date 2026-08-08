@@ -240,14 +240,26 @@ function renderCourse(index) {
     if (topicsEl) topicsEl.innerText = `${course.completedTopicsCount} Completed · ${course.pending.length} Pending`;
     if (indicatorEl) indicatorEl.innerText = `${index + 1} / ${courses.length}`;
 
-    // Full-Size Card Background Image Handling
+    // Full-Size Card Background Image Handling with Fail-Safe Preloader & Fallback
     const cardEl = document.getElementById('tech-skills-carousel-card');
     if (cardEl) {
       const cardTitle = cardEl.querySelector('.berun-card-title');
       const cardSub = cardEl.querySelector('p');
 
       if (course.image) {
-        cardEl.style.background = `linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url('${course.image}') center/cover no-repeat`;
+        const imageName = course.image.split('/').pop();
+        const path1 = `assets/${imageName}`;
+        const path2 = imageName;
+        
+        const preloader = new Image();
+        preloader.onload = function () {
+          cardEl.style.background = `linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url('${path1}') center/cover no-repeat`;
+        };
+        preloader.onerror = function () {
+          cardEl.style.background = `linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url('${path2}') center/cover no-repeat`;
+        };
+        preloader.src = path1;
+
         cardEl.style.color = '#FFFFFF';
         if (cardTitle) cardTitle.style.color = '#FFFFFF';
         if (cardSub) cardSub.style.color = 'rgba(255, 255, 255, 0.85)';
