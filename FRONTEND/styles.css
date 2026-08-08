@@ -599,6 +599,13 @@ body.berun-dashboard-body {
   font-weight: 800;
 }
 
+.berun-cal-date-cell.skipped {
+  background: #FF3B30;
+  color: #FFFFFF;
+  font-weight: 800;
+  border-radius: 50%;
+}
+
 .berun-cal-date-cell.scheduled {
   border: 1px stroke #8E8E93;
   background: rgba(255, 255, 255, 0.1);
