@@ -84,10 +84,31 @@
                         Get Started
                     </a>
 
-                    <!-- Dropdown Select Field (001 to 020) -->
-                    <div style="position: relative; display: inline-block;">
-                        <select id="session-code-select" style="appearance: none; background: #0F172A; color: #FFFFFF; border: 1px solid rgba(255, 255, 255, 0.25); padding: 0.85rem 2.2rem 0.85rem 1.2rem; border-radius: 9999px; font-family: inherit; font-size: 0.95rem; font-weight: 800; cursor: pointer; outline: none; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2); transition: all 0.2s ease;">
-                            <option value="001">001</option>
+                    <!-- Custom Floating-Label Candidate Dropdown (Matching Reference Image Design) -->
+                    <div class="custom-dropdown-wrapper" style="position: relative; display: inline-block; font-family: inherit; margin-left: 0.2rem;">
+                        <!-- Top Notched Field Label -->
+                        <span class="custom-dropdown-label" style="position: absolute; top: -9px; left: 14px; background: #FAF6F0; padding: 0 6px; font-size: 0.68rem; font-weight: 800; color: #6C5CE7; letter-spacing: 0.5px; z-index: 2; border-radius: 4px; pointer-events: none;">
+                            Candidate ID
+                        </span>
+
+                        <!-- Main Frame Trigger Button -->
+                        <div class="custom-dropdown-trigger" id="custom-dropdown-trigger" tabindex="0"
+                            style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-width: 170px; background: #FFFFFF; color: #1C1C1E; border: 1.5px solid #6C5CE7; padding: 0.75rem 1.1rem; border-radius: 14px; font-size: 0.92rem; font-weight: 800; cursor: pointer; user-select: none; box-shadow: 0 4px 14px rgba(108, 92, 231, 0.08); transition: all 0.2s ease;">
+                            <span id="custom-dropdown-selected-text">001 - Sarah Johnson</span>
+                            <svg id="custom-dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6C5CE7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.2s ease; flex-shrink: 0;">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+
+                        <!-- Floating Dropdown Menu Panel -->
+                        <div class="custom-dropdown-menu" id="custom-dropdown-menu"
+                            style="display: none; position: absolute; top: calc(100% + 6px); left: 0; width: 240px; background: #FFFFFF; border: 1px solid rgba(108, 92, 231, 0.2); border-radius: 16px; box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12); padding: 0.4rem; z-index: 100; max-height: 230px; overflow-y: auto;">
+                            <!-- Dynamically populated options -->
+                        </div>
+
+                        <!-- Hidden native select for backward compatibility -->
+                        <select id="session-code-select" style="display: none;">
+                            <option value="001" selected>001</option>
                             <option value="002">002</option>
                             <option value="003">003</option>
                             <option value="004">004</option>
@@ -108,7 +129,6 @@
                             <option value="019">019</option>
                             <option value="020">020</option>
                         </select>
-                        <span style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: #FFFFFF; pointer-events: none; font-size: 0.75rem; font-weight: 800;">▾</span>
                     </div>
                 </div>
             </div>
@@ -285,21 +305,160 @@
         document.addEventListener('DOMContentLoaded', function() {
             const selectEl = document.getElementById('session-code-select');
             const getStartedBtn = document.getElementById('btn-get-started');
+            const trigger = document.getElementById('custom-dropdown-trigger');
+            const menu = document.getElementById('custom-dropdown-menu');
+            const selectedText = document.getElementById('custom-dropdown-selected-text');
+            const arrow = document.getElementById('custom-dropdown-arrow');
+
+            const candidateList = [
+                { id: '001', name: 'Sarah Johnson' },
+                { id: '002', name: 'Alex Turner' },
+                { id: '003', name: 'Emily Chen' },
+                { id: '004', name: 'Marcus Vance' },
+                { id: '005', name: 'Priya Sharma' },
+                { id: '006', name: 'David Miller' },
+                { id: '007', name: 'Elena Rostova' },
+                { id: '008', name: 'James Wilson' },
+                { id: '009', name: 'Aisha Patel' },
+                { id: '010', name: 'Carlos Mendez' },
+                { id: '011', name: 'Sophia Wang' },
+                { id: '012', name: 'Michael Brown' },
+                { id: '013', name: 'Olivia Taylor' },
+                { id: '014', name: 'Lucas Santos' },
+                { id: '015', name: 'Emma Watson' },
+                { id: '016', name: 'Liam O\'Connor' },
+                { id: '017', name: 'Chloe Bennett' },
+                { id: '018', name: 'Noah Kim' },
+                { id: '019', name: 'Zoe Garcia' },
+                { id: '020', name: 'Alexander Wright' }
+            ];
+
+            let activeVal = localStorage.getItem('selectedCandidate') || '001';
+            activeVal = activeVal.replace('CAND-', '').padStart(3, '0');
+
+            function renderCustomOptions() {
+                if (!menu) return;
+                menu.innerHTML = '';
+                candidateList.forEach(cand => {
+                    const isSelected = (cand.id === activeVal);
+                    const item = document.createElement('div');
+                    item.className = `custom-dropdown-item ${isSelected ? 'active' : ''}`;
+                    item.style.cssText = `
+                        padding: 0.6rem 0.85rem;
+                        margin-bottom: 0.2rem;
+                        border-radius: 10px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        cursor: pointer;
+                        font-size: 0.88rem;
+                        font-weight: 700;
+                        color: ${isSelected ? '#6C5CE7' : '#1C1C1E'};
+                        background: ${isSelected ? '#F0EDFF' : 'transparent'};
+                        transition: all 0.15s ease;
+                    `;
+
+                    item.addEventListener('mouseenter', () => {
+                        if (!isSelected) item.style.background = '#F7F5FE';
+                    });
+                    item.addEventListener('mouseleave', () => {
+                        if (!isSelected) item.style.background = 'transparent';
+                    });
+
+                    const textSpan = document.createElement('span');
+                    textSpan.textContent = `${cand.id} - ${cand.name}`;
+
+                    const badgeSpan = document.createElement('span');
+                    if (isSelected) {
+                        badgeSpan.textContent = '✓';
+                        badgeSpan.style.cssText = `
+                            background: #6C5CE7;
+                            color: #FFFFFF;
+                            font-size: 0.7rem;
+                            font-weight: 800;
+                            padding: 0.15rem 0.45rem;
+                            border-radius: 9999px;
+                        `;
+                    } else {
+                        badgeSpan.textContent = cand.id;
+                        badgeSpan.style.cssText = `
+                            font-size: 0.72rem;
+                            font-weight: 600;
+                            color: #999;
+                        `;
+                    }
+
+                    item.appendChild(textSpan);
+                    item.appendChild(badgeSpan);
+
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        selectCandidate(cand.id);
+                    });
+
+                    menu.appendChild(item);
+                });
+            }
+
+            function selectCandidate(val) {
+                activeVal = val;
+                if (selectEl) {
+                    selectEl.value = val;
+                }
+                const found = candidateList.find(c => c.id === val);
+                if (selectedText && found) {
+                    selectedText.textContent = `${found.id} - ${found.name}`;
+                }
+                syncCandidateSelection();
+                renderCustomOptions();
+                closeCustomMenu();
+            }
 
             function syncCandidateSelection() {
-                if (!selectEl) return;
-                const val = selectEl.value;
-                const candId = 'CAND-' + val;
+                const candId = 'CAND-' + activeVal;
+                localStorage.setItem('selectedCandidate', activeVal);
                 localStorage.setItem('selectedCandidateId', candId);
                 if (getStartedBtn) {
-                    getStartedBtn.href = `dashboard.html?candidateId=${candId}`;
+                    getStartedBtn.href = `dashboard.html?candidateId=${candId}&cand=${activeVal}`;
                 }
             }
 
-            if (selectEl) {
-                selectEl.addEventListener('change', syncCandidateSelection);
-                syncCandidateSelection();
+            function toggleCustomMenu() {
+                if (!menu) return;
+                const isOpen = menu.style.display === 'block';
+                if (isOpen) {
+                    closeCustomMenu();
+                } else {
+                    openCustomMenu();
+                }
             }
+
+            function openCustomMenu() {
+                if (!menu) return;
+                menu.style.display = 'block';
+                if (arrow) arrow.style.transform = 'rotate(180deg)';
+                if (trigger) trigger.style.borderColor = '#6C5CE7';
+            }
+
+            function closeCustomMenu() {
+                if (!menu) return;
+                menu.style.display = 'none';
+                if (arrow) arrow.style.transform = 'rotate(0deg)';
+            }
+
+            if (trigger) {
+                trigger.addEventListener('click', toggleCustomMenu);
+            }
+
+            document.addEventListener('click', (e) => {
+                const wrapper = document.querySelector('.custom-dropdown-wrapper');
+                if (wrapper && !wrapper.contains(e.target)) {
+                    closeCustomMenu();
+                }
+            });
+
+            renderCustomOptions();
+            selectCandidate(activeVal);
         });
     </script>
 </body>
