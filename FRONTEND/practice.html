@@ -1,21 +1,616 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Technical Practice Questions</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>SETO AI Studio — Technical Practice Studio</title>
+    <meta name="description" content="SETO AI Technical Practice Studio & AI Chat Workspace.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✦</text></svg>">
+
+    <style>
+        :root {
+            --canvas-gradient: linear-gradient(135deg, #CFD6DF 0%, #F5B099 60%, #EE8D74 100%);
+            --app-bg: #FFFFFF;
+            --main-bg: #FAF9F9;
+            --border-color: #EBEBEF;
+            --text-dark: #121418;
+            --text-sub: #636873;
+            --text-muted: #9AA0AC;
+            --accent-black: #121418;
+            --radius-pill: 9999px;
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 22px;
+            --radius-xl: 30px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body.seto-body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--canvas-gradient);
+            height: 100vh;
+            max-height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 1-Column App Window Container (No Scroll, Full Width) */
+        .seto-window {
+            background: var(--app-bg);
+            width: 100%;
+            max-width: 1100px;
+            height: 100%;
+            max-height: calc(100vh - 2.4rem);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+        }
+
+        /* Main Workspace */
+        .seto-main {
+            background: var(--main-bg);
+            padding: 1.8rem 2.5rem 1.4rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .main-top-navbar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .brand-logo-row {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+        }
+
+        .brand-flower-icon {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+        }
+
+        .btn-dash-pill {
+            background: #121418;
+            color: #FFFFFF;
+            border: none;
+            padding: 0.48rem 1.1rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.78rem;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-help-pill {
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            padding: 0.48rem 1.1rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: all 0.2s ease;
+        }
+
+        .btn-help-pill:hover {
+            border-color: #8B5CF6;
+            color: #7C3AED;
+            box-shadow: 0 4px 14px rgba(124, 58, 237, 0.12);
+        }
+
+        .hero-star-graphic {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #F9A8D4 0%, #C084FC 50%, #818CF8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.8rem;
+            filter: drop-shadow(0 6px 12px rgba(192, 132, 252, 0.2));
+        }
+
+        .hero-welcome-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.3rem;
+        }
+
+        .hero-welcome-sub {
+            font-size: 0.86rem;
+            color: var(--text-sub);
+            font-weight: 500;
+            margin-bottom: 2rem;
+        }
+
+        /* 3 Feature Cards Row */
+        .feature-cards-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            width: 100%;
+            max-width: 680px;
+            margin-bottom: 2.2rem;
+        }
+
+        .feature-card-item {
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.2rem 1.1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+        }
+
+        .feature-card-item:hover {
+            border-color: #CBD5E1;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .feature-card-icon {
+            font-size: 1.4rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .feature-card-title {
+            font-size: 0.86rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-card-desc {
+            font-size: 0.73rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Bottom Command Input Box Container */
+        .command-box-wrapper {
+            width: 100%;
+            max-width: 680px;
+        }
+
+        .command-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 1rem 1.2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.03);
+        }
+
+        .command-input-line {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-family: inherit;
+            font-size: 0.88rem;
+            color: var(--text-dark);
+            font-weight: 500;
+            background: transparent;
+            margin-bottom: 0.9rem;
+        }
+
+        .command-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .toolbar-left-pills {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-toolbar-pill {
+            background: #F5F5F7;
+            border: 1px solid #E5E5EA;
+            padding: 0.35rem 0.8rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .toolbar-right-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .btn-circle-send {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--accent-black);
+            color: #FFFFFF;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        /* Modal Overlay for Video Tutorials (Triggered by Help button) */
+        .video-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(18, 20, 24, 0.55);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s ease;
+        }
+
+        .video-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .video-modal-card {
+            background: #FFFFFF;
+            border-radius: var(--radius-xl);
+            width: 90%;
+            max-width: 780px;
+            max-height: 85vh;
+            padding: 1.8rem;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transform: scale(0.95);
+            transition: transform 0.25s ease;
+        }
+
+        .video-modal-overlay.active .video-modal-card {
+            transform: scale(1);
+        }
+
+        .modal-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-title-text {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-close-btn {
+            background: #F5F5F7;
+            border: 1px solid #E5E5EA;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        .modal-video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            overflow-y: auto;
+            max-height: 60vh;
+            padding-right: 0.4rem;
+        }
+
+        .modal-video-card {
+            background: #FAF9F9;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .modal-iframe-box {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 140px;
+            background: #000000;
+        }
+    </style>
 </head>
-<body style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background: var(--bg-page);">
-    <div style="background: var(--bg-card); padding: 3rem; border-radius: var(--radius-xl); box-shadow: var(--shadow-main); max-width: 500px; width: 90%; text-align: center;">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
-        <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.5rem;">Practice Smarter</h2>
-        <p style="color: var(--text-body); font-size: 0.95rem; margin-bottom: 1.8rem; line-height: 1.6;">
-            Target your weak technical areas: Python OOP (Inheritance, Polymorphism, Method Overriding) and SQL Joins.
-        </p>
-        <div style="display: flex; flex-direction: column; gap: 0.8rem;">
-            <a href="dashboard.html" class="btn-pill btn-pill-dark" style="text-decoration: none; justify-content: center; width: 100%;">← Return to Dashboard</a>
+
+<body class="seto-body">
+
+    <!-- SETO App Window Container -->
+    <div class="seto-window">
+
+        <!-- Main Workspace Area -->
+        <main class="seto-main">
+
+            <!-- Main Top Bar -->
+            <div class="main-top-navbar">
+                <a href="dashboard.html" class="btn-dash-pill" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; padding: 0.48rem 1.1rem; border-radius: 9999px; background: #121418; color: #FFFFFF; font-size: 0.78rem; font-weight: 800; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    Back to Dashboard
+                </a>
+                <div style="display: flex; gap: 0.7rem; align-items: center;">
+                    <!-- Help Button that displays Tutorial Videos Modal -->
+                    <button onclick="toggleVideoHelpModal()" class="btn-help-pill" title="Watch Tutorial Videos">
+                        <span>❓</span> Help & Video Tutorials
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hero Section -->
+            <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                <div class="hero-star-graphic">✦</div>
+                <h1 class="hero-welcome-title">Welcome, Allison!</h1>
+                <p class="hero-welcome-sub">How can I help you today?</p>
+
+                <!-- 3 Feature Cards Row -->
+                <div class="feature-cards-row">
+                    <!-- Card 1 -->
+                    <div class="feature-card-item">
+                        <div class="feature-card-icon" style="color: #F59E0B;">⭐</div>
+                        <div class="feature-card-title">Generate visual</div>
+                        <div class="feature-card-desc">Create images from text prompts instantly</div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="feature-card-item">
+                        <div class="feature-card-icon" style="color: #EC4899;">✏️</div>
+                        <div class="feature-card-title">Improve prompt</div>
+                        <div class="feature-card-desc">Enhance your prompt automatically</div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="feature-card-item">
+                        <div class="feature-card-icon" style="color: #8B5CF6;">🎨</div>
+                        <div class="feature-card-title">Explore styles</div>
+                        <div class="feature-card-desc">Apply curated visual aesthetics and styles</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Command Input Section -->
+            <div class="command-box-wrapper">
+                <div class="command-card">
+                    <input type="text" class="command-input-line" value="✦ Initiate a query or send a command to the AI..." placeholder="Type your prompt...">
+
+                    <div class="command-toolbar">
+                        <div class="toolbar-left-pills">
+                            <button class="btn-toolbar-pill"><span>📎</span> Attach</button>
+                            <button class="btn-toolbar-pill"><span>⚙️</span> Settings</button>
+                            <button class="btn-toolbar-pill"><span>🎛️</span> Options</button>
+                        </div>
+                        <div class="toolbar-right-actions">
+                            <span style="font-size: 1.1rem; color: var(--text-sub); cursor: pointer;">🎙️</span>
+                            <button class="btn-circle-send">↑</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- Modal Overlay for Tutorial Video Clips (Triggered by Help Button) -->
+    <div class="video-modal-overlay" id="video-help-modal">
+        <div class="video-modal-card">
+            <!-- Modal Header -->
+            <div class="modal-header-row">
+                <div>
+                    <h2 class="modal-title-text">
+                        <span>📺</span> Technical Practice Video Tutorials
+                    </h2>
+                    <p style="font-size: 0.76rem; color: var(--text-sub); margin-top: 0.2rem;">
+                        Curated YouTube video clips to help you master interview topics
+                    </p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.8rem;">
+                    <span style="background: #FF0000; color: #FFFFFF; font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 4px;">
+                        YouTube
+                    </span>
+                    <button class="modal-close-btn" onclick="toggleVideoHelpModal()" title="Close Modal">✕</button>
+                </div>
+            </div>
+
+            <!-- Modal Video Grid -->
+            <div class="modal-video-grid">
+
+                <!-- Clip 1: Python OOP -->
+                <div class="modal-video-card">
+                    <div class="modal-iframe-box">
+                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/Jeznw_jak5w" title="Python OOP Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px; border: none;"></iframe>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                            <span style="background: rgba(46, 125, 50, 0.12); color: #2E7D32; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">Python • OOP</span>
+                            <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600;">15 mins</span>
+                        </div>
+                        <div style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
+                            Python Object Oriented Programming (OOP)
+                        </div>
+                        <div style="font-size: 0.72rem; color: var(--text-sub);">
+                            freeCodeCamp.org
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clip 2: SQL Joins -->
+                <div class="modal-video-card">
+                    <div class="modal-iframe-box">
+                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/9yeOJ0ZMUYw" title="SQL Joins Masterclass" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px; border: none;"></iframe>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                            <span style="background: rgba(0, 124, 195, 0.12); color: #007CC3; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">SQL • Database</span>
+                            <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600;">12 mins</span>
+                        </div>
+                        <div style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
+                            SQL Joins Masterclass: INNER & LEFT JOINs
+                        </div>
+                        <div style="font-size: 0.72rem; color: var(--text-sub);">
+                            Programming with Mosh
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clip 3: Data Structures -->
+                <div class="modal-video-card">
+                    <div class="modal-iframe-box">
+                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/8hly31xKLI0" title="Data Structures Crash Course" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px; border: none;"></iframe>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                            <span style="background: rgba(255, 153, 0, 0.15); color: #D97706; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">DSA • Data Structures</span>
+                            <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600;">18 mins</span>
+                        </div>
+                        <div style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
+                            Data Structures Crash Course for Interviews
+                        </div>
+                        <div style="font-size: 0.72rem; color: var(--text-sub);">
+                            NeetCode
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clip 4: JavaScript Async -->
+                <div class="modal-video-card">
+                    <div class="modal-iframe-box">
+                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/V_Kr9OSfDeU" title="JavaScript Promises" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px; border: none;"></iframe>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                            <span style="background: rgba(42, 96, 247, 0.12); color: #2A60F7; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">JavaScript • ES6</span>
+                            <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600;">10 mins</span>
+                        </div>
+                        <div style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
+                            JavaScript Promises & Async / Await
+                        </div>
+                        <div style="font-size: 0.72rem; color: var(--text-sub);">
+                            Fireship
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clip 5: System Design -->
+                <div class="modal-video-card">
+                    <div class="modal-iframe-box">
+                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/iuqZvajTOyA" title="System Design Primer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px; border: none;"></iframe>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                            <span style="background: rgba(18, 20, 24, 0.1); color: #121418; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">System Design</span>
+                            <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600;">20 mins</span>
+                        </div>
+                        <div style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
+                            System Design Primer for Technical Interviews
+                        </div>
+                        <div style="font-size: 0.72rem; color: var(--text-sub);">
+                            ByteByteGo
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clip 6: React Fundamentals -->
+                <div class="modal-video-card">
+                    <div class="modal-iframe-box">
+                        <iframe width="100%" height="140" src="https://www.youtube.com/embed/SqcY0GlETPk" title="React Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px; border: none;"></iframe>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                            <span style="background: rgba(66, 133, 244, 0.12); color: #4285F4; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 9999px;">Frontend • React</span>
+                            <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600;">14 mins</span>
+                        </div>
+                        <div style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.15rem;">
+                            React.js Full Course - Components & State Management
+                        </div>
+                        <div style="font-size: 0.72rem; color: var(--text-sub);">
+                            CodeWithHarry
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
+
+    <!-- Toggle Script for Help Video Modal -->
+    <script>
+        function toggleVideoHelpModal() {
+            const modal = document.getElementById('video-help-modal');
+            if (modal) {
+                modal.classList.toggle('active');
+            }
+        }
+    </script>
+
 </body>
+
 </html>
