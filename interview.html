@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Technical Interview | Be.run</title>
-    <meta name="description" content="Premium AI-driven technical interviews inspired by Dia.">
+    <meta name="description" content="Premium AI-driven technical interviews.">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,24 +12,46 @@
     
     <style>
         :root {
-            --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
-            --bg-canvas: #FBFBFC;
-            --text-main: #111111;
-            --text-sub: #666666;
-            --text-muted: #999999;
-            
-            --border-light: rgba(0, 0, 0, 0.08);
-            --pill-bg: #F2F2F5;
-            --black-pill: #111111;
+            /* Coffee Inspired Color Palette */
+            --espresso: #2B2118;
+            --deep-coffee: #3A2A20;
+            --dark-mocha: #4A3428;
+            --coffee: #6F4E37;
+            --mocha: #8B6B55;
+            --taupe: #A88F7A;
+
+            --cream: #FAF7F2;
+            --ivory: #F5F0E8;
+            --latte: #EDE3D7;
+
+            --caramel: #C28A55;
+            --soft-gold: #D4A574;
+
+            --text-primary: #2B2118;
+            --text-secondary: #5F5046;
+            --text-muted: #8F8176;
+
+            --border: #E3D8CC;
+
+            /* Mapped Variables */
+            --bg-canvas: var(--ivory);
+            --text-main: var(--text-primary);
+            --text-sub: var(--text-secondary);
+            --border-light: var(--border);
+            --pill-bg: var(--latte);
+            --black-pill: var(--espresso);
             --white: #FFFFFF;
             
-            --shadow-float: 0 20px 50px rgba(0, 0, 0, 0.08);
-            --shadow-subtle: 0 8px 30px rgba(0, 0, 0, 0.04);
+            --shadow-float: 0 10px 30px rgba(43, 33, 24, 0.05), 0 2px 8px rgba(43, 33, 24, 0.04);
+            --shadow-subtle: 0 8px 30px rgba(43, 33, 24, 0.04);
             
-            --radius-pill: 9999px;
+            --radius-pill: 999px;
             --radius-box: 24px;
             --radius-inner: 16px;
+            
+            --transition-default: 180ms ease;
         }
 
         * {
@@ -41,29 +63,31 @@
         body {
             font-family: var(--font-sans);
             background-color: var(--bg-canvas);
+            background-image: radial-gradient(circle at top, var(--cream) 0%, var(--ivory) 100%);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
             position: relative;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            padding-bottom: 2.5rem;
+            padding-bottom: 4rem;
         }
 
-        /* Ambient Pastel Soft Gradient Glows (Dia Template Style) */
+        /* Ambient Pastel Soft Gradient Glows */
         .ambient-glow-bottom-left {
             position: fixed;
             bottom: -160px;
             left: -160px;
             width: 550px;
             height: 550px;
-            background: radial-gradient(circle, rgba(255, 140, 160, 0.35) 0%, rgba(255, 190, 210, 0.12) 50%, transparent 70%);
+            background: radial-gradient(circle, rgba(194, 138, 85, 0.08) 0%, rgba(237, 227, 215, 0.02) 50%, transparent 70%);
             filter: blur(65px);
             pointer-events: none;
             z-index: 0;
+            animation: pulseGlow 8s infinite ease-in-out alternate;
         }
 
         .ambient-glow-bottom-right {
@@ -72,64 +96,80 @@
             right: -160px;
             width: 550px;
             height: 550px;
-            background: radial-gradient(circle, rgba(255, 185, 140, 0.35) 0%, rgba(255, 215, 180, 0.12) 50%, transparent 70%);
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.08) 0%, rgba(245, 240, 232, 0.02) 50%, transparent 70%);
             filter: blur(65px);
             pointer-events: none;
             z-index: 0;
+            animation: pulseGlow 10s infinite ease-in-out alternate;
         }
 
         .ambient-glow-top {
             position: fixed;
             top: -220px;
             left: 50%;
-            transform: translateX(-50%);
             width: 750px;
             height: 450px;
-            background: radial-gradient(circle, rgba(220, 210, 255, 0.35) 0%, rgba(240, 230, 255, 0.08) 60%, transparent 80%);
+            background: radial-gradient(circle, rgba(143, 107, 85, 0.06) 0%, rgba(250, 247, 242, 0.02) 60%, transparent 80%);
             filter: blur(75px);
             pointer-events: none;
             z-index: 0;
+            animation: pulseGlowTop 12s infinite ease-in-out alternate;
         }
 
-        /* Top Logo Header */
+        @keyframes pulseGlow {
+            0% { opacity: 0.7; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+
+        @keyframes pulseGlowTop {
+            0% { opacity: 0.7; transform: translateX(-50%) scale(0.95); }
+            100% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+        }
+
+        /* Top Header Navigation Bar */
         .dia-header {
             width: 100%;
-            max-width: 1200px;
+            max-width: min(92vw, 1060px);
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            padding: 2.5rem 2rem 1.5rem 2rem;
+            padding: 1.5rem 1.5rem 1rem 1.5rem;
             position: relative;
             z-index: 10;
+            margin: 0 auto;
         }
 
-        .dia-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
+        .dia-widget-btn {
+            background: var(--espresso);
+            border: 1px solid var(--deep-coffee);
+            padding: 0.5rem 1.2rem;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--cream);
+            cursor: pointer;
+            transition: all var(--transition-default);
+            box-shadow: var(--shadow-subtle);
             text-decoration: none;
-            color: var(--text-main);
-            font-size: 1.75rem;
-            font-weight: 800;
-            letter-spacing: -0.04em;
-        }
-
-        .dia-brand-icon {
-            width: 28px;
-            height: 28px;
-            background: #111111;
-            border-radius: 50%;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            color: #FFFFFF;
-            font-size: 0.85rem;
+            gap: 0.4rem;
+        }
+
+        .dia-widget-btn:hover {
+            background: var(--coffee);
+            color: var(--white);
+            border-color: var(--caramel);
+            box-shadow: 0 4px 12px rgba(194, 138, 85, 0.25);
+            transform: translateY(-1px);
         }
 
         /* Main Workspace Container */
         .dia-main {
             width: 100%;
-            max-width: 920px;
+            max-width: min(92vw, 1060px);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -140,138 +180,118 @@
 
         /* Hero Title */
         .dia-hero-title {
-            font-size: 3.6rem;
-            font-weight: 500;
-            letter-spacing: -0.04em;
-            color: var(--text-main);
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--espresso);
             text-align: center;
-            margin-bottom: 1.5rem;
-            line-height: 1.1;
+            margin-bottom: 0.4rem;
+            line-height: 1.2;
         }
 
-        /* Capsule Switcher Pill */
-        .dia-pill-container {
-            display: flex;
-            align-items: center;
-            background: var(--pill-bg);
-            border-radius: var(--radius-pill);
-            padding: 0.35rem 0.35rem 0.35rem 1.2rem;
-            gap: 0.8rem;
-            margin-bottom: 0.8rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-        }
-
-        .dia-pill-text {
-            font-size: 0.88rem;
-            color: var(--text-sub);
-            font-weight: 500;
-        }
-
-        .dia-pill-btn {
-            background: var(--black-pill);
-            color: var(--white);
-            border: none;
-            padding: 0.6rem 1.3rem;
-            border-radius: var(--radius-pill);
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-        }
-
-        .dia-pill-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .dia-sub-link {
-            font-size: 0.85rem;
-            color: var(--text-sub);
-            text-decoration: none;
-            font-weight: 500;
-            margin-bottom: 2.5rem;
-            transition: color 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .dia-sub-link:hover {
-            color: var(--text-main);
-        }
-
-        /* Background Window Wireframe Card */
+        /* Background Window Wireframe Card (Question Panel) */
         .dia-window-mockup {
             width: 100%;
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-light);
+            background: rgba(250, 249, 246, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(227, 216, 204, 0.6);
+            border-top: 4px solid var(--caramel);
             border-radius: var(--radius-box);
-            box-shadow: var(--shadow-subtle);
-            padding: 2.2rem 2.5rem 2.2rem 2.5rem;
+            box-shadow: var(--shadow-float);
+            padding: 2rem;
             position: relative;
             display: flex;
             flex-direction: column;
             gap: 1.2rem;
+            transition: all var(--transition-default);
         }
 
         .dia-window-dots {
             display: flex;
             gap: 0.4rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.2rem;
         }
 
         .dia-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: #E5E5E8;
+            background: var(--border);
         }
 
         .q-meta-row {
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            color: var(--text-muted);
-            letter-spacing: 0.05em;
+            color: var(--taupe);
+            letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
-        .q-text {
-            font-size: 1.75rem;
-            font-weight: 600;
-            color: var(--text-main);
-            line-height: 1.35;
-            letter-spacing: -0.02em;
+        .q-meta-row span {
+            display: inline-flex;
+            align-items: center;
         }
 
-        /* Floating Input Search Pill (Signature Dia Bar) */
+        .q-meta-row span:last-child {
+            background: var(--latte);
+            color: var(--coffee);
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.7rem;
+            border: 1px solid var(--border);
+            font-weight: 700;
+        }
+
+        .q-text {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--espresso);
+            line-height: 1.4;
+            letter-spacing: -0.01em;
+            margin-top: 0.2rem;
+            margin-bottom: 0.2rem;
+        }
+
+        /* Floating Input Search Pill (Signature Dia Bar / Response Panel) */
         .dia-input-pill {
             width: 100%;
-            max-width: 780px;
-            background: var(--white);
-            border-radius: var(--radius-box);
-            border: 1px solid rgba(0, 0, 0, 0.09);
+            max-width: 100%;
+            background: rgba(250, 249, 246, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(227, 216, 204, 0.6);
+            border-radius: 32px;
             box-shadow: var(--shadow-float);
-            padding: 1.2rem 1.6rem;
-            margin-top: 1.8rem;
+            padding: 1.8rem 2.2rem;
+            margin-top: 1.5rem;
             position: relative;
             z-index: 20;
             display: flex;
             flex-direction: column;
             gap: 0.8rem;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: all var(--transition-default);
+            animation: subtleGlow 6s infinite ease-in-out alternate;
+        }
+
+        @keyframes subtleGlow {
+            0% { box-shadow: 0 10px 30px rgba(43, 33, 24, 0.03), 0 2px 8px rgba(43, 33, 24, 0.02); }
+            100% { box-shadow: 0 10px 30px rgba(194, 138, 85, 0.06), 0 2px 8px rgba(194, 138, 85, 0.04); }
         }
 
         .dia-input-pill:focus-within {
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
-            border-color: rgba(0, 0, 0, 0.18);
+            border-color: var(--caramel);
+            box-shadow: 0 12px 30px rgba(194, 138, 85, 0.2), 0 0 25px rgba(194, 138, 85, 0.35);
+            animation: focusGlow 2.5s infinite ease-in-out;
+        }
+
+        @keyframes focusGlow {
+            0% { box-shadow: 0 12px 30px rgba(194, 138, 85, 0.15), 0 0 12px rgba(194, 138, 85, 0.15); border-color: var(--caramel); }
+            50% { box-shadow: 0 12px 35px rgba(194, 138, 85, 0.25), 0 0 30px rgba(212, 165, 116, 0.5); border-color: var(--soft-gold); }
+            100% { box-shadow: 0 12px 30px rgba(194, 138, 85, 0.15), 0 0 12px rgba(194, 138, 85, 0.15); border-color: var(--caramel); }
         }
 
         .dia-input-row {
@@ -281,22 +301,22 @@
         }
 
         .dia-search-icon {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--text-muted);
             margin-top: 0.2rem;
         }
 
         .answer-textarea {
             width: 100%;
-            min-height: 70px;
+            min-height: 250px;
             border: none;
             outline: none;
             font-family: var(--font-sans);
             font-size: 1.05rem;
-            color: var(--text-main);
+            color: var(--espresso);
             background: transparent;
-            resize: none;
-            line-height: 1.5;
+            resize: vertical;
+            line-height: 1.6;
         }
 
         .answer-textarea::placeholder {
@@ -307,30 +327,34 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 0.4rem;
-            border-top: 1px solid rgba(0,0,0,0.04);
+            padding-top: 0.8rem;
+            border-top: 1px solid var(--border);
         }
 
         .dia-add-tabs {
             font-size: 0.82rem;
-            color: var(--text-muted);
-            font-weight: 500;
+            color: var(--coffee);
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 0.4rem;
             cursor: pointer;
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-inner);
+            transition: all var(--transition-default);
         }
 
         .dia-add-tabs:hover {
-            color: var(--text-sub);
+            color: var(--espresso);
+            background: var(--latte);
         }
 
         .dia-send-btn {
-            width: 42px;
-            height: 42px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            background: var(--black-pill);
-            color: var(--white);
+            background: var(--espresso);
+            color: var(--cream);
             border: none;
             display: flex;
             align-items: center;
@@ -338,50 +362,21 @@
             font-size: 1.2rem;
             font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s ease, background-color 0.2s ease;
+            transition: all var(--transition-default);
+            box-shadow: 0 2px 5px rgba(43, 33, 24, 0.15);
         }
 
         .dia-send-btn:hover:not(:disabled) {
-            transform: scale(1.06);
-            background: #222222;
+            transform: translateY(-2px);
+            background: var(--coffee);
+            box-shadow: 0 4px 10px rgba(43, 33, 24, 0.25);
         }
 
         .dia-send-btn:disabled {
-            opacity: 0.4;
+            opacity: 0.35;
             cursor: not-allowed;
-        }
-
-        /* Bottom Floating Bar */
-        .dia-bottom-widget {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-light);
-            padding: 0.6rem 1.4rem;
-            border-radius: var(--radius-pill);
-            box-shadow: var(--shadow-subtle);
-            margin-top: 2.5rem;
-            z-index: 10;
-        }
-
-        .dia-widget-btn {
-            background: transparent;
-            border: none;
-            font-family: var(--font-sans);
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-main);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-        }
-
-        .dia-widget-btn:hover {
-            color: var(--text-sub);
+            transform: none !important;
+            box-shadow: none !important;
         }
 
         /* Evaluation UI inside Dia frame */
@@ -399,8 +394,8 @@
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #444444, #000000);
-            box-shadow: 0 0 25px rgba(0,0,0,0.15);
+            background: radial-gradient(circle at 30% 30%, var(--caramel), var(--espresso));
+            box-shadow: 0 0 20px rgba(194, 138, 85, 0.25);
             animation: pulse-orb 2s infinite ease-in-out;
         }
 
@@ -411,9 +406,9 @@
         }
 
         .eval-title {
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             font-weight: 600;
-            color: var(--text-main);
+            color: var(--espresso);
         }
 
         .eval-steps {
@@ -421,12 +416,12 @@
             flex-direction: column;
             gap: 0.6rem;
             text-align: left;
-            margin-top: 0.5rem;
+            margin-top: 0.6rem;
         }
 
         .eval-step {
             font-size: 0.9rem;
-            color: var(--text-sub);
+            color: var(--text-secondary);
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -434,12 +429,12 @@
 
         .eval-step.done::before {
             content: '✓';
-            color: #10B981;
+            color: var(--coffee);
             font-weight: bold;
         }
         .eval-step.active::before {
             content: '●';
-            color: #F59E0B;
+            color: var(--caramel);
         }
         .eval-step.pending::before {
             content: '○';
@@ -450,7 +445,7 @@
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(43, 33, 24, 0.4);
             backdrop-filter: blur(6px);
             display: flex;
             align-items: center;
@@ -458,7 +453,7 @@
             z-index: 1000;
             opacity: 0;
             pointer-events: none;
-            transition: all 0.3s ease;
+            transition: all var(--transition-default);
         }
         
         .modal-overlay.active {
@@ -467,26 +462,60 @@
         }
         
         .modal-card {
-            background: #FFFFFF;
+            background: var(--cream);
             padding: 2.2rem;
             border-radius: var(--radius-box);
             box-shadow: var(--shadow-float);
             max-width: 420px;
             width: 90%;
             text-align: center;
-            border: 1px solid var(--border-light);
+            border: 1px solid var(--border);
+        }
+
+        .modal-btn {
+            border: none;
+            padding: 0.75rem 1.6rem;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            font-family: var(--font-sans);
+            cursor: pointer;
+            transition: all var(--transition-default);
+        }
+        .modal-btn-secondary {
+            background: var(--latte);
+            color: var(--espresso);
+            border: 1px solid var(--border);
+        }
+        .modal-btn-secondary:hover {
+            background: var(--border);
+        }
+        .modal-btn-primary {
+            background: var(--espresso);
+            color: var(--cream);
+            box-shadow: 0 4px 12px rgba(43, 33, 24, 0.15);
+        }
+        .modal-btn-primary:hover {
+            background: var(--coffee);
+            box-shadow: 0 6px 16px rgba(43, 33, 24, 0.25);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             .dia-hero-title {
-                font-size: 2.4rem;
+                font-size: 2rem;
+                margin-bottom: 1.2rem;
             }
             .dia-window-mockup {
                 padding: 1.5rem;
             }
             .q-text {
-                font-size: 1.35rem;
+                font-size: 1.3rem;
+            }
+            .dia-header {
+                padding: 1rem;
+            }
+            .answer-textarea {
+                min-height: 200px;
             }
         }
     </style>
@@ -498,11 +527,14 @@
     <div class="ambient-glow-bottom-left"></div>
     <div class="ambient-glow-bottom-right"></div>
 
-    <!-- Dia Top Brand Header -->
+    <!-- Top Header Navigation Bar: Back on the left, End Interview on the right -->
     <header class="dia-header">
-        <a href="dashboard.html" class="dia-brand">
-            <span class="dia-brand-icon">●</span> Dia
+        <a href="dashboard.html" class="dia-widget-btn">
+            Back
         </a>
+        <button class="dia-widget-btn" onclick="showEndModal()">
+            End Interview
+        </button>
     </header>
 
     <!-- Main Workspace -->
@@ -510,16 +542,11 @@
         
         <!-- Hero Title -->
         <h1 class="dia-hero-title">Chat with your interviewer</h1>
-
-        <!-- Pill Switcher -->
-        <div class="dia-pill-container">
-            <span class="dia-pill-text" id="header-role-display">Backend Developer Mode</span>
-            <button class="dia-pill-btn" onclick="startInterviewDirectly()">Active Session</button>
+        
+        <!-- Subtitle Context Line -->
+        <div style="font-size: 0.95rem; font-weight: 500; color: var(--text-secondary); margin-top: 0.2rem; margin-bottom: 1.8rem; text-align: center;">
+            <span id="header-role-display">Backend Developer</span> &bull; Adaptive AI Interview
         </div>
-
-        <a href="dashboard.html" class="dia-sub-link">
-            Return to Dashboard →
-        </a>
 
         <!-- Viewport Container for Window Mockup & Input Pill -->
         <div style="width: 100%; display: flex; flex-direction: column; align-items: center;" id="workspace-viewport">
@@ -528,25 +555,14 @@
 
     </main>
 
-    <!-- Bottom Floating Control Bar -->
-    <div class="dia-bottom-widget">
-        <div class="dia-widget-btn">
-            <span>⏱️</span> <span id="header-timer">20:00</span>
-        </div>
-        <span style="color: var(--border-light);">|</span>
-        <button class="dia-widget-btn" onclick="showEndModal()">
-            End Interview
-        </button>
-    </div>
-
     <!-- End Interview Modal -->
     <div class="modal-overlay" id="end-modal">
         <div class="modal-card">
-            <h3 style="font-size: 1.25rem; font-weight: 700; color: #111111; margin-bottom: 0.5rem;">End Interview?</h3>
-            <p style="font-size: 0.95rem; color: #666666; margin-bottom: 1.5rem;">Your current progress will be saved, and evaluation feedback generated.</p>
+            <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--espresso); margin-bottom: 0.5rem;">End Interview?</h3>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1.5rem;">Your current progress will be saved, and evaluation feedback generated.</p>
             <div style="display: flex; gap: 1rem; justify-content: center;">
-                <button onclick="hideEndModal()" style="background: #F2F2F5; color: #111111; border: none; padding: 0.7rem 1.4rem; border-radius: 999px; font-weight: 600; cursor: pointer;">Continue</button>
-                <button onclick="confirmEndInterview()" style="background: #EF4444; color: #FFFFFF; border: none; padding: 0.7rem 1.4rem; border-radius: 999px; font-weight: 600; cursor: pointer;">End Interview</button>
+                <button onclick="hideEndModal()" class="modal-btn modal-btn-secondary">Continue</button>
+                <button onclick="confirmEndInterview()" class="modal-btn modal-btn-primary">End Interview</button>
             </div>
         </div>
     </div>
@@ -561,9 +577,7 @@
             totalQuestions: 10,
             questionNumber: 1,
             status: "ACTIVE", // ACTIVE, EVALUATING, COMPLETED
-            currentQuestion: null,
-            timerSeconds: 1200,
-            timerInterval: null
+            currentQuestion: null
         };
 
         // --- Initialization ---
@@ -578,17 +592,14 @@
             currentState.candidate.role = role;
             currentState.questionNumber = 1;
             currentState.status = 'ACTIVE';
-            currentState.timerSeconds = 1200;
-            
-            const roleDisplay = document.getElementById('header-role-display');
-            if (roleDisplay) roleDisplay.textContent = `${role} Mode`;
 
-            startTimer();
-            
+            const roleDisplay = document.getElementById('header-role-display');
+            if (roleDisplay) roleDisplay.textContent = role;
+
             const viewport = document.getElementById('workspace-viewport');
             viewport.innerHTML = `<div style="text-align:center; margin-top: 5rem;">
-                <h2 style="font-size: 1.5rem; color: #333;">Connecting to AI Interviewer...</h2>
-                <p style="color: #666; margin-top: 1rem;">Analyzing your candidate profile...</p>
+                <h2 style="font-size: 1.35rem; color: var(--espresso);">Connecting to AI Interviewer...</h2>
+                <p style="color: var(--text-secondary); margin-top: 0.8rem;">Analyzing your candidate profile...</p>
             </div>`;
 
             try {
@@ -622,7 +633,8 @@
             }
         }
 
-        function renderQuestionScreen() {
+        // Render question screen structure
+        window.renderQuestionScreen = function() {
             currentState.status = 'ACTIVE';
 
             const viewport = document.getElementById('workspace-viewport');
@@ -650,6 +662,11 @@
                     <h2 class="q-text">${q.text}</h2>
                 </div>
 
+                <!-- Inline Warning Response Message -->
+                <div id="validation-response-block" style="display: none; width: 100%; margin-top: 1.2rem; padding: 1rem 1.2rem; background: var(--cream); border: 1px solid var(--caramel); border-radius: 16px; color: var(--espresso); font-size: 0.9rem; font-weight: 500; line-height: 1.5; animation: msg-rise 0.3s ease;">
+                    ⚠️ You have entered something else expecting the correct answer. Please provide a detailed response
+                </div>
+
                 <!-- Signature Dia Input Search Pill -->
                 <div class="dia-input-pill">
                     <div class="dia-input-row">
@@ -662,7 +679,7 @@
                             <span>+</span> Add tabs or code files
                         </div>
                         <div style="display: flex; align-items: center; gap: 1rem;">
-                            <span style="font-size: 0.78rem; color: #999999;" id="char-count-text">0 / 2500</span>
+                            <span style="font-size: 0.78rem; color: var(--text-muted);" id="char-count-text">0 / 2500</span>
                             <button class="dia-send-btn" id="btn-submit" onclick="submitAnswer()" title="Submit Answer">
                                 ↑
                             </button>
@@ -690,21 +707,28 @@
             }, 100);
         }
 
-        function updateCharCount(el) {
+        window.updateCharCount = function(el) {
             const countEl = document.getElementById('char-count-text');
             if (countEl) countEl.innerText = `${el.value.length} / 2500`;
         }
 
-        async function submitAnswer() {
+        window.submitAnswer = async function() {
             const ta = document.getElementById('answer-input');
             const btn = document.getElementById('btn-submit');
+            const warnBlock = document.getElementById('validation-response-block');
+            const answerVal = ta ? ta.value.trim() : "";
             
-            if (!ta || ta.value.trim().length < 10) {
-                alert("Please provide a more detailed answer before submitting.");
+            // Validation for undefined/empty/non-meaningful input
+            if (!answerVal || answerVal.length < 10) {
+                if (warnBlock) {
+                    warnBlock.style.display = 'block';
+                    warnBlock.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
                 return;
             }
 
-            const answer = ta.value.trim();
+            if (warnBlock) warnBlock.style.display = 'none';
+            const answer = answerVal;
             ta.disabled = true;
             if (btn) btn.disabled = true;
             
@@ -721,6 +745,20 @@
                 });
                 
                 const data = await res.json();
+                
+                if (data.reply && data.reply.includes("You have entered something else expecting the correct answer")) {
+                    // Re-enable input and show warning block
+                    ta.disabled = false;
+                    if (btn) btn.disabled = false;
+                    renderQuestionScreen();
+                    
+                    const newWarnBlock = document.getElementById('validation-response-block');
+                    if (newWarnBlock) {
+                        newWarnBlock.style.display = 'block';
+                        newWarnBlock.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                    return;
+                }
                 
                 if (data.done) {
                     renderFinalReport(data.feedback);
@@ -742,7 +780,7 @@
             }
         }
 
-        function renderEvaluationState() {
+        window.renderEvaluationState = function() {
             const viewport = document.getElementById('workspace-viewport');
             
             viewport.innerHTML = `
@@ -774,8 +812,7 @@
             }, 1500);
         }
 
-        function renderFinalReport(feedback) {
-            stopTimer();
+        window.renderFinalReport = function(feedback) {
             currentState.status = 'COMPLETED';
 
             feedback = feedback || { summary: "Interview completed.", strengths: [], gaps: [], next: [] };
@@ -807,84 +844,53 @@
                     </div>
 
                     <div style="text-align: center; margin-bottom: 1rem;">
-                        <span style="font-size: 0.8rem; font-weight: 700; color: #999999; letter-spacing: 0.05em; text-transform: uppercase;">INTERVIEW COMPLETED</span>
-                        <div style="font-size: 1.2rem; font-weight: 700; color: #111111; line-height: 1.4; margin-top: 1rem;">Report Generated Successfully</div>
-                        <div style="font-size: 0.9rem; color: #666666; margin-top: 0.5rem;">View detailed breakdown on your Dashboard.</div>
+                        <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase;">INTERVIEW COMPLETED</span>
+                        <div style="font-size: 1.25rem; font-weight: 700; color: var(--espresso); line-height: 1.4; margin-top: 1rem;">Report Generated Successfully</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.5rem;">View detailed breakdown on your Dashboard.</div>
                     </div>
 
-                    <div style="background: rgba(0,0,0,0.02); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); font-size: 0.95rem; line-height: 1.6; color: #444444; margin-bottom: 1rem;">
+                    <div style="background: var(--latte); padding: 1.5rem; border-radius: 16px; border: 1px solid var(--border); font-size: 0.95rem; line-height: 1.6; color: var(--espresso); margin-bottom: 1rem;">
                         <strong>AI Feedback Summary:</strong> ${reportData.summary}
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1rem;">
-                        <div style="background: #FFFFFF; padding: 1.2rem; border-radius: 16px; border: 1px solid rgba(0,0,0,0.08);">
-                            <h4 style="font-size: 0.85rem; font-weight: 700; color: #10B981; text-transform: uppercase; margin-bottom: 0.8rem;">✓ Strengths</h4>
-                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: #333333; padding-left: 0;">
+                        <div style="background: var(--cream); padding: 1.2rem; border-radius: 16px; border: 1px solid var(--border);">
+                            <h4 style="font-size: 0.85rem; font-weight: 700; color: var(--coffee); text-transform: uppercase; margin-bottom: 0.8rem;">✓ Strengths</h4>
+                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--text-secondary); padding-left: 0;">
                                 ${strengths.length > 0 ? strengths.map(s => `<li>• ${s}</li>`).join('') : '<li>• No distinct strengths identified</li>'}
                             </ul>
                         </div>
                         
-                        <div style="background: #FFFFFF; padding: 1.2rem; border-radius: 16px; border: 1px solid rgba(0,0,0,0.08);">
-                            <h4 style="font-size: 0.85rem; font-weight: 700; color: #F59E0B; text-transform: uppercase; margin-bottom: 0.8rem;">! Areas to Improve</h4>
-                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: #333333; padding-left: 0;">
+                        <div style="background: var(--cream); padding: 1.2rem; border-radius: 16px; border: 1px solid var(--border);">
+                            <h4 style="font-size: 0.85rem; font-weight: 700; color: var(--caramel); text-transform: uppercase; margin-bottom: 0.8rem;">! Areas to Improve</h4>
+                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--text-secondary); padding-left: 0;">
                                 ${gaps.length > 0 ? gaps.map(w => `<li>• ${w}</li>`).join('') : '<li>• No critical gaps identified</li>'}
                             </ul>
                         </div>
                     </div>
 
                     <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;">
-                        <a href="dashboard.html" class="dia-pill-btn" style="background: #F2F2F5; color: #111111;">Back to Dashboard</a>
-                        <button class="dia-pill-btn" onclick="startInterviewDirectly()">Retry Interview</button>
+                        <a href="dashboard.html" class="dia-widget-btn" style="background: var(--latte); color: var(--espresso); border: 1px solid var(--border);">Back to Dashboard</a>
+                        <button class="dia-widget-btn" onclick="startInterviewDirectly()">Retry Interview</button>
                     </div>
                 </div>
             `;
         }
 
-        // --- Modals and Timers ---
-        function showEndModal() {
+        // --- Modals ---
+        window.showEndModal = function() {
             const modal = document.getElementById('end-modal');
             if (modal) modal.classList.add('active');
         }
 
-        function hideEndModal() {
+        window.hideEndModal = function() {
             const modal = document.getElementById('end-modal');
             if (modal) modal.classList.remove('active');
         }
 
-        function confirmEndInterview() {
+        window.confirmEndInterview = function() {
             hideEndModal();
             renderFinalReport();
-        }
-
-        function startTimer() {
-            stopTimer();
-            updateTimerDisplay();
-            currentState.timerInterval = setInterval(() => {
-                currentState.timerSeconds--;
-                updateTimerDisplay();
-                
-                if (currentState.timerSeconds <= 0) {
-                    stopTimer();
-                    alert("Time is up!");
-                    renderFinalReport();
-                }
-            }, 1000);
-        }
-
-        function stopTimer() {
-            if (currentState.timerInterval) {
-                clearInterval(currentState.timerInterval);
-                currentState.timerInterval = null;
-            }
-        }
-
-        function updateTimerDisplay() {
-            const m = Math.floor(currentState.timerSeconds / 60);
-            const s = currentState.timerSeconds % 60;
-            const el = document.getElementById('header-timer');
-            if (el) {
-                el.innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-            }
         }
     </script>
 </body>
