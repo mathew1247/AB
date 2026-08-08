@@ -12,6 +12,7 @@ export type InterviewStatus =
   | "EVALUATING"
   | "GENERATING_NEXT_QUESTION"
   | "COMPLETED"
+  | "ENDED"
   | "FAILED";
 
 export interface Question {

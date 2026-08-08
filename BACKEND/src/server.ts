@@ -1,39 +1,40 @@
-import { createServer } from "node:http";
-import { Server } from "socket.io";
-import { createApp } from "./app";
+import { createServerInstance } from "./app-server";
+import { connectDatabase } from "./config/database";
 import { env } from "./config/env";
-import { aiService, interviewService } from "./services";
-import { registerInterviewSocket } from "./socket/interview.socket";
+import { aiService } from "./services";
 import { logger } from "./utils/logger";
 
-const app = createApp();
-const httpServer = createServer(app);
+async function main(): Promise<void> {
+  if (env.MONGODB_URI) {
+    try {
+      await connectDatabase();
+    } catch (err) {
+      logger.error("MongoDB connection failed - exiting.", {
+        error: err instanceof Error ? err.message : String(err),
+      });
+      process.exit(1);
+    }
+  }
 
-const io = new Server(httpServer, {
-  cors: {
-    origin: env.NODE_ENV === "production" ? env.CLIENT_URL.split(",") : true,
-    credentials: true,
-  },
-});
+  const { httpServer, io } = createServerInstance();
 
-registerInterviewSocket(io, interviewService);
-
-httpServer.listen(env.PORT, () => {
-  logger.info("server started", {
-    port: env.PORT,
-    aiProvider: aiService.providerName,
-    nodeEnv: env.NODE_ENV,
-  });
-});
-
-function shutdown(signal: string): void {
-  logger.info("shutting down", { signal });
-  io.close(() => {
-    httpServer.close(() => {
-      process.exit(0);
+  httpServer.listen(env.PORT, () => {
+    logger.info("server started", {
+      port: env.PORT,
+      aiProvider: aiService.providerName,
+      nodeEnv: env.NODE_ENV,
     });
   });
+
+  const shutdown = (signal: string): void => {
+    logger.info("shutting down", { signal });
+    io.close(() => {
+      httpServer.close(() => process.exit(0));
+    });
+  };
+
+  process.on("SIGINT", () => shutdown("SIGINT"));
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
 }
 
-process.on("SIGINT", () => shutdown("SIGINT"));
-process.on("SIGTERM", () => shutdown("SIGTERM"));
+void main();

@@ -98,5 +98,73 @@
         ]
       }
     ]
+  },
+  {
+    "id": "curr_python",
+    "title": "Python Development",
+    "topics": [
+      {
+        "id": "top_oop",
+        "name": "Object-Oriented Programming",
+        "concepts": [
+          {
+            "id": "c_inherit",
+            "name": "Inheritance & Polymorphism",
+            "keywords": ["super", "override", "abstract", "mro", "inheritance", "polymorphism", "class", "method"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "curr_frontend",
+    "title": "Frontend Engineering",
+    "topics": [
+      {
+        "id": "top_frontend_js",
+        "name": "Async JavaScript & DOM",
+        "concepts": [
+          {
+            "id": "c_eventloop",
+            "name": "Event Loop",
+            "keywords": ["promise", "async", "await", "event loop", "microtask", "callback", "stack", "queue"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "curr_sql",
+    "title": "SQL & DBMS",
+    "topics": [
+      {
+        "id": "top_sql_joins",
+        "name": "SQL & Queries",
+        "concepts": [
+          {
+            "id": "c_joins",
+            "name": "INNER & OUTER Joins",
+            "keywords": ["join", "select", "where", "group by", "inner join", "left join", "on", "primary key"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "curr_dsa",
+    "title": "Data Structures & Algorithms",
+    "topics": [
+      {
+        "id": "top_dsa_structures",
+        "name": "Arrays & Strings",
+        "concepts": [
+          {
+            "id": "c_arrays",
+            "name": "Array Manipulation",
+            "keywords": ["array", "string", "hash map", "linked list", "complexity", "big o", "sort", "search"]
+          }
+        ]
+      }
+    ]
   }
 ]

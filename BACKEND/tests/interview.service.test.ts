@@ -57,7 +57,7 @@ describe("interview service (mock provider)", () => {
     const { interview } = await newSession(svc, 3);
 
     await svc.submitAnswer({ interviewId: interview.id, answer: STRONG_ANSWER });
-    const state = svc.getInterview(interview.id);
+    const state = await svc.getInterview(interview.id);
 
     expect(state.currentDifficulty).toBe("medium");
   });
@@ -77,11 +77,11 @@ describe("interview service (mock provider)", () => {
     expect(second.feedback.summary.length).toBeGreaterThan(0);
     expect(second.feedback.recommendations).toBeInstanceOf(Array);
 
-    const state = svc.getInterview(interview.id);
+    const state = await svc.getInterview(interview.id);
     expect(state.status).toBe("COMPLETED");
     expect(state.endedAt).not.toBeNull();
 
-    const feedback = svc.getFeedback(interview.id);
+    const feedback = await svc.getFeedback(interview.id);
     expect(feedback).toEqual(second.feedback);
   });
 
@@ -121,7 +121,7 @@ describe("interview service (mock provider)", () => {
 
     await expect(
       svc.submitAnswer({ interviewId: interview.id, answer: STRONG_ANSWER }),
-    ).rejects.toMatchObject({ code: "INTERVIEW_COMPLETED" });
+    ).rejects.toMatchObject({ code: "INTERVIEW_ALREADY_COMPLETED" });
   });
 
   it("handles AI failures without corrupting state", async () => {
@@ -132,7 +132,7 @@ describe("interview service (mock provider)", () => {
       svc.submitAnswer({ interviewId: interview.id, answer: STRONG_ANSWER }),
     ).rejects.toMatchObject({ code: "AI_EVALUATION_FAILED" });
 
-    const state = svc.getInterview(interview.id);
+    const state = await svc.getInterview(interview.id);
     expect(state.status).toBe("WAITING_FOR_ANSWER");
   });
 
@@ -140,9 +140,8 @@ describe("interview service (mock provider)", () => {
     const svc = createInterviewService(new MockProviderInstance());
     const { interview } = await newSession(svc, 3);
 
-    expect(() => svc.getFeedback(interview.id)).toThrow();
     await expect(
-      (async () => svc.getFeedback(interview.id))(),
+      svc.getFeedback(interview.id),
     ).rejects.toMatchObject({ code: "INTERVIEW_NOT_COMPLETED" });
   });
 
@@ -155,7 +154,7 @@ describe("interview service (mock provider)", () => {
 
     const ended = await svc.endInterview(interview.id);
     expect(ended.feedback.summary.length).toBeGreaterThan(0);
-    expect(svc.getInterview(interview.id).status).toBe("COMPLETED");
+    expect((await svc.getInterview(interview.id)).status).toBe("COMPLETED");
   });
 });
 

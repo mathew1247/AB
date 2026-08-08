@@ -19,5 +19,12 @@
     "experience": 1,
     "skills": ["Python", "Java (Basics)"],
     "education": "B.Sc Computer Science"
+  },
+  {
+    "id": "cand_01",
+    "name": "Alex Johnson",
+    "experience": 3,
+    "skills": ["Python", "SQL", "Flask", "Docker"],
+    "education": "B.S. Computer Science"
   }
 ]

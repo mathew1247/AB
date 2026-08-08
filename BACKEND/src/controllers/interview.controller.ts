@@ -26,7 +26,7 @@ export const interviewController = {
   }),
 
   getState: wrap(async (req, res) => {
-    const data = interviewService.getInterview(req.params.id);
+    const data = await interviewService.getInterview(req.params.id);
     res.json({ success: true, data });
   }),
 
@@ -39,12 +39,18 @@ export const interviewController = {
   }),
 
   end: wrap(async (req, res) => {
-    const data = await interviewService.endInterview(req.params.id);
-    res.json({ success: true, data });
+    const result = await interviewService.endInterview(req.params.id);
+    res.json({
+      success: true,
+      data: {
+        interviewId: req.params.id,
+        feedback: result.feedback,
+      },
+    });
   }),
 
   getFeedback: wrap(async (req, res) => {
-    const data = interviewService.getFeedback(req.params.id);
+    const data = await interviewService.getFeedback(req.params.id);
     res.json({ success: true, data });
   }),
 };

@@ -1,4 +1,5 @@
 import type { Server, Socket } from "socket.io";
+import { ZodError } from "zod";
 import type { InterviewService } from "../services/interview.service";
 import { socketAnswerSchema, socketEndSchema, startInterviewSchema } from "../middleware/validation.schemas";
 import { AppError } from "../utils/errors";
@@ -9,6 +10,10 @@ type Ack = (error: { code: string; message: string } | null, data?: unknown) => 
 function toClientError(err: unknown): { code: string; message: string } {
   if (err instanceof AppError) {
     return { code: err.code, message: err.message };
+  }
+  if (err instanceof ZodError) {
+    const issue = err.issues[0];
+    return { code: "VALIDATION_ERROR", message: issue?.message ?? "Invalid payload." };
   }
   logger.error("socket error", { error: err instanceof Error ? err.message : String(err) });
   return { code: "INTERNAL_ERROR", message: "Internal server error" };

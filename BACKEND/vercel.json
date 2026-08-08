@@ -1,0 +1,9 @@
+{
+  "version": 3,
+  "routes": [
+    { "src": "/socket.io/(.*)", "dest": "/api/index" },
+    { "src": "/api/(.*)", "dest": "/api/index" },
+    { "src": "/health", "dest": "/api/index" },
+    { "src": "/", "dest": "/api/index" }
+  ]
+}

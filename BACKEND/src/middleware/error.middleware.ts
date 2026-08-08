@@ -23,6 +23,10 @@ export function errorHandler(err: unknown, _req: Request, res: Response, next: N
     status = err.status;
     code = err.code;
     message = err.message;
+  } else if (err instanceof Error && err.message === "Not allowed by CORS") {
+    status = 403;
+    code = "CORS_DENIED";
+    message = "Origin is not allowed.";
   } else if (err instanceof ZodError) {
     status = 400;
     code = "VALIDATION_ERROR";

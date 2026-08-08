@@ -11,6 +11,8 @@ import type {
   Question,
   QuestionType,
 } from "../models/interview.types";
+import type { InterviewRepository } from "../repositories/interview.repository";
+import { InMemoryInterviewRepository } from "../repositories/interview.repository";
 import { AppError } from "../utils/errors";
 import { generateId } from "../utils/id";
 import type { Logger } from "../utils/logger";
@@ -60,7 +62,8 @@ export interface PublicInterview {
 }
 
 export class InterviewService {
-  private readonly sessions = new Map<string, InterviewSession>();
+  /** Interview ids with a submit/end operation currently in flight (double-submit guard). */
+  private readonly inFlight = new Set<string>();
 
   constructor(
     private readonly candidateService: CandidateService,
@@ -68,6 +71,7 @@ export class InterviewService {
     private readonly aiService: AIService,
     private readonly feedbackService: FeedbackService,
     private readonly logger: Logger,
+    private readonly repository: InterviewRepository = new InMemoryInterviewRepository(),
   ) {}
 
   async startInterview(input: StartInterviewInput): Promise<StartInterviewResult> {
@@ -107,27 +111,39 @@ export class InterviewService {
       endedAt: null,
     };
 
-    this.sessions.set(session.id, session);
     this.logger.info("interview created", { interviewId: session.id, candidate: candidate.id });
 
     try {
       const question = await this.generateQuestion(session, "first");
       session.status = "WAITING_FOR_ANSWER";
+      await this.repository.save(session);
       this.logger.info("first question generated", { interviewId: session.id });
       return { interview: this.toPublic(session), question };
     } catch (err) {
       session.status = "FAILED";
       session.error = toError(err);
-      this.logger.error("failed to start interview", { interviewId: session.id });
+      await this.safeSave(session);
       throw err;
     }
   }
 
   async submitAnswer(input: SubmitAnswerInput): Promise<SubmitAnswerResult> {
-    const session = this.getSessionOrThrow(input.interviewId);
+    this.acquireLock(input.interviewId);
+    try {
+      return await this.doSubmitAnswer(input);
+    } finally {
+      this.releaseLock(input.interviewId);
+    }
+  }
+
+  private async doSubmitAnswer(input: SubmitAnswerInput): Promise<SubmitAnswerResult> {
+    const session = await this.getSessionOrThrow(input.interviewId);
 
     if (session.status === "COMPLETED") {
-      throw new AppError("INTERVIEW_COMPLETED", "This interview has already been completed.", 409);
+      throw new AppError("INTERVIEW_ALREADY_COMPLETED", "This interview has already been completed.", 409);
+    }
+    if (session.status === "ENDED") {
+      throw new AppError("INTERVIEW_ALREADY_ENDED", "This interview has already been ended.", 409);
     }
     if (session.status === "FAILED") {
       throw new AppError("INTERVIEW_FAILED", "This interview has failed.", 409);
@@ -181,50 +197,69 @@ export class InterviewService {
     session.history.push({ role: "evaluation", evaluation });
     this.trackTopicScore(session, question.topic, evaluation.score);
     session.status = "GENERATING_NEXT_QUESTION";
-    this.logger.info("evaluation completed", {
-      interviewId: session.id,
-      score: evaluation.score,
-    });
+    this.logger.info("evaluation completed", { interviewId: session.id, score: evaluation.score });
 
     if (session.questionNumber >= session.totalQuestions) {
       const feedback = await this.completeInterview(session);
-      return { completed: true, interviewId: session.id, questionNumber: session.questionNumber, evaluation, feedback };
+      return {
+        completed: true,
+        interviewId: session.id,
+        questionNumber: session.questionNumber,
+        evaluation: scaleEvaluation(evaluation),
+        feedback,
+      };
     }
 
     try {
       const nextQuestion = await this.generateQuestion(session, "follow_up");
       session.status = "WAITING_FOR_ANSWER";
+      await this.repository.save(session);
       this.logger.info("next question generated", { interviewId: session.id });
-      return { completed: false, interviewId: session.id, questionNumber: session.questionNumber, evaluation, question: nextQuestion };
+      return {
+        completed: false,
+        interviewId: session.id,
+        questionNumber: session.questionNumber,
+        evaluation: scaleEvaluation(evaluation),
+        question: nextQuestion,
+      };
     } catch (err) {
       session.status = "FAILED";
       session.error = toError(err);
-      this.logger.error("failed to generate next question", { interviewId: session.id });
+      await this.safeSave(session);
       throw err;
     }
   }
 
   async endInterview(interviewId: string): Promise<{ completed: true; feedback: InterviewFeedback }> {
-    const session = this.getSessionOrThrow(interviewId);
+    this.acquireLock(interviewId);
+    try {
+      return await this.doEndInterview(interviewId);
+    } finally {
+      this.releaseLock(interviewId);
+    }
+  }
 
-    if (session.status === "COMPLETED") {
+  private async doEndInterview(interviewId: string): Promise<{ completed: true; feedback: InterviewFeedback }> {
+    const session = await this.getSessionOrThrow(interviewId);
+
+    if (session.status === "COMPLETED" || session.status === "ENDED") {
       return { completed: true, feedback: session.feedback! };
     }
     if (session.status === "FAILED") {
       throw new AppError("INTERVIEW_FAILED", "This interview has failed.", 409);
     }
 
-    const feedback = await this.completeInterview(session);
+    const feedback = await this.completeInterview(session, "COMPLETED");
     this.logger.info("interview ended manually", { interviewId: session.id });
     return { completed: true, feedback };
   }
 
-  getInterview(interviewId: string): PublicInterview {
-    return this.toPublic(this.getSessionOrThrow(interviewId));
+  async getInterview(interviewId: string): Promise<PublicInterview> {
+    return this.toPublic(await this.getSessionOrThrow(interviewId));
   }
 
-  getFeedback(interviewId: string): InterviewFeedback {
-    const session = this.getSessionOrThrow(interviewId);
+  async getFeedback(interviewId: string): Promise<InterviewFeedback> {
+    const session = await this.getSessionOrThrow(interviewId);
     if (session.status !== "COMPLETED") {
       throw new AppError(
         "INTERVIEW_NOT_COMPLETED",
@@ -287,20 +322,26 @@ export class InterviewService {
     return question;
   }
 
-  private async completeInterview(session: InterviewSession): Promise<InterviewFeedback> {
+  private async completeInterview(
+    session: InterviewSession,
+    status: "COMPLETED" | "ENDED" = "COMPLETED",
+  ): Promise<InterviewFeedback> {
     try {
       const feedback = await this.feedbackService.generate(session);
       session.feedback = feedback;
-      session.status = "COMPLETED";
+      session.status = status;
       session.endedAt = new Date();
+      await this.repository.save(session);
       this.logger.info("interview completed", {
         interviewId: session.id,
+        status,
         overallScore: feedback.overallScore,
       });
       return feedback;
     } catch (err) {
       session.status = "FAILED";
       session.error = toError(err);
+      await this.safeSave(session);
       this.logger.error("failed to generate final feedback", { interviewId: session.id });
       throw err;
     }
@@ -322,12 +363,35 @@ export class InterviewService {
     return out;
   }
 
-  private getSessionOrThrow(interviewId: string): InterviewSession {
-    const session = this.sessions.get(interviewId);
+  private async getSessionOrThrow(interviewId: string): Promise<InterviewSession> {
+    const session = await this.repository.findById(interviewId);
     if (!session) {
       throw new AppError("INTERVIEW_NOT_FOUND", `Interview '${interviewId}' was not found.`, 404);
     }
     return session;
+  }
+
+  private async safeSave(session: InterviewSession): Promise<void> {
+    try {
+      await this.repository.save(session);
+    } catch (err) {
+      this.logger.error("failed to persist interview state", { interviewId: session.id });
+    }
+  }
+
+  private acquireLock(interviewId: string): void {
+    if (this.inFlight.has(interviewId)) {
+      throw new AppError(
+        "INVALID_INTERVIEW_STATE",
+        "The interview is already processing an answer.",
+        409,
+      );
+    }
+    this.inFlight.add(interviewId);
+  }
+
+  private releaseLock(interviewId: string): void {
+    this.inFlight.delete(interviewId);
   }
 
   private toPublic(session: InterviewSession): PublicInterview {
@@ -350,7 +414,9 @@ export class InterviewService {
       currentTopic: session.currentTopic,
       currentDifficulty: session.currentDifficulty,
       questions: session.questions,
-      history: session.history,
+      history: session.history.filter(
+        (turn) => turn.role === "interviewer" || turn.role === "candidate",
+      ),
       feedback: session.feedback,
       error: session.error,
       startedAt: session.startedAt.toISOString(),
@@ -364,4 +430,13 @@ function toError(err: unknown): { code: string; message: string } {
     return { code: err.code, message: err.message };
   }
   return { code: "INTERNAL_ERROR", message: "Internal server error" };
+}
+
+function scaleEvaluation(evaluation: Evaluation): Evaluation {
+  return {
+    ...evaluation,
+    correctness: evaluation.correctness <= 1.0 ? Math.round(evaluation.correctness * 100) : evaluation.correctness,
+    conceptUnderstanding: evaluation.conceptUnderstanding <= 1.0 ? Math.round(evaluation.conceptUnderstanding * 100) : evaluation.conceptUnderstanding,
+    communication: evaluation.communication <= 1.0 ? Math.round(evaluation.communication * 100) : evaluation.communication,
+  };
 }
