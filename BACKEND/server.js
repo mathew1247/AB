@@ -15,6 +15,7 @@ app.use(express.json());
 // Mount routers
 app.use('/api/candidates', require('./routes/candidateRoutes'));
 app.use('/api/interview', require('./routes/interviewRoutes'));
+app.use('/api/practice', require('./routes/practiceRoutes'));
 
 // Global error handler
 app.use(errorHandler);

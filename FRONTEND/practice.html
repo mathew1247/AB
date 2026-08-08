@@ -586,19 +586,24 @@
                 </div>
             </div>
 
+            <!-- AI Response Bubble (shown after user sends a question) -->
+            <div id="ai-response-bubble" style="display:none; width:100%; max-width:820px; background:#F8F5FF; border:1px solid rgba(124,92,246,0.18); border-radius:16px; padding:1rem 1.25rem; font-size:0.86rem; line-height:1.65; color:#333; margin-bottom:0.6rem; animation: fadeIn 0.3s ease;">
+                <div style="font-size:0.72rem; font-weight:700; color:#7C3AED; margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.05em;">🧠 AI Explanation</div>
+                <div id="ai-response-text"></div>
+            </div>
+
             <!-- Bottom Command Input Section -->
-            <div class="command-box-wrapper">
+            <div class="command-box-wrapper" id="command-box-wrapper">
                 <div class="command-card">
-                    <input type="text" class="command-input-line" id="ai-chat-input" value="✦ Explain this topic in detail or request another question..." placeholder="Ask AI Assistant for help...">
+                    <input type="text" class="command-input-line" id="ai-chat-input" placeholder="✦ Ask AI to explain this topic or concept..." onkeydown="if(event.key==='Enter') sendAiMessage()">
 
                     <div class="command-toolbar">
                         <div class="toolbar-left-pills">
-                            <button class="btn-toolbar-pill"><span>📎</span> Attach Code</button>
-                            <button class="btn-toolbar-pill"><span>💡</span> Hint</button>
-                            <button class="btn-toolbar-pill"><span>⚙️</span> Options</button>
+                            <button class="btn-toolbar-pill" onclick="sendHint()"><span>💡</span> Hint</button>
+                            <button class="btn-toolbar-pill" onclick="sendExplain()"><span>📖</span> Explain Topic</button>
                         </div>
                         <div class="toolbar-right-actions">
-                            <span style="font-size: 1.1rem; color: var(--text-sub); cursor: pointer;" title="Voice Assistant">🎙️</span>
+                            <div id="ai-loading-spinner" style="display:none; font-size:0.78rem; color:#7C3AED; font-weight:700;">Thinking...</div>
                             <button class="btn-circle-send" onclick="sendAiMessage()" title="Send to AI Assistant">↑</button>
                         </div>
                     </div>
@@ -1174,23 +1179,86 @@
         let currentScore = 0;
         let userAnswers = {};
 
-        // Parse URL Parameters for Company or Skill
-        window.addEventListener('DOMContentLoaded', () => {
+        async function fetchAndInitQuiz(topic, name, avatar, avatarBg, topicsList) {
+            // Render a temporary loading state
+            document.getElementById('company-title').innerText = `Generating AI Quiz...`;
+            const avatarEl = document.getElementById('company-avatar');
+            avatarEl.innerText = avatar;
+            avatarEl.style.background = avatarBg;
+            
+            const topicsContainer = document.getElementById('company-topics-container');
+            topicsContainer.innerHTML = topicsList.map(t => `<span class="topic-tag-pill">${t}</span>`).join('');
+            
+            document.getElementById('total-count').innerText = '10';
+            document.getElementById('question-progress-label').innerText = 'Loading Questions...';
+            document.getElementById('topic-focus-tag').innerText = `Focus: ${topic}`;
+            document.getElementById('mcq-question-text').innerText = `Please wait while Cerebras AI analyzes ${topic} and compiles 10 custom 1-mark questions...`;
+            document.getElementById('mcq-options-container').innerHTML = '<div style="text-align: center; width: 100%; color: var(--text-sub); margin-top: 1rem;">Connecting to Cerebras Cloud Engine...</div>';
+
+            try {
+                const res = await fetch('http://localhost:5000/api/practice/questions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ topic: topic })
+                });
+                const data = await res.json();
+                
+                if (data.questions && data.questions.length > 0) {
+                    activePracticeMap[topic] = {
+                        name: name,
+                        avatar: avatar,
+                        avatarBg: avatarBg,
+                        topics: topicsList,
+                        questions: data.questions
+                    };
+                    currentCompanyKey = topic;
+                    initCompanyPractice();
+                    return;
+                }
+            } catch (e) {
+                console.error("Failed to generate practice questions via AI", e);
+            }
+            
+            document.getElementById('mcq-question-text').innerText = 'Failed to generate AI questions. Please verify the backend is running and try again.';
+        }
+
+        // Parse URL Parameters for Company, Skill, or dynamic Topic
+        window.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
             const companyParam = urlParams.get('company');
             const skillParam = urlParams.get('skill');
+            const topicParam = urlParams.get('topic');
 
-            if (companyParam && activePracticeMap[companyParam]) {
-                currentCompanyKey = companyParam;
-            } else if (skillParam && activePracticeMap[skillParam]) {
-                currentCompanyKey = skillParam;
-            } else if (skillParam) {
-                // Find matching skill key by partial name match
-                const match = Object.keys(activePracticeMap).find(k => k.toLowerCase().includes(skillParam.toLowerCase()) || skillParam.toLowerCase().includes(k.toLowerCase()));
-                if (match) currentCompanyKey = match;
+            if (topicParam) {
+                await fetchAndInitQuiz(topicParam, `${topicParam} Quiz`, '🧠', '#8B5CF6', [topicParam]);
+                return;
             }
 
-            initCompanyPractice();
+            if (companyParam) {
+                const company = activePracticeMap[companyParam] || activePracticeMap['Google'];
+                const topicDesc = `${companyParam} Interview Prep: ${company.topics.join(', ')}`;
+                await fetchAndInitQuiz(topicDesc, company.name, company.avatar, company.avatarBg, company.topics);
+                return;
+            }
+
+            if (skillParam) {
+                let match = activePracticeMap[skillParam];
+                let key = skillParam;
+                if (!match) {
+                    key = Object.keys(activePracticeMap).find(k => k.toLowerCase().includes(skillParam.toLowerCase()) || skillParam.toLowerCase().includes(k.toLowerCase())) || 'Java';
+                    match = activePracticeMap[key];
+                }
+                const topicDesc = `${key} Programming Prep: ${match.topics.join(', ')}`;
+                await fetchAndInitQuiz(topicDesc, match.name, match.avatar, match.avatarBg, match.topics);
+                return;
+            }
+
+            // Default fallback if no params: load Google dynamically
+            const company = activePracticeMap['Google'];
+            const topicDesc = `Google Interview Prep: ${company.topics.join(', ')}`;
+            await fetchAndInitQuiz(topicDesc, company.name, company.avatar, company.avatarBg, company.topics);
         });
 
         function initCompanyPractice() {
@@ -1245,7 +1313,12 @@
             // Explanation box
             const expBox = document.getElementById('feedback-explanation');
             if (userAnswers[currentQuestionIndex] !== undefined) {
-                expBox.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+                const isCorrect = userAnswers[currentQuestionIndex] === q.correctIndex;
+                const statusText = isCorrect 
+                    ? `<span style="color: var(--accent-green); font-weight: 800; font-size: 1rem; display: block; margin-bottom: 0.4rem;">✓ Correct Answer</span>` 
+                    : `<span style="color: var(--accent-red); font-weight: 800; font-size: 1rem; display: block; margin-bottom: 0.4rem;">✗ Wrong Answer</span>`;
+                
+                expBox.innerHTML = `${statusText}<strong>Explanation:</strong> ${q.explanation}`;
                 expBox.classList.add('show');
             } else {
                 expBox.classList.remove('show');
@@ -1253,7 +1326,15 @@
 
             // Update Navigation Buttons
             document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
-            document.getElementById('next-btn').disabled = currentQuestionIndex === company.questions.length - 1;
+            
+            const nextBtn = document.getElementById('next-btn');
+            if (currentQuestionIndex === company.questions.length - 1) {
+                nextBtn.innerText = "Finish Quiz & View Report";
+                nextBtn.disabled = userAnswers[currentQuestionIndex] === undefined;
+            } else {
+                nextBtn.innerText = "Next";
+                nextBtn.disabled = false;
+            }
 
             document.getElementById('score-count').innerText = currentScore;
         }
@@ -1284,16 +1365,139 @@
             if (currentQuestionIndex < company.questions.length - 1) {
                 currentQuestionIndex++;
                 renderQuestion();
+            } else if (currentQuestionIndex === company.questions.length - 1) {
+                finishPracticeQuiz();
             }
         }
 
-        function sendAiMessage() {
-            const input = document.getElementById('ai-chat-input');
+        function finishPracticeQuiz() {
             const company = activePracticeMap[currentCompanyKey] || activePracticeMap['Google'];
-            if (input && input.value.trim() !== '') {
-                alert(`AI Assistant: "I'm analyzing your question about ${currentCompanyKey} (${company.topics.join(', ')}): '${input.value}'. Here is a detailed breakdown of the solution..."`);
-                input.value = '';
+            
+            const strengthsSet = new Set();
+            const weaknessesSet = new Set();
+
+            company.questions.forEach((q, idx) => {
+                if (userAnswers[idx] === q.correctIndex) {
+                    strengthsSet.add(q.topic);
+                } else {
+                    weaknessesSet.add(q.topic);
+                }
+            });
+
+            const strengthsHTML = strengthsSet.size > 0 
+                ? Array.from(strengthsSet).map(s => `<li style="margin-bottom: 0.35rem;">• ${s}</li>`).join('') 
+                : '<li>• No distinct strengths identified</li>';
+
+            const weaknessesHTML = weaknessesSet.size > 0 
+                ? Array.from(weaknessesSet).map(w => `<li style="margin-bottom: 0.35rem;">• ${w}</li>`).join('') 
+                : '<li>• No critical weaknesses identified</li>';
+
+            let aiSummary = "";
+            const percentage = Math.round((currentScore / company.questions.length) * 100);
+            if (percentage >= 80) {
+                aiSummary = "Excellent performance! You have successfully demonstrated a master-level understanding of these concepts. Your technical accuracy is high.";
+            } else if (percentage >= 50) {
+                aiSummary = "Solid attempt. You have grasped the main foundations, but there are a few conceptual gaps. Review the recommended areas below to strengthen your skills.";
+            } else {
+                aiSummary = "More study needed. You had difficulty with several core topics. We recommend reviewing the foundational concepts and trying the practice session again.";
             }
+
+            // Replace container innerHTML
+            const container = document.querySelector('.mcq-container-card');
+            container.style.display = 'block'; 
+            container.innerHTML = `
+                <div style="text-align: center; padding: 1.5rem 0.5rem;">
+                    <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase;">PRACTICE ASSESSMENT COMPLETED</span>
+                    <div style="font-size: 3.5rem; font-weight: 800; color: #7C3AED; line-height: 1; margin: 0.8rem 0;">${currentScore} / ${company.questions.length}</div>
+                    <div style="font-size: 0.9rem; color: var(--text-sub); margin-bottom: 1.5rem; font-weight: 600;">Overall Accuracy: ${percentage}%</div>
+
+                    <div style="background: rgba(124, 92, 246, 0.04); padding: 1.25rem; border-radius: 16px; border: 1px solid rgba(124, 92, 246, 0.1); font-size: 0.86rem; line-height: 1.6; color: #444444; margin-bottom: 1.5rem; text-align: left;">
+                        <strong>Performance Summary:</strong> ${aiSummary}
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.5rem; text-align: left;">
+                        <div style="background: #FFFFFF; padding: 1rem; border-radius: 16px; border: 1px solid rgba(0,0,0,0.08);">
+                            <h4 style="font-size: 0.82rem; font-weight: 700; color: #10B981; text-transform: uppercase; margin-bottom: 0.6rem;">✓ Strengths</h4>
+                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.82rem; color: #333333; padding-left: 0; margin: 0;">
+                                ${strengthsHTML}
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #FFFFFF; padding: 1rem; border-radius: 16px; border: 1px solid rgba(0,0,0,0.08);">
+                            <h4 style="font-size: 0.82rem; font-weight: 700; color: #F59E0B; text-transform: uppercase; margin-bottom: 0.6rem;">! Areas to Improve</h4>
+                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.82rem; color: #333333; padding-left: 0; margin: 0;">
+                                ${weaknessesHTML}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;">
+                        <a href="dashboard.html" class="btn-dash-pill" style="box-shadow: none; text-decoration: none;">Back to Dashboard</a>
+                        <button class="btn-help-pill" onclick="location.reload()" style="box-shadow: none;">Retry Practice</button>
+                    </div>
+                </div>
+            `;
+
+            // Fade out the command bar — quiz is done
+            const cmdWrapper = document.getElementById('command-box-wrapper');
+            if (cmdWrapper) {
+                cmdWrapper.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                cmdWrapper.style.opacity = '0';
+                cmdWrapper.style.transform = 'translateY(12px)';
+                setTimeout(() => { cmdWrapper.style.display = 'none'; }, 650);
+            }
+            const aiBubble = document.getElementById('ai-response-bubble');
+            if (aiBubble) aiBubble.style.display = 'none';
+        }
+
+        async function sendAiMessage(prefill) {
+            const input = document.getElementById('ai-chat-input');
+            const userMessage = prefill || (input && input.value.trim());
+            if (!userMessage) return;
+
+            const company = activePracticeMap[currentCompanyKey] || activePracticeMap['Google'];
+            const q = company && company.questions ? company.questions[currentQuestionIndex] : null;
+
+            // Show loading
+            const spinner = document.getElementById('ai-loading-spinner');
+            const bubble = document.getElementById('ai-response-bubble');
+            const responseText = document.getElementById('ai-response-text');
+            if (spinner) spinner.style.display = 'block';
+            if (bubble) { bubble.style.display = 'block'; }
+            if (responseText) responseText.innerText = 'Contacting Cerebras AI...';
+            if (input) input.value = '';
+
+            try {
+                const res = await fetch('http://localhost:5000/api/practice/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userMessage,
+                        question: q ? q.question : null,
+                        topic: q ? q.topic : (currentCompanyKey || 'General')
+                    })
+                });
+                const data = await res.json();
+                if (responseText) responseText.innerText = data.reply || 'No response received.';
+            } catch (e) {
+                if (responseText) responseText.innerText = 'Failed to reach AI service. Please check the backend is running.';
+            } finally {
+                if (spinner) spinner.style.display = 'none';
+            }
+        }
+
+        function sendHint() {
+            const company = activePracticeMap[currentCompanyKey] || activePracticeMap['Google'];
+            const q = company && company.questions ? company.questions[currentQuestionIndex] : null;
+            const hintMsg = q ? `Give me a helpful hint for this question without revealing the full answer: "${q.question}"` : 'Give me a general study tip.';
+            sendAiMessage(hintMsg);
+        }
+
+        function sendExplain() {
+            const company = activePracticeMap[currentCompanyKey] || activePracticeMap['Google'];
+            const q = company && company.questions ? company.questions[currentQuestionIndex] : null;
+            const explainMsg = q ? `Explain the core concept behind this topic in detail: ${q.topic}` : `Explain ${currentCompanyKey} interview topics.`;
+            sendAiMessage(explainMsg);
         }
 
         function toggleVideoHelpModal() {

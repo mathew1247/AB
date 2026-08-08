@@ -603,55 +603,6 @@
                         if (greetingTitle) {
                             greetingTitle.textContent = `Hi, ${candidate.member.name}!`;
                         }
-<<<<<<< HEAD
-=======
-
-                        const calGrid = document.getElementById('berun-calendar-grid');
-                        if (!calGrid) return;
-
-                        const cells = calGrid.querySelectorAll('.berun-cal-date-cell');
-                        const missionMap = {};
-                        candidate.missions.forEach(m => {
-                            missionMap[m.day] = m;
-                        });
-
-                        cells.forEach(cell => {
-                            const dayNum = parseInt(cell.textContent.trim(), 10);
-                            cell.classList.remove('done', 'scheduled', 'skipped');
-                            if (isNaN(dayNum)) return;
-
-                            const m = missionMap[dayNum];
-                            if (m) {
-                                if (m.skipped || m.passed === false) {
-                                    cell.classList.add('skipped');
-                                    cell.style.background = '#FF3B30'; // Red circular highlight for skipped mission
-                                    cell.style.color = '#FFFFFF';
-                                    cell.style.borderRadius = '50%';
-                                    cell.style.border = 'none';
-                                    cell.title = `Day ${dayNum}: ${m.title} (Skipped Mission)`;
-                                } else if (m.passed === true) {
-                                    cell.classList.add('done');
-                                    cell.style.background = '#FFCC00'; // Yellow circular highlight for passed mission
-                                    cell.style.color = '#1C1C1E';
-                                    cell.style.borderRadius = '50%';
-                                    cell.style.border = 'none';
-                                    cell.title = `Day ${dayNum}: ${m.title} (Passed - ${m.attempts || 1} attempt(s))`;
-                                }
-                            } else {
-                                // Reset default cells if no mission on this day
-                                cell.style.background = '';
-                                cell.style.color = '';
-                                cell.style.borderRadius = '';
-                            }
-                        });
-
-                        // Synchronize Monthly Topic Progress graph & statistics with candidate's training days
-                        if (typeof updateCandidateTopicProgress === 'function') {
-                            updateCandidateTopicProgress(candidate);
-                        }
-                    } catch (e) {
-                        console.error("Failed to load candidate calendar data", e);
->>>>>>> 7633a91f214b846013d2f2741b7aa0503846c624
                     }
 
                     const calGrid = document.getElementById('berun-calendar-grid');
@@ -665,26 +616,35 @@
 
                     cells.forEach(cell => {
                         const dayNum = parseInt(cell.textContent.trim(), 10);
+                        cell.classList.remove('done', 'scheduled', 'skipped');
                         if (isNaN(dayNum)) return;
 
                         const m = missionMap[dayNum];
                         if (m) {
-                            cell.classList.remove('done', 'scheduled');
                             if (m.skipped || m.passed === false) {
-                                cell.style.background = '#FF3B30';
+                                cell.classList.add('skipped');
+                                cell.style.background = '#FF3B30'; // Red circular highlight for skipped mission
                                 cell.style.color = '#FFFFFF';
-                                cell.title = `Day ${dayNum}: ${m.title} (Missed/Skipped)`;
+                                cell.style.borderRadius = '50%';
+                                cell.style.border = 'none';
+                                cell.title = `Day ${dayNum}: ${m.title} (Skipped Mission)`;
                             } else if (m.passed === true) {
-                                cell.style.background = '#34C759';
-                                cell.style.color = '#FFFFFF';
-                                cell.title = `Day ${dayNum}: ${m.title} (Passed - ${m.attempts} attempt(s))`;
+                                cell.classList.add('done');
+                                cell.style.background = '#FFCC00'; // Yellow circular highlight for passed mission
+                                cell.style.color = '#1C1C1E';
+                                cell.style.borderRadius = '50%';
+                                cell.style.border = 'none';
+                                cell.title = `Day ${dayNum}: ${m.title} (Passed - ${m.attempts || 1} attempt(s))`;
                             }
                         } else {
+                            // Reset default cells if no mission on this day
                             cell.style.background = '';
                             cell.style.color = '';
+                            cell.style.borderRadius = '';
                         }
                     });
 
+                    // Synchronize Monthly Topic Progress graph & statistics with candidate's training days
                     if (typeof updateCandidateTopicProgress === 'function') {
                         updateCandidateTopicProgress(candidate);
                     }
@@ -735,7 +695,6 @@
                                         <div class="habit-sub">Interview Strength • Evaluated</div>
                                     </div>
                                 </div>
-<<<<<<< HEAD
                                 <div style="display: flex; align-items: center; gap: 0.8rem;">
                                     <span class="tag-badge" style="background: rgba(46, 125, 50, 0.12); color: #2E7D32; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
                                         Strength
@@ -746,15 +705,6 @@
                                 </div>
                             </div>`;
                         });
-=======
-                            </div>
-                            <div style="width: 100%; display: flex; justify-content: flex-end; margin-top: 0.3rem;">
-                                <a href="interview.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.78rem; padding: 0.45rem 1.1rem;">
-                                    Take Interview
-                                </a>
-                            </div>
-                        </div>`;
->>>>>>> 7633a91f214b846013d2f2741b7aa0503846c624
                     }
 
                     if (report.weaknesses && report.weaknesses.length) {
@@ -782,6 +732,14 @@
                             </div>`;
                         });
                     }
+
+                    // Add "Take New Interview" button at the bottom of the list
+                    html += `
+                    <div style="width: 100%; display: flex; justify-content: flex-end; margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px dashed #D8C8B5;">
+                        <a href="interview.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.78rem; padding: 0.45rem 1.1rem; display: inline-flex; align-items: center; gap: 0.4rem;">
+                            Take New Interview →
+                        </a>
+                    </div>`;
 
                     if (badgeEl) badgeEl.textContent = `${totalCount} Insights`;
                     swContainer.innerHTML = html;
