@@ -8,7 +8,7 @@
     <meta name="description"
         content="Practice with an AI interviewer that adapts to your answers, challenges your knowledge, and prepares you for real-world technical interviews.">
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="FRONTEND/styles.css">
     <!-- Favicon -->
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
@@ -80,7 +80,7 @@
                 </p>
 
                 <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-top: 1rem;">
-                    <a href="dashboard.html"
+                    <a href="FRONTEND/dashboard.html"
                         onclick="localStorage.setItem('selectedCandidate', document.getElementById('session-code-select').value)"
                         class="btn btn-dark btn-lg" id="btn-get-started"
                         style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
@@ -147,7 +147,7 @@
                 <!-- Phone Mockup Container -->
                 <div class="phone-mockup-wrapper" id="phone-mockup-container"
                     style="border-radius: 28px; overflow: hidden; border: 8px solid #0F172A; background: #0F172A; box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);">
-                    <img src="assets/candidate_spotlight.png" alt="Candidate Spotlight - Ace Technical Interviews"
+                    <img src="FRONTEND/assets/candidate_spotlight.png" alt="Candidate Spotlight - Ace Technical Interviews"
                         class="phone-mockup-img" id="phone-mockup-img"
                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=600';"
                         style="border-radius: 20px; width: 100%; height: auto; display: block; object-fit: cover;">
@@ -299,7 +299,7 @@
 
     <!-- Toast Notification Container -->
     <div class="toast-container" id="toast-container"></div>
-    <script src="script.js"></script>
+    <script src="FRONTEND/script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const selectEl = document.getElementById('session-code-select');
