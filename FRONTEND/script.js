@@ -25,214 +25,175 @@ document.addEventListener('DOMContentLoaded', () => {
 const courses = [
   {
     id: 1,
-    name: "Python Development",
-    tags: "Python • OOP • Flask",
-    level: "Intermediate",
-    progress: 82,
-    completedTopicsCount: 12,
-    totalTopicsCount: 15,
-    icon: "🐍",
+    name: "Environment & Tooling",
+    tags: "Days 1–3 • Module 1 • Setup & Tools",
+    level: "Module 1",
+    progress: 100,
+    completedTopicsCount: 3,
+    totalTopicsCount: 3,
+    readiness: "100% Ready",
+    weakAreas: "Virtual Environments",
+    aiRecommended: "VS Code & Python Setup",
+    masteryPerformance: "100% (+15%)",
+    icon: "🛠️",
+    image: "code_build_create.png",
     completed: [
-      "Python Basics & Syntax",
-      "Variables & Data Types",
-      "Functions & Scope",
-      "Collections (Lists, Dicts, Sets)",
-      "Object-Oriented Programming (OOP)",
-      "Inheritance & Polymorphism",
-      "File I/O & Exception Handling",
-      "List Comprehensions & Generators",
-      "Decorators & Context Managers",
-      "Virtual Environments & Pip",
-      "Package Structure & Modules",
-      "Built-in Standard Library"
+      "VS Code & Python Environment Setup",
+      "Git & GitHub Setup",
+      "API Keys & Environment Variables"
     ],
-    pending: [
-      "Flask Web Framework",
-      "REST APIs with Flask",
-      "Unit Testing & PyTest"
-    ]
+    pending: []
   },
   {
     id: 2,
-    name: "SQL & DBMS",
-    tags: "SQL • Joins • Queries",
-    level: "Intermediate",
-    progress: 68,
-    completedTopicsCount: 8,
-    totalTopicsCount: 12,
-    icon: "🛢️",
+    name: "Data Foundations",
+    tags: "Days 4–6 • Module 2 • Data & JSON",
+    level: "Module 2",
+    progress: 90,
+    completedTopicsCount: 3,
+    totalTopicsCount: 3,
+    readiness: "90% Ready",
+    weakAreas: "Data Cleaning & Parsing",
+    aiRecommended: "JSON & Pandas Basics",
+    masteryPerformance: "90% (+12%)",
+    icon: "📊",
     completed: [
-      "Relational Database Concepts",
-      "SQL SELECT, WHERE, ORDER BY",
-      "INNER JOIN & LEFT JOIN",
-      "RIGHT JOIN & FULL OUTER JOIN",
-      "Aggregate Functions & GROUP BY",
-      "HAVING & Filtering Operations",
-      "Subqueries & CTEs",
-      "Primary Keys & Foreign Keys"
+      "Reading & Processing Structured Data",
+      "Data Cleaning & Normalization",
+      "Dataset Exploration with Pandas"
     ],
-    pending: [
-      "Database Indexing & B-Trees",
-      "Query Optimization & EXPLAIN",
-      "ACID Transactions & Isolation",
-      "Database Normalization (1NF-3NF)"
-    ]
+    pending: []
   },
   {
     id: 3,
-    name: "Data Structures",
-    tags: "Arrays • Strings • Hashing",
-    level: "Intermediate",
-    progress: 56,
-    completedTopicsCount: 7,
-    totalTopicsCount: 12,
-    icon: "⚡",
+    name: "Embeddings & Vector Search",
+    tags: "Days 7–10 • Module 3 • Vector DBs",
+    level: "Module 3",
+    progress: 85,
+    completedTopicsCount: 4,
+    totalTopicsCount: 4,
+    readiness: "85% Ready",
+    weakAreas: "Cosine Similarity",
+    aiRecommended: "Vector Databases Overview",
+    masteryPerformance: "85% (+10%)",
+    icon: "🔍",
     completed: [
-      "Array Manipulation & Two Pointers",
-      "String Searching & Sliding Window",
-      "Hash Maps & Hash Sets",
-      "Linked Lists (Singly & Doubly)",
-      "Stacks & Queues Implementation",
-      "Binary Search Algorithms",
-      "Sorting Algorithms (Merge & Quick)"
+      "Embeddings Explained",
+      "Vector Databases Overview",
+      "Similarity Search & Indexing",
+      "Retrieval & Matching Engine"
     ],
-    pending: [
-      "Binary Trees & Traversal",
-      "Binary Search Trees (BST)",
-      "Heaps & Priority Queues",
-      "Graph Representation & BFS/DFS",
-      "Dynamic Programming Basics"
-    ]
+    pending: []
   },
   {
     id: 4,
-    name: "JavaScript",
-    tags: "ES6 • DOM • Async JavaScript",
-    level: "Intermediate",
-    progress: 74,
-    completedTopicsCount: 9,
-    totalTopicsCount: 12,
-    icon: "📜",
+    name: "LLM Core, Prompting & Fine-Tuning",
+    tags: "Days 11–15 • Module 4 • LLMs & Prompts",
+    level: "Module 4",
+    progress: 75,
+    completedTopicsCount: 4,
+    totalTopicsCount: 5,
+    readiness: "75% Ready",
+    weakAreas: "LoRA & QLoRA Fine-Tuning",
+    aiRecommended: "Prompt Engineering & Few-Shot",
+    masteryPerformance: "75% (+14%)",
+    icon: "🧠",
     completed: [
-      "ES6+ Syntax (let, const)",
-      "Arrow Functions & Lexical Scope",
-      "Array Methods (map, filter, reduce)",
-      "Object Destructuring & Spread",
-      "DOM Selection & Manipulation",
-      "Event Handling & Delegation",
-      "Promises & Callback Chains",
-      "Async / Await Syntax",
-      "Fetch API & Network Requests"
+      "RAG End-to-End & LLM API Basics",
+      "Prompt Engineering Fundamentals",
+      "Function Calling & Structured Outputs",
+      "Fine-Tuning: Concepts & When to Use It"
     ],
     pending: [
-      "Closures & Scope Chain",
-      "Prototypal Inheritance",
-      "Event Loop & Microtask Queue"
+      "Fine-Tuning: Hands-On with LoRA & QLoRA"
     ]
   },
   {
     id: 5,
-    name: "Frontend Development",
-    tags: "HTML • CSS • JavaScript",
-    level: "Intermediate",
-    progress: 78,
-    completedTopicsCount: 11,
-    totalTopicsCount: 14,
-    icon: "💻",
+    name: "Chatbot Application Build",
+    tags: "Days 16–20 • Module 5 • Chatbot & APIs",
+    level: "Module 5",
+    progress: 70,
+    completedTopicsCount: 4,
+    totalTopicsCount: 5,
+    readiness: "70% Ready",
+    weakAreas: "Conversation Memory & Context",
+    aiRecommended: "Chatbot Backend Integration",
+    masteryPerformance: "70% (+11%)",
+    icon: "🤖",
     completed: [
-      "Semantic HTML5 Markup",
-      "CSS Flexbox Layouts",
-      "CSS Grid Systems",
-      "Responsive Media Queries",
-      "CSS Variables & Design Tokens",
-      "Vanilla JS DOM Manipulation",
-      "CSS Animations & Transitions",
-      "Form Validation & UX Patterns",
-      "Web Accessibility (a11y)",
-      "Browser Performance Optimization",
-      "Asset Pipeline & Optimization"
+      "Chatbot Backend & API Integration",
+      "Streaming Responses & UX Polish",
+      "Chatbot UI & Widget Integration",
+      "System Prompts & Persona Design"
     ],
     pending: [
-      "State Management Patterns",
-      "Single Page Application (SPA)",
-      "Build Tools & Bundlers"
+      "Conversation Memory & Context Management"
     ]
   },
   {
     id: 6,
-    name: "Backend Development",
-    tags: "Python • Flask • REST APIs",
-    level: "Intermediate",
-    progress: 48,
-    completedTopicsCount: 6,
-    totalTopicsCount: 12,
-    icon: "⚙️",
+    name: "Agentic AI & MCP",
+    tags: "Days 21–24 • Module 6 • LangChain & MCP",
+    level: "Module 6",
+    progress: 65,
+    completedTopicsCount: 3,
+    totalTopicsCount: 4,
+    readiness: "65% Ready",
+    weakAreas: "Multi-Agent Orchestration",
+    aiRecommended: "Model Context Protocol (MCP)",
+    masteryPerformance: "65% (+9%)",
+    icon: "⚡",
     completed: [
-      "Client-Server Architecture",
-      "HTTP Request Methods & Headers",
-      "Flask Application Routing",
-      "JSON Request/Response Handling",
-      "Environment Variables & Config",
-      "Error Handling & HTTP Status Codes"
+      "LangChain Agents",
+      "Tool Integration for Agents",
+      "Model Context Protocol (MCP)"
     ],
     pending: [
-      "JWT Authentication & Security",
-      "Database ORM (SQLAlchemy)",
-      "API Rate Limiting & Throttling",
-      "Background Task Queues",
-      "Docker Containerization",
-      "Cloud Deployment & CI/CD"
+      "Multi-Agent Orchestration"
     ]
   },
   {
     id: 7,
-    name: "REST APIs",
-    tags: "HTTP • JSON • API Design",
-    level: "Intermediate",
-    progress: 61,
-    completedTopicsCount: 7,
-    totalTopicsCount: 11,
-    icon: "🔌",
+    name: "Evaluation, Security & Deployment",
+    tags: "Days 25–28 • Module 7 • Guardrails & Security",
+    level: "Module 7",
+    progress: 60,
+    completedTopicsCount: 3,
+    totalTopicsCount: 4,
+    readiness: "60% Ready",
+    weakAreas: "Security, Privacy & Guardrails",
+    aiRecommended: "Docker & Kubernetes",
+    masteryPerformance: "60% (+8%)",
+    icon: "🛡️",
     completed: [
-      "REST Architectural Principles",
-      "Resource Naming Conventions",
-      "HTTP Verbs (GET, POST, PUT, DELETE)",
-      "Status Codes (200, 400, 404, 500)",
-      "JSON Schema & Payload Design",
-      "Query Parameters & Filtering",
-      "API Versioning Strategies"
+      "LLM Evaluation & Benchmarking",
+      "Cost Optimization & Caching Strategies",
+      "Docker & Kubernetes Deployment"
     ],
     pending: [
-      "API Authentication (OAuth 2.0)",
-      "CORS & Security Headers",
-      "OpenAPI / Swagger Specs",
-      "Webhooks & Real-time Events"
+      "Security, Privacy & Guardrails"
     ]
   },
   {
     id: 8,
-    name: "System Design",
-    tags: "Architecture • Scalability • APIs",
-    level: "Advanced",
-    progress: 35,
-    completedTopicsCount: 4,
-    totalTopicsCount: 12,
-    icon: "🏗️",
+    name: "Production & Capstone",
+    tags: "Days 29–31 • Module 8 • Capstone & Monitoring",
+    level: "Module 8",
+    progress: 50,
+    completedTopicsCount: 2,
+    totalTopicsCount: 3,
+    readiness: "50% Ready",
+    weakAreas: "Monitoring & Observability",
+    aiRecommended: "Capstone Project & Final Demo",
+    masteryPerformance: "50% (+7%)",
+    icon: "🚀",
     completed: [
-      "Scalability (Vertical vs Horizontal)",
-      "Load Balancers & Reverse Proxies",
-      "Caching Strategies (Redis/Memcached)",
-      "CDN & Static Content Delivery"
+      "Production Deployment Checklist",
+      "Capstone Project & Final Demo"
     ],
     pending: [
-      "Database Sharding & Replication",
-      "Microservices vs Monolith Architecture",
-      "Message Queues (Kafka, RabbitMQ)",
-      "Consistent Hashing & Partitioning",
-      "Rate Limiters & API Gateways",
-      "CAP Theorem & PACELC Tradeoffs",
-      "Distributed File Systems",
-      "Real-Time System Design Patterns"
+      "Monitoring, Logging & Observability"
     ]
   }
 ];
@@ -271,6 +232,37 @@ function renderCourse(index) {
     if (progressFill) progressFill.style.width = `${course.progress}%`;
     if (topicsEl) topicsEl.innerText = `${course.completedTopicsCount} Completed · ${course.pending.length} Pending`;
     if (indicatorEl) indicatorEl.innerText = `${index + 1} / ${courses.length}`;
+
+    // Full-Size Card Background Image Handling
+    const cardEl = document.getElementById('tech-skills-carousel-card');
+    if (cardEl) {
+      const cardTitle = cardEl.querySelector('.berun-card-title');
+      const cardSub = cardEl.querySelector('p');
+
+      if (course.image) {
+        cardEl.style.background = `linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url('${course.image}') center/cover no-repeat`;
+        cardEl.style.color = '#FFFFFF';
+        if (cardTitle) cardTitle.style.color = '#FFFFFF';
+        if (cardSub) cardSub.style.color = 'rgba(255, 255, 255, 0.85)';
+        if (titleEl) titleEl.style.color = '#FFFFFF';
+        if (tagsEl) tagsEl.style.color = 'rgba(255, 255, 255, 0.85)';
+        if (levelEl) {
+          levelEl.style.background = 'rgba(255, 255, 255, 0.2)';
+          levelEl.style.color = '#FFFFFF';
+        }
+      } else {
+        cardEl.style.background = 'var(--berun-bg-taupe)';
+        cardEl.style.color = '#1C1C1E';
+        if (cardTitle) cardTitle.style.color = '#1C1C1E';
+        if (cardSub) cardSub.style.color = '#4A463D';
+        if (titleEl) titleEl.style.color = '#1C1C1E';
+        if (tagsEl) tagsEl.style.color = '#575246';
+        if (levelEl) {
+          levelEl.style.background = 'rgba(28, 28, 30, 0.1)';
+          levelEl.style.color = '#1C1C1E';
+        }
+      }
+    }
 
     // Dynamic link to practice.html with skill and topics
     const continueBtn = document.getElementById('tech-skill-continue-btn');
@@ -1276,8 +1268,8 @@ function renderTrainingMonth() {
       if (mission) {
         if (mission.passed) {
           classes += ' done';
-        } else if (mission.skipped) {
-          classes += ' scheduled';
+        } else if (mission.skipped || mission.passed === false) {
+          classes += ' skipped';
         } else {
           classes += ' scheduled';
         }
