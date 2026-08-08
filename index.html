@@ -309,28 +309,56 @@
             const selectedText = document.getElementById('custom-dropdown-selected-text');
             const arrow = document.getElementById('custom-dropdown-arrow');
 
-            const candidateList = [
+            let candidateList = [
                 { id: '001', name: 'Sarah Johnson' },
                 { id: '002', name: 'Alex Turner' },
                 { id: '003', name: 'Emily Chen' },
-                { id: '004', name: 'Marcus Vance' },
-                { id: '005', name: 'Priya Sharma' },
-                { id: '006', name: 'David Miller' },
-                { id: '007', name: 'Elena Rostova' },
-                { id: '008', name: 'James Wilson' },
-                { id: '009', name: 'Aisha Patel' },
-                { id: '010', name: 'Carlos Mendez' },
-                { id: '011', name: 'Sophia Wang' },
-                { id: '012', name: 'Michael Brown' },
-                { id: '013', name: 'Olivia Taylor' },
-                { id: '014', name: 'Lucas Santos' },
-                { id: '015', name: 'Emma Watson' },
-                { id: '016', name: 'Liam O\'Connor' },
-                { id: '017', name: 'Chloe Bennett' },
-                { id: '018', name: 'Noah Kim' },
-                { id: '019', name: 'Zoe Garcia' },
-                { id: '020', name: 'Alexander Wright' }
+                { id: '004', name: 'David Miller' },
+                { id: '005', name: 'Michael Brown' },
+                { id: '006', name: 'Wendy Foster' },
+                { id: '007', name: 'Ethan Brooks' },
+                { id: '008', name: 'Harold Whitfield' },
+                { id: '009', name: 'Zara Ahmadi' },
+                { id: '010', name: 'Gerald Combs' },
+                { id: '011', name: 'Mia Alvarez' },
+                { id: '012', name: 'Chen Wei' },
+                { id: '013', name: 'Ravi Patel' },
+                { id: '014', name: 'Bethany Cole' },
+                { id: '015', name: 'Noah Kim' },
+                { id: '016', name: 'Isabella Rossi' },
+                { id: '017', name: 'Tyler Brooks' },
+                { id: '018', name: 'Diane Foster' },
+                { id: '019', name: 'Frank DeLuca' },
+                { id: '020', name: 'Priyanka Sharma' }
             ];
+
+            fetch('FRONTEND/candidates.json')
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.candidates && data.candidates.length > 0) {
+                        candidateList = data.candidates.map(c => ({
+                            id: c.member.id.replace('CAND-', '').padStart(3, '0'),
+                            name: c.member.name
+                        }));
+                        renderCustomOptions();
+                        selectCandidate(activeVal);
+                    }
+                })
+                .catch(() => {
+                    fetch('candidates.json')
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data && data.candidates && data.candidates.length > 0) {
+                                candidateList = data.candidates.map(c => ({
+                                    id: c.member.id.replace('CAND-', '').padStart(3, '0'),
+                                    name: c.member.name
+                                }));
+                                renderCustomOptions();
+                                selectCandidate(activeVal);
+                            }
+                        })
+                        .catch(() => {});
+                });
 
             let activeVal = localStorage.getItem('selectedCandidate') || '001';
             activeVal = activeVal.replace('CAND-', '').padStart(3, '0');
