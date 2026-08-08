@@ -36,7 +36,7 @@ const courses = [
     aiRecommended: "VS Code & Python Setup",
     masteryPerformance: "100% (+15%)",
     icon: "🛠️",
-    image: "code_build_create.png",
+    image: "assets/code_build_create.png",
     completed: [
       "VS Code & Python Environment Setup",
       "Git & GitHub Setup",
@@ -57,6 +57,7 @@ const courses = [
     aiRecommended: "JSON & Pandas Basics",
     masteryPerformance: "90% (+12%)",
     icon: "📊",
+    image: "assets/data_foundations_bg.png",
     completed: [
       "Reading & Processing Structured Data",
       "Data Cleaning & Normalization",
@@ -77,6 +78,7 @@ const courses = [
     aiRecommended: "Vector Databases Overview",
     masteryPerformance: "85% (+10%)",
     icon: "🔍",
+    image: "assets/vector_search_bg.png",
     completed: [
       "Embeddings Explained",
       "Vector Databases Overview",
@@ -98,6 +100,7 @@ const courses = [
     aiRecommended: "Prompt Engineering & Few-Shot",
     masteryPerformance: "75% (+14%)",
     icon: "🧠",
+    image: "assets/llm_core.jpg",
     completed: [
       "RAG End-to-End & LLM API Basics",
       "Prompt Engineering Fundamentals",
@@ -121,6 +124,7 @@ const courses = [
     aiRecommended: "Chatbot Backend Integration",
     masteryPerformance: "70% (+11%)",
     icon: "🤖",
+    image: "assets/tech.jpg",
     completed: [
       "Chatbot Backend & API Integration",
       "Streaming Responses & UX Polish",
@@ -144,6 +148,7 @@ const courses = [
     aiRecommended: "Model Context Protocol (MCP)",
     masteryPerformance: "65% (+9%)",
     icon: "⚡",
+    image: "assets/OT Cybersecurity for Connected Safety Systems.jpg",
     completed: [
       "LangChain Agents",
       "Tool Integration for Agents",
@@ -166,6 +171,7 @@ const courses = [
     aiRecommended: "Docker & Kubernetes",
     masteryPerformance: "60% (+8%)",
     icon: "🛡️",
+    image: "assets/Living Intelligence_ Preparing for the AI Future of Rental Decisions.jpg",
     completed: [
       "LLM Evaluation & Benchmarking",
       "Cost Optimization & Caching Strategies",
@@ -188,6 +194,7 @@ const courses = [
     aiRecommended: "Capstone Project & Final Demo",
     masteryPerformance: "50% (+7%)",
     icon: "🚀",
+    image: "assets/candidate_spotlight.png",
     completed: [
       "Production Deployment Checklist",
       "Capstone Project & Final Demo"
