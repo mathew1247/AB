@@ -412,6 +412,139 @@
             cursor: pointer;
         }
 
+        /* ── Inline AI Chat Thread ── */
+        .ai-chat-panel {
+            width: 100%;
+            max-width: 820px;
+            display: none;
+            flex-direction: column;
+            gap: 0;
+            max-height: 260px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #D1D5DB transparent;
+            padding-bottom: 0.3rem;
+        }
+        .ai-chat-panel.open { display: flex; }
+
+        /* Each message row */
+        .chat-msg {
+            display: flex;
+            gap: 0.7rem;
+            padding: 0.55rem 0.1rem;
+            animation: msg-rise 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes msg-rise {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .chat-msg.user { justify-content: flex-end; }
+        .chat-msg.ai   { justify-content: flex-start; }
+
+        .chat-avatar {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .chat-avatar.user-av {
+            background: #E5E7EB;
+            color: #374151;
+            font-weight: 800;
+            font-size: 0.7rem;
+        }
+        .chat-avatar.ai-av {
+            background: linear-gradient(135deg, #4F46E5, #0EA5E9);
+            color: #fff;
+        }
+        .chat-bubble {
+            max-width: 78%;
+            padding: 0.7rem 1rem;
+            border-radius: 18px;
+            font-size: 0.84rem;
+            line-height: 1.65;
+            font-weight: 500;
+        }
+        .chat-bubble.user-bubble {
+            background: #18181B;
+            color: #FAFAFA;
+            border-bottom-right-radius: 5px;
+        }
+        .chat-bubble.ai-bubble {
+            background: #FFFFFF;
+            color: #111827;
+            border: 1px solid #E5E7EB;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        }
+        /* Typing dots inside ai bubble */
+        .typing-dots {
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+            height: 1.1em;
+        }
+        .typing-dots span {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #9CA3AF;
+            animation: t-bounce 1.4s infinite ease-in-out;
+        }
+        .typing-dots span:nth-child(2) { animation-delay: 0.18s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.36s; }
+        @keyframes t-bounce {
+            0%, 80%, 100% { transform: scale(0.65); opacity: 0.3; }
+            40%           { transform: scale(1.1);  opacity: 1; }
+        }
+        /* Chat divider */
+        .chat-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.3rem 0.1rem 0.4rem;
+            margin-bottom: 0.1rem;
+        }
+        .chat-panel-label {
+            font-size: 0.68rem;
+            font-weight: 800;
+            color: #9CA3AF;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .chat-panel-close {
+            background: none;
+            border: none;
+            color: #9CA3AF;
+            font-size: 0.82rem;
+            cursor: pointer;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            transition: color 0.15s;
+        }
+        .chat-panel-close:hover { color: #374151; }
+
+        /* MCQ card hide/show animation when AI chat is active */
+        .mcq-container-card {
+            transition: opacity 0.28s ease, transform 0.28s ease, max-height 0.35s ease;
+            transform-origin: top center;
+        }
+        .mcq-card-hidden {
+            opacity: 0 !important;
+            transform: translateY(-12px) scale(0.97) !important;
+            pointer-events: none !important;
+            max-height: 0 !important;
+            overflow: hidden !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        /* Expand chat panel when MCQ card is hidden */
+        .ai-chat-panel.expanded {
+            max-height: 430px;
+        }
+
         /* Video Tutorials Modal Overlay */
         .video-modal-overlay {
             position: fixed;
@@ -557,7 +690,7 @@
             </div>
 
             <!-- MCQ Quiz Container Card -->
-            <div class="mcq-container-card">
+            <div class="mcq-container-card" id="mcq-card">
                 <div>
                     <div class="mcq-question-header">
                         <span class="question-number-tag" id="question-progress-label">Question 1 of 3</span>
@@ -586,15 +719,18 @@
                 </div>
             </div>
 
-            <!-- AI Response Bubble (shown after user sends a question) -->
-            <div id="ai-response-bubble" style="display:none; width:100%; max-width:820px; background:#F8F5FF; border:1px solid rgba(124,92,246,0.18); border-radius:16px; padding:1rem 1.25rem; font-size:0.86rem; line-height:1.65; color:#333; margin-bottom:0.6rem; animation: fadeIn 0.3s ease;">
-                <div style="font-size:0.72rem; font-weight:700; color:#7C3AED; margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.05em;">🧠 AI Explanation</div>
-                <div id="ai-response-text"></div>
+            <!-- Inline AI Chat Thread -->
+            <div class="ai-chat-panel" id="ai-chat-panel">
+                <div class="chat-panel-header">
+                    <span class="chat-panel-label">✦ AI Assistant</span>
+                    <button class="chat-panel-close" onclick="closeAiChat()" title="Clear chat">Clear ✕</button>
+                </div>
+                <!-- Messages injected here by JS -->
             </div>
 
             <!-- Bottom Command Input Section -->
             <div class="command-box-wrapper" id="command-box-wrapper">
-                <div class="command-card">
+                <div class="command-card" id="command-card">
                     <input type="text" class="command-input-line" id="ai-chat-input" placeholder="✦ Ask AI to explain this topic or concept..." onkeydown="if(event.key==='Enter') sendAiMessage()">
 
                     <div class="command-toolbar">
@@ -603,8 +739,7 @@
                             <button class="btn-toolbar-pill" onclick="sendExplain()"><span>📖</span> Explain Topic</button>
                         </div>
                         <div class="toolbar-right-actions">
-                            <div id="ai-loading-spinner" style="display:none; font-size:0.78rem; color:#7C3AED; font-weight:700;">Thinking...</div>
-                            <button class="btn-circle-send" onclick="sendAiMessage()" title="Send to AI Assistant">↑</button>
+                            <button class="btn-circle-send" onclick="sendAiMessage()" title="Send">↑</button>
                         </div>
                     </div>
                 </div>
@@ -1454,18 +1589,28 @@
             const input = document.getElementById('ai-chat-input');
             const userMessage = prefill || (input && input.value.trim());
             if (!userMessage) return;
+            if (input) input.value = '';
 
             const company = activePracticeMap[currentCompanyKey] || activePracticeMap['Google'];
             const q = company && company.questions ? company.questions[currentQuestionIndex] : null;
 
-            // Show loading
-            const spinner = document.getElementById('ai-loading-spinner');
-            const bubble = document.getElementById('ai-response-bubble');
-            const responseText = document.getElementById('ai-response-text');
-            if (spinner) spinner.style.display = 'block';
-            if (bubble) { bubble.style.display = 'block'; }
-            if (responseText) responseText.innerText = 'Contacting Cerebras AI...';
-            if (input) input.value = '';
+            // Open chat panel + hide MCQ card
+            const panel = document.getElementById('ai-chat-panel');
+            const card  = document.getElementById('command-card');
+            const mcq   = document.getElementById('mcq-card');
+            if (panel) { panel.classList.add('open'); panel.classList.add('expanded'); }
+            if (card)  card.classList.add('chat-active');
+            if (mcq)   mcq.classList.add('mcq-card-hidden');
+
+            // Append user bubble
+            appendChatMsg('user', userMessage, panel);
+
+            // Append AI typing bubble
+            const aiId = 'ai-msg-' + Date.now();
+            appendChatMsg('ai', null, panel, aiId);
+
+            // Scroll to bottom
+            panel.scrollTop = panel.scrollHeight;
 
             try {
                 const res = await fetch('http://localhost:5000/api/practice/chat', {
@@ -1478,12 +1623,80 @@
                     })
                 });
                 const data = await res.json();
-                if (responseText) responseText.innerText = data.reply || 'No response received.';
+                typewriterInBubble(data.reply || 'No response received.', aiId, panel);
             } catch (e) {
-                if (responseText) responseText.innerText = 'Failed to reach AI service. Please check the backend is running.';
-            } finally {
-                if (spinner) spinner.style.display = 'none';
+                typewriterInBubble('Failed to reach AI service. Please check the backend is running.', aiId, panel);
             }
+        }
+
+        function appendChatMsg(role, text, panel, id) {
+            const row = document.createElement('div');
+            row.className = `chat-msg ${role}`;
+            if (id) row.id = id + '-row';
+
+            const av = document.createElement('div');
+            av.className = `chat-avatar ${role === 'user' ? 'user-av' : 'ai-av'}`;
+            av.innerText = role === 'user' ? 'U' : '✦';
+
+            const bubble = document.createElement('div');
+            bubble.className = `chat-bubble ${role === 'user' ? 'user-bubble' : 'ai-bubble'}`;
+            if (id) bubble.id = id;
+
+            if (text) {
+                bubble.innerText = text;
+            } else {
+                // typing indicator
+                bubble.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+            }
+
+            if (role === 'user') {
+                row.appendChild(bubble);
+                row.appendChild(av);
+            } else {
+                row.appendChild(av);
+                row.appendChild(bubble);
+            }
+
+            // Insert BEFORE the header (which is first child) -> no, append normally
+            panel.appendChild(row);
+        }
+
+        function typewriterInBubble(text, bubbleId, panel) {
+            const bubble = document.getElementById(bubbleId);
+            if (!bubble) return;
+            bubble.innerHTML = '';
+            let i = 0;
+            const speed = 12;
+            function tick() {
+                if (i < text.length) {
+                    bubble.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
+                    i++;
+                    panel.scrollTop = panel.scrollHeight;
+                    setTimeout(tick, speed);
+                }
+            }
+            tick();
+        }
+
+        function closeAiChat() {
+            const panel = document.getElementById('ai-chat-panel');
+            const card  = document.getElementById('command-card');
+            const mcq   = document.getElementById('mcq-card');
+            if (panel) {
+                panel.style.transition = 'opacity 0.22s ease, transform 0.22s ease';
+                panel.style.opacity = '0';
+                panel.style.transform = 'translateY(8px)';
+                setTimeout(() => {
+                    panel.classList.remove('open', 'expanded');
+                    panel.style.opacity = '';
+                    panel.style.transform = '';
+                    const rows = panel.querySelectorAll('.chat-msg');
+                    rows.forEach(r => r.remove());
+                }, 230);
+            }
+            if (card) card.classList.remove('chat-active');
+            // Restore the MCQ card
+            if (mcq) mcq.classList.remove('mcq-card-hidden');
         }
 
         function sendHint() {
