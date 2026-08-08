@@ -105,25 +105,15 @@
                 </div>
 
                 <div class="berun-topbar-actions">
-                    <!-- Candidate Selector Dropdown -->
-                    <div style="position: relative; display: inline-flex; align-items: center;">
-                        <label for="candidate-selector" style="font-size: 0.75rem; font-weight: 700; color: #666460; margin-right: 0.4rem; white-space: nowrap;">Candidate:</label>
-                        <select id="candidate-selector" onchange="loadCandidate(this.value)"
-                            style="background: #1C1C1E; color: #FFFFFF; border: none; border-radius: var(--radius-pill); padding: 0.45rem 2rem 0.45rem 0.9rem; font-size: 0.82rem; font-weight: 700; font-family: inherit; cursor: pointer; appearance: none; -webkit-appearance: none; outline: none; min-width: 90px;">
-                        </select>
-                        <svg style="position: absolute; right: 0.6rem; pointer-events: none; color: #FFFFFF;" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
-                    </div>
-
-                    <!-- Take Interview Action Button -->
+                    <!-- Take Interview Action Button (Replaces Search Box) -->
                     <a href="interview-setup.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.82rem; padding: 0.5rem 1.15rem; display: inline-flex; align-items: center; justify-content: center;">
                         Take Interview
                     </a>
 
-                    <!-- Upgrade Action Button -->
-                    <button class="berun-btn-dark"
-                        onclick="openModal('Upgrade Premium Plan', 'Unlock advanced heart rate metrics, personal trainer AI, and custom habit analytics.')">
-                        Upgrade
-                    </button>
+                    <!-- Apply Action Button (Redirects to LinkedIn Job Portal) -->
+                    <a href="https://www.linkedin.com/jobs/" target="_blank" rel="noopener noreferrer" class="berun-btn-dark" style="text-decoration: none; font-size: 0.82rem; padding: 0.5rem 1.15rem; display: inline-flex; align-items: center; justify-content: center;">
+                        Apply
+                    </a>
                 </div>
             </header>
 
@@ -202,61 +192,84 @@
                     </div>
                 </article>
 
-                <!-- Right Dark Card: Candidate Mission Calendar -->
-                <article class="berun-training-card" style="display: flex; flex-direction: column; gap: 0.8rem;">
-
-                    <!-- Candidate Profile Strip -->
-                    <div id="cand-profile-strip" style="background: rgba(255,255,255,0.07); border-radius: 14px; padding: 0.8rem 1rem; display: flex; align-items: center; gap: 0.9rem; border: 1px solid rgba(255,255,255,0.1);">
-                        <div id="cand-avatar" style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg,#FFCC00,#FF6B4A); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; color: #1C1C1E; flex-shrink: 0;">?</div>
-                        <div style="flex: 1; min-width: 0;">
-                            <div id="cand-name" style="font-size: 0.92rem; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Loading...</div>
-                            <div id="cand-role" style="font-size: 0.72rem; color: #8E8E93; font-weight: 600;">—</div>
-                        </div>
-                        <span id="cand-status-badge" style="font-size: 0.68rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: var(--radius-pill); background: rgba(52,199,89,0.2); color: #34C759; white-space: nowrap;">COMPLETED</span>
-                    </div>
-
-                    <!-- Signals Strip -->
-                    <div id="cand-signals" style="display: grid; grid-template-columns: repeat(3,1fr); gap: 0.4rem; text-align: center;">
-                        <div style="background: rgba(255,255,255,0.06); border-radius: 10px; padding: 0.5rem;">
-                            <div id="sig-commit" style="font-size: 1rem; font-weight: 800; color: #FFCC00;">—</div>
-                            <div style="font-size: 0.62rem; color: #8E8E93; font-weight: 600;">Commit Days</div>
-                        </div>
-                        <div style="background: rgba(255,255,255,0.06); border-radius: 10px; padding: 0.5rem;">
-                            <div id="sig-missions" style="font-size: 1rem; font-weight: 800; color: #FFCC00;">—</div>
-                            <div style="font-size: 0.62rem; color: #8E8E93; font-weight: 600;">Missions Done</div>
-                        </div>
-                        <div style="background: rgba(255,255,255,0.06); border-radius: 10px; padding: 0.5rem;">
-                            <div id="sig-firsttry" style="font-size: 1rem; font-weight: 800; color: #FFCC00;">—</div>
-                            <div style="font-size: 0.62rem; color: #8E8E93; font-weight: 600;">First Try ✓</div>
+                <!-- Right Dark Card: Your Training Days Calendar -->
+                <article class="berun-training-card">
+                    <div class="berun-training-header">
+                        <h2 class="berun-training-title">Your Training Days</h2>
+                        <div style="display: flex; align-items: center; gap: 0.35rem;">
+                            <button id="prev-month-btn" onclick="prevTrainingMonth()" title="Previous Month" style="background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); color: #FFFFFF; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; cursor: pointer; transition: background 0.2s ease;">
+                                &lt;
+                            </button>
+                            <span id="training-month-label" style="font-size: 0.82rem; font-weight: 700; color: #FFFFFF; min-width: 80px; text-align: center;">
+                                June 2026
+                            </span>
+                            <button id="next-month-btn" onclick="nextTrainingMonth()" title="Next Month" style="background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); color: #FFFFFF; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; cursor: pointer; transition: background 0.2s ease;">
+                                &gt;
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Calendar Header -->
-                    <div class="berun-training-header" style="margin-bottom: 0;">
-                        <h2 class="berun-training-title">Mission Calendar — Days 1–31</h2>
+                    <!-- Calendar Grid -->
+                    <div class="berun-cal-grid" id="berun-calendar-grid">
+                        <span class="berun-cal-day-label">M</span>
+                        <span class="berun-cal-day-label">T</span>
+                        <span class="berun-cal-day-label">W</span>
+                        <span class="berun-cal-day-label">T</span>
+                        <span class="berun-cal-day-label">F</span>
+                        <span class="berun-cal-day-label">S</span>
+                        <span class="berun-cal-day-label">S</span>
+
+                        <span class="berun-cal-date-cell done" onclick="selectCalendarDate(1)" title="View topics covered on June 1">1</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(2)">2</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(3)">3</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(4)">4</span>
+                        <span class="berun-cal-date-cell done" onclick="selectCalendarDate(5)" title="View topics covered on June 5">5</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(6)">6</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(7)">7</span>
+
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(8)">8</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(9)">9</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(10)">10</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(11)">11</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(12)">12</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(13)">13</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(14)">14</span>
+
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(15)">15</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(16)">16</span>
+                        <span class="berun-cal-date-cell scheduled" onclick="selectCalendarDate(17)" title="View scheduled session for June 17">17</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(18)">18</span>
+                        <span class="berun-cal-date-cell scheduled" onclick="selectCalendarDate(19)" title="View scheduled session for June 19">19</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(20)">20</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(21)">21</span>
+
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(22)">22</span>
+                        <span class="berun-cal-date-cell" style="border: 1px solid #8E8E93;" onclick="selectCalendarDate(23)" title="View active session for June 23">23</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(24)">24</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(25)">25</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(26)">26</span>
+                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(27)">27</span>
+                        <span class="berun-cal-date-cell" style="border: 1px solid #8E8E93;" onclick="selectCalendarDate(28)" title="View topics covered on June 28">28</span>
                     </div>
 
-                    <!-- Dynamic 31-Day Calendar Grid -->
-                    <div id="cand-calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;"></div>
-
-                    <!-- Legend -->
-                    <div class="berun-cal-legend" style="gap: 1rem;">
+                    <!-- Bottom Legend -->
+                    <div class="berun-cal-legend">
                         <div style="display: flex; align-items: center; gap: 0.4rem;">
-                            <span style="width: 9px; height: 9px; background: #34C759; border-radius: 50%;"></span>
-                            <span style="font-size: 0.68rem; color: #8E8E93;">Passed</span>
+                            <span
+                                style="width: 8px; height: 8px; border: 1px solid #8E8E93; border-radius: 50%;"></span>
+                            Current day
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.4rem;">
-                            <span style="width: 9px; height: 9px; background: #FF3B30; border-radius: 50%;"></span>
-                            <span style="font-size: 0.68rem; color: #8E8E93;">Missed / Skipped</span>
+                            <span
+                                style="width: 8px; height: 8px; background: var(--berun-bg-yellow); border-radius: 50%;"></span>
+                            Done
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.4rem;">
-                            <span style="width: 9px; height: 9px; background: rgba(255,255,255,0.1); border-radius: 50%;"></span>
-                            <span style="font-size: 0.68rem; color: #8E8E93;">No Mission</span>
+                            <span
+                                style="width: 8px; height: 8px; border: 1px stroke #8E8E93; border-radius: 50%;"></span>
+                            Scheduled
                         </div>
                     </div>
-
-                    <!-- Mission List -->
-                    <div id="cand-mission-list" style="display: flex; flex-direction: column; gap: 0.35rem; max-height: 130px; overflow-y: auto; padding-right: 0.2rem;"></div>
                 </article>
 
             </section>
@@ -680,143 +693,68 @@
 
     <!-- Script File -->
     <script>
-        // ── User session greeting ──────────────────────────────
         document.addEventListener('DOMContentLoaded', () => {
             const userStr = localStorage.getItem('user');
             if (userStr) {
                 try {
                     const user = JSON.parse(userStr);
+                    // Update greeting
                     const greetingTitle = document.getElementById('greeting-title');
-                    if (greetingTitle) greetingTitle.textContent = `Hi, ${user.username}!`;
+                    if (greetingTitle) {
+                        greetingTitle.textContent = `Hi, ${user.username}!`;
+                    }
+                    // Update sidebar profile image if present
                     const profileImg = document.getElementById('sidebar-profile-img');
                     if (profileImg && user.avatar) {
                         profileImg.src = user.avatar;
                         profileImg.alt = `${user.username} Profile`;
                     }
-                } catch (e) { console.error('User session parse error', e); }
-            }
-        });
-
-        // ── Candidate JSON loader ──────────────────────────────
-        let ALL_CANDIDATES = [];
-
-        async function initCandidates() {
+                } catch (e) {
+                    console.error("Failed to parse user session", e);
+                }
+        // ── Highlight Calendar based on CAND-001 from candidates.json ────────────────
+        async function applyCandidateCalendarData() {
             try {
-                // Serve from BACKEND datasets path exposed via the dev server, or fall back to a relative path
                 const res = await fetch('candidates.json');
                 const json = await res.json();
-                ALL_CANDIDATES = json.candidates;
+                const cand001 = json.candidates.find(c => c.member && (c.member.id === "CAND-001" || c.member.id === "001")) || json.candidates[0];
+                if (!cand001 || !cand001.missions) return;
+
+                const calGrid = document.getElementById('berun-calendar-grid');
+                if (!calGrid) return;
+
+                const cells = calGrid.querySelectorAll('.berun-cal-date-cell');
+                const missionMap = {};
+                cand001.missions.forEach(m => {
+                    missionMap[m.day] = m;
+                });
+
+                cells.forEach(cell => {
+                    const dayNum = parseInt(cell.textContent.trim(), 10);
+                    if (isNaN(dayNum)) return;
+
+                    const m = missionMap[dayNum];
+                    if (m) {
+                        cell.classList.remove('done', 'scheduled');
+                        if (m.skipped || m.passed === false) {
+                            cell.style.background = '#FF3B30'; // Red color for missed/skipped
+                            cell.style.color = '#FFFFFF';
+                            cell.title = `Day ${dayNum}: ${m.title} (Missed/Skipped)`;
+                        } else if (m.passed === true) {
+                            cell.style.background = 'var(--berun-bg-yellow, #FFCC00)';
+                            cell.style.color = '#1C1C1E';
+                            cell.title = `Day ${dayNum}: ${m.title} (Passed - ${m.attempts} attempt(s))`;
+                        }
+                    }
+                });
             } catch (e) {
-                console.warn('Could not load candidates.json via ../BACKEND path — using embedded fallback');
-                // Minimal embedded fallback so the page still works
-                ALL_CANDIDATES = EMBEDDED_CANDIDATES;
+                console.error("Failed to load candidate calendar data", e);
             }
-            populateCandidateSelector();
-            loadCandidate('001'); // default
         }
 
-        function populateCandidateSelector() {
-            const sel = document.getElementById('candidate-selector');
-            sel.innerHTML = '';
-            ALL_CANDIDATES.forEach((c, i) => {
-                const num = String(i + 1).padStart(3, '0');
-                const opt = document.createElement('option');
-                opt.value = num;
-                opt.textContent = num;
-                sel.appendChild(opt);
-            });
-        }
-
-        function loadCandidate(num) {
-            const idx = parseInt(num, 10) - 1;
-            const cand = ALL_CANDIDATES[idx];
-            if (!cand) return;
-
-            const m = cand.member;
-            const missions = cand.missions;
-            const signals = cand.signals;
-
-            // Profile strip
-            document.getElementById('cand-avatar').textContent = m.name.charAt(0);
-            document.getElementById('cand-name').textContent = `${m.name} (${m.id})`;
-            document.getElementById('cand-role').textContent = `${m.jobRole} · ${m.yearsExperience}y exp · ${m.education}`;
-            const badge = document.getElementById('cand-status-badge');
-            badge.textContent = m.status;
-            badge.style.background = m.status === 'COMPLETED' ? 'rgba(52,199,89,0.2)' : 'rgba(255,204,0,0.2)';
-            badge.style.color = m.status === 'COMPLETED' ? '#34C759' : '#FFCC00';
-
-            // Signals
-            document.getElementById('sig-commit').textContent = signals.commitDays;
-            document.getElementById('sig-missions').textContent = signals.missionsCompleted;
-            document.getElementById('sig-firsttry').textContent = signals.missionsFirstTry;
-
-            // Build mission lookup by day
-            const missionByDay = {};
-            missions.forEach(ms => { missionByDay[ms.day] = ms; });
-
-            // Build 31-day calendar
-            const grid = document.getElementById('cand-calendar-grid');
-            grid.innerHTML = '';
-            // Day labels
-            ['M','T','W','T','F','S','S'].forEach(d => {
-                const lbl = document.createElement('span');
-                lbl.textContent = d;
-                lbl.style.cssText = 'font-size:0.62rem;font-weight:800;color:#8E8E93;text-align:center;padding:2px 0;';
-                grid.appendChild(lbl);
-            });
-            // Days 1-31
-            for (let day = 1; day <= 31; day++) {
-                const cell = document.createElement('span');
-                cell.textContent = day;
-                const ms = missionByDay[day];
-                let bg, color, title = `Day ${day}`;
-                if (!ms) {
-                    bg = 'rgba(255,255,255,0.07)';
-                    color = '#636366';
-                } else if (ms.passed === true) {
-                    bg = 'rgba(52,199,89,0.25)';
-                    color = '#34C759';
-                    title = `✅ Day ${day}: ${ms.title} (${ms.attempts} attempt${ms.attempts !== 1 ? 's' : ''})`;
-                } else if (ms.skipped || ms.passed === false) {
-                    bg = 'rgba(255,59,48,0.25)';
-                    color = '#FF3B30';
-                    title = `❌ Day ${day}: ${ms.title} — ${ms.skipped ? 'Skipped' : 'Failed'}`;
-                } else {
-                    bg = 'rgba(255,255,255,0.07)';
-                    color = '#636366';
-                }
-                cell.style.cssText = `display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:1;border-radius:6px;font-size:0.7rem;font-weight:800;background:${bg};color:${color};cursor:${ms ? 'pointer' : 'default'};transition:transform 0.15s ease;`;
-                cell.title = title;
-                if (ms) {
-                    cell.addEventListener('mouseenter', () => cell.style.transform = 'scale(1.15)');
-                    cell.addEventListener('mouseleave', () => cell.style.transform = 'scale(1)');
-                    cell.addEventListener('click', () => showToast(title));
-                }
-                grid.appendChild(cell);
-            }
-
-            // Mission list
-            const list = document.getElementById('cand-mission-list');
-            list.innerHTML = '';
-            missions.forEach(ms => {
-                const row = document.createElement('div');
-                const isPassed = ms.passed === true;
-                const isFailed = ms.passed === false;
-                const isSkipped = ms.skipped === true;
-                const dot = isPassed ? '#34C759' : '#FF3B30';
-                const label = isPassed ? `✓ ${ms.attempts} attempt${ms.attempts !== 1 ? 's' : ''}` : (isSkipped ? '⊘ Skipped' : '✗ Failed');
-                row.style.cssText = 'display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.5rem;background:rgba(255,255,255,0.04);border-radius:8px;border-left:3px solid ' + dot + ';';
-                row.innerHTML = `<span style="font-size:0.7rem;font-weight:800;color:#8E8E93;min-width:38px;">Day ${ms.day}</span><span style="font-size:0.73rem;font-weight:600;color:#FFFFFF;flex:1;">${ms.title}</span><span style="font-size:0.68rem;font-weight:700;color:${dot};white-space:nowrap;">${label}</span>`;
-                list.appendChild(row);
-            });
-        }
-
-        // Minimal embedded fallback (CAND-001 only) in case fetch fails
-        const EMBEDDED_CANDIDATES = [
-          {"member":{"id":"CAND-001","name":"Sarah Johnson","jobRole":"Senior Data Engineer","yearsExperience":9,"education":"MS Computer Science","status":"COMPLETED"},"missions":[{"day":7,"title":"Embeddings Explained","passed":true,"attempts":1},{"day":8,"title":"Vector Databases Overview","passed":true,"attempts":1},{"day":10,"title":"Retrieval & Matching Engine","passed":true,"attempts":2},{"day":12,"title":"Prompt Engineering Fundamentals","passed":true,"attempts":4},{"day":16,"title":"Chatbot Backend & API Integration","passed":true,"attempts":1},{"day":22,"title":"Multi-Agent Orchestration","passed":true,"attempts":2},{"day":23,"title":"Model Context Protocol (MCP)","passed":true,"attempts":2},{"day":28,"title":"Docker & Kubernetes Deployment","passed":true,"attempts":3},{"day":29,"title":"Monitoring, Logging & Observability","skipped":true},{"day":31,"title":"Capstone Project & Final Demo","passed":true,"attempts":1}],"signals":{"commitDays":28,"missionsCompleted":30,"missionsFirstTry":20}}
-        ];
-
-        initCandidates();
+        document.addEventListener('DOMContentLoaded', () => {
+            applyCandidateCalendarData();
+        });
     </script>
     <script src="script.js"></script>
 </body>
