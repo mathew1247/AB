@@ -677,7 +677,66 @@
                 } catch (e) {
                     console.error("Failed to parse user session", e);
                 }
+        // ── Highlight Calendar based on selected Candidate (001-020) from candidates.json ────────────────
+        async function applyCandidateCalendarData() {
+            try {
+                const res = await fetch('candidates.json');
+                const json = await res.json();
+                
+                // Get selected candidate code (default: '001')
+                const urlParams = new URLSearchParams(window.location.search);
+                const selectedCode = urlParams.get('cand') || localStorage.getItem('selectedCandidate') || '001';
+                const formattedId = "CAND-" + selectedCode.padStart(3, '0');
+
+                const candidate = json.candidates.find(c => c.member && (c.member.id === formattedId || c.member.id === selectedCode)) || json.candidates[0];
+                if (!candidate || !candidate.missions) return;
+
+                // Optionally update greeting with candidate name
+                if (candidate.member && candidate.member.name) {
+                    const greetingTitle = document.getElementById('greeting-title');
+                    if (greetingTitle) {
+                        greetingTitle.textContent = `Hi, ${candidate.member.name}!`;
+                    }
+                }
+
+                const calGrid = document.getElementById('berun-calendar-grid');
+                if (!calGrid) return;
+
+                const cells = calGrid.querySelectorAll('.berun-cal-date-cell');
+                const missionMap = {};
+                candidate.missions.forEach(m => {
+                    missionMap[m.day] = m;
+                });
+
+                cells.forEach(cell => {
+                    const dayNum = parseInt(cell.textContent.trim(), 10);
+                    if (isNaN(dayNum)) return;
+
+                    const m = missionMap[dayNum];
+                    if (m) {
+                        cell.classList.remove('done', 'scheduled');
+                        if (m.skipped || m.passed === false) {
+                            cell.style.background = '#FF3B30'; // Red color for missed/skipped
+                            cell.style.color = '#FFFFFF';
+                            cell.title = `Day ${dayNum}: ${m.title} (Missed/Skipped)`;
+                        } else if (m.passed === true) {
+                            cell.style.background = '#34C759'; // Green color for attended/passed
+                            cell.style.color = '#FFFFFF';
+                            cell.title = `Day ${dayNum}: ${m.title} (Passed - ${m.attempts} attempt(s))`;
+                        }
+                    } else {
+                        // Reset default cells if no mission on this day
+                        cell.style.background = '';
+                        cell.style.color = '';
+                    }
+                });
+            } catch (e) {
+                console.error("Failed to load candidate calendar data", e);
             }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            applyCandidateCalendarData();
         });
     </script>
     <script src="script.js"></script>
