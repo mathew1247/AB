@@ -76,7 +76,7 @@
             justify-content: center;
             padding: 1.5rem;
             -webkit-font-smoothing: antialiased;
-            overflow-y: auto;
+            overflow: hidden;
         }
 
         /* Center Application Shell */
@@ -85,8 +85,9 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             width: min(94vw, 1100px);
-            margin: 24px auto;
-            min-height: calc(100vh - 48px);
+            margin: 0;
+            height: calc(100vh - 3rem);
+            max-height: calc(100vh - 3rem);
             border: 1px solid var(--border);
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow-float);
@@ -392,17 +393,21 @@
         }
 
         .command-card {
-            background: #FFFFFF;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 1rem 1.4rem;
-            box-shadow: var(--shadow-subtle);
-            transition: all var(--transition-default);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(227, 216, 204, 0.6);
+            border-radius: 24px;
+            padding: 1.2rem 1.6rem;
+            box-shadow: 0 8px 32px rgba(43, 33, 24, 0.04);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .command-card:focus-within {
             border-color: var(--caramel);
-            box-shadow: 0 10px 25px rgba(194, 138, 85, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 12px 40px rgba(194, 138, 85, 0.12), 0 0 0 4px rgba(194, 138, 85, 0.15);
+            transform: translateY(-2px);
         }
 
         .command-input-line {
@@ -410,15 +415,16 @@
             border: none;
             outline: none;
             font-family: inherit;
-            font-size: 0.95rem;
+            font-size: 0.98rem;
             color: var(--espresso);
-            font-weight: 500;
+            font-weight: 600;
             background: transparent;
             margin-bottom: 0.8rem;
         }
 
         .command-input-line::placeholder {
             color: var(--text-muted);
+            font-weight: 500;
         }
 
         .command-toolbar {
@@ -434,28 +440,41 @@
         }
 
         .btn-toolbar-pill {
-            background: #FDFBF8;
+            background: rgba(255, 255, 255, 0.85);
             border: 1px solid var(--border);
-            padding: 0.4rem 0.9rem;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--coffee);
+            padding: 0.5rem 1.1rem;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--espresso);
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            transition: all var(--transition-default);
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(43, 33, 24, 0.03);
         }
 
         .btn-toolbar-pill:hover {
-            background: var(--ivory);
-            border-color: var(--caramel);
+            background: var(--espresso);
+            color: var(--cream);
+            border-color: var(--espresso);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(43, 33, 24, 0.15);
+        }
+
+        .btn-toolbar-pill span {
+            font-size: 0.95rem;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-toolbar-pill:hover span {
+            transform: scale(1.2);
         }
 
         .btn-circle-send {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: var(--espresso);
             color: var(--cream);
@@ -463,16 +482,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all var(--transition-default);
-            box-shadow: 0 2px 5px rgba(43, 33, 24, 0.15);
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 10px rgba(43, 33, 24, 0.15);
         }
 
         .btn-circle-send:hover {
-            background: var(--coffee);
-            transform: translateY(-1px);
+            background: var(--caramel);
+            color: #FFFFFF;
+            transform: scale(1.08) rotate(-10deg);
+            box-shadow: 0 6px 16px rgba(194, 138, 85, 0.3);
         }
 
         /* Inline AI Chat Thread */
@@ -481,14 +502,17 @@
             display: none;
             flex-direction: column;
             gap: 0;
-            max-height: 480px;
             overflow-y: auto;
             overflow-x: hidden;
             scrollbar-width: thin;
             scrollbar-color: var(--border) transparent;
             padding-bottom: 0.3rem;
+            min-height: 0;
         }
-        .ai-chat-panel.open { display: flex; }
+        .ai-chat-panel.open {
+            display: flex;
+            flex: 1;
+        }
 
         .ai-chat-panel::-webkit-scrollbar {
             width: 6px;
@@ -617,7 +641,8 @@
         }
         /* Expand chat panel when MCQ card is hidden */
         .ai-chat-panel.expanded {
-            max-height: 650px;
+            max-height: none;
+            flex: 1;
         }
 
         /* Video Tutorials Modal Overlay */
@@ -842,8 +867,8 @@
 
                     <div class="command-toolbar">
                         <div class="toolbar-left-pills">
-                            <button class="btn-toolbar-pill" onclick="sendHint()"><span>💡</span> Hint</button>
-                            <button class="btn-toolbar-pill" onclick="sendExplain()"><span>📖</span> Explain Topic</button>
+                            <button class="btn-toolbar-pill" onclick="sendHint()">Hint</button>
+                            <button class="btn-toolbar-pill" onclick="sendExplain()">Explain Topic</button>
                         </div>
                         <div class="toolbar-right-actions">
                             <button class="btn-circle-send" onclick="sendAiMessage()" title="Send">↑</button>
