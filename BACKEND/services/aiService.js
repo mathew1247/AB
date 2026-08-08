@@ -88,20 +88,19 @@ Return structured JSON only:
 };
 
 exports.generateFinalReport = async (session) => {
-    if (!groq) return mockFallback.report();
+    if (!groq) return { summary: "Mock summary.", strengths: [], gaps: [], next: [] };
 
     const prompt = `Generate a final interview report for a ${session.candidateProfile.member.jobRole}.
 Questions asked: ${session.questionHistory.length}
 Total points gathered: ${session.score} (Max possible: ${session.questionHistory.length * 10})
+Evaluations: ${JSON.stringify(session.evaluations.map(e => e.feedback))}
 
 Based on this, return structured JSON only:
 {
-  "overallScore": <number 0-100>,
-  "technicalLevel": "Strong, Average, or Needs Improvement",
-  "strengths": ["list"],
-  "weaknesses": ["list"],
-  "topicsToImprove": ["list"],
-  "summary": "Concise 2-sentence summary of performance"
+  "summary": "Concise 2-sentence summary of performance",
+  "strengths": ["list of concise actionable points"],
+  "gaps": ["list of concise actionable points representing knowledge gaps"],
+  "next": ["list of concise actionable next steps or topics to study"]
 }`;
 
     return await callGroqJson(prompt);
@@ -111,7 +110,7 @@ async function callGroqJson(prompt) {
     try {
         const chatCompletion = await groq.chat.completions.create({
             messages: [{ role: "system", content: prompt }],
-            model: "llama3-8b-8192",
+            model: "llama-3.3-70b-versatile",
             temperature: 0.2,
             response_format: { type: "json_object" }
         });

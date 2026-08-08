@@ -553,9 +553,11 @@
 
     <script>
         // --- State Management ---
+        const API_BASE_URL = "http://localhost:5000";
         let currentState = {
             candidate: { name: "Candidate", role: "Backend Developer" },
-            curriculum: "Spring Boot",
+            candidateId: "CAND-001",
+            sessionId: "INT-" + Date.now(),
             totalQuestions: 5,
             questionNumber: 1,
             status: "ACTIVE", // ACTIVE, EVALUATING, COMPLETED
@@ -564,46 +566,60 @@
             timerInterval: null
         };
 
-        // Fallback mock data
-        const mockQuestions = [
-            { id: 'q1', topic: 'Spring Core', difficulty: 'Medium', category: 'Technical', text: 'Explain how dependency injection works internally in Spring Framework and how Spring manages the lifecycle of beans.' },
-            { id: 'q2', topic: 'REST APIs', difficulty: 'Medium', category: 'Technical', text: 'How would you design a scalable REST API for millions of users? Mention your approach to caching and rate limiting.' },
-            { id: 'q3', topic: 'Database', difficulty: 'Advanced', category: 'Technical', text: 'Explain database indexing and when you would use a composite index versus single-column indexes.' },
-            { id: 'q4', topic: 'Architecture', difficulty: 'Advanced', category: 'System Design', text: 'Describe the differences between monolithic and microservice architectures. When would you strictly avoid microservices?' },
-            { id: 'q5', topic: 'Problem Solving', difficulty: 'Medium', category: 'Behavioral', text: 'Tell me about a time you had to optimize a slow-performing backend endpoint. What was your systematic approach?' }
-        ];
-
-        const mockFinalReport = {
-            score: 84,
-            techScore: 88,
-            probScore: 82,
-            commScore: 76,
-            summary: "You demonstrated strong backend fundamentals and good Spring knowledge. Your explanations were technically accurate, but some answers could be more structured.",
-            strengths: ["Spring Boot & Microservices", "REST API & Backend Design", "Data Structures & Logic"],
-            weaknesses: ["System Design & Caching", "Concurrency & Threads"]
-        };
-
         // --- Initialization ---
         window.addEventListener('DOMContentLoaded', () => {
             startInterviewDirectly();
         });
 
-        function startInterviewDirectly() {
+        async function startInterviewDirectly() {
             const urlParams = new URLSearchParams(window.location.search);
             const role = urlParams.get('role') || "Backend Developer";
             
             currentState.candidate.role = role;
-            currentState.totalQuestions = 5;
             currentState.questionNumber = 1;
             currentState.status = 'ACTIVE';
             currentState.timerSeconds = 1200;
-            currentState.currentQuestion = mockQuestions[0];
             
             const roleDisplay = document.getElementById('header-role-display');
             if (roleDisplay) roleDisplay.textContent = `${role} Mode`;
 
             startTimer();
-            renderQuestionScreen();
+            
+            const viewport = document.getElementById('workspace-viewport');
+            viewport.innerHTML = `<div style="text-align:center; margin-top: 5rem;">
+                <h2 style="font-size: 1.5rem; color: #333;">Connecting to AI Interviewer...</h2>
+                <p style="color: #666; margin-top: 1rem;">Analyzing your candidate profile...</p>
+            </div>`;
+
+            try {
+                const selectedCandId = urlParams.get('candidateId') || localStorage.getItem('selectedCandidateId') || 'CAND-001';
+                currentState.candidateId = selectedCandId;
+                // Fetch candidate profile dynamically
+                const candRes = await fetch(`${API_BASE_URL}/api/candidates/${selectedCandId}`);
+                const candidateProfile = await candRes.json();
+
+                const res = await fetch(`${API_BASE_URL}/api/interview`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        sessionId: currentState.sessionId,
+                        candidate: candidateProfile
+                    })
+                });
+                
+                const data = await res.json();
+                
+                currentState.currentQuestion = {
+                    topic: "Adaptive Interview",
+                    difficulty: "Adaptive",
+                    text: data.reply
+                };
+                
+                renderQuestionScreen();
+            } catch (err) {
+                console.error(err);
+                viewport.innerHTML = `<h2 style="text-align:center; margin-top: 5rem; color: #EF4444;">Failed to connect to backend API. Is the server running?</h2>`;
+            }
         }
 
         function renderQuestionScreen() {
@@ -679,7 +695,7 @@
             if (countEl) countEl.innerText = `${el.value.length} / 2500`;
         }
 
-        function submitAnswer() {
+        async function submitAnswer() {
             const ta = document.getElementById('answer-input');
             const btn = document.getElementById('btn-submit');
             
@@ -688,10 +704,42 @@
                 return;
             }
 
+            const answer = ta.value.trim();
             ta.disabled = true;
             if (btn) btn.disabled = true;
             
             renderEvaluationState();
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/interview`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        sessionId: currentState.sessionId,
+                        message: answer
+                    })
+                });
+                
+                const data = await res.json();
+                
+                if (data.done) {
+                    renderFinalReport(data.feedback);
+                } else {
+                    currentState.questionNumber++;
+                    currentState.currentQuestion = {
+                        topic: "Adaptive Question",
+                        difficulty: "Adaptive",
+                        text: data.reply
+                    };
+                    renderQuestionScreen();
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Failed to evaluate answer via AI.");
+                // Fallback to next question or end
+                currentState.questionNumber++;
+                renderQuestionScreen();
+            }
         }
 
         function renderEvaluationState() {
@@ -712,7 +760,7 @@
                         <div class="eval-steps">
                             <div class="eval-step done" id="step-1">Evaluating technical accuracy</div>
                             <div class="eval-step active" id="step-2">Checking architectural concepts</div>
-                            <div class="eval-step pending" id="step-3">Formulating feedback report</div>
+                            <div class="eval-step pending" id="step-3">Generating next question</div>
                         </div>
                     </div>
                 </div>
@@ -724,40 +772,27 @@
                 if (s2) s2.className = 'eval-step done';
                 if (s3) s3.className = 'eval-step active';
             }, 1500);
-
-            setTimeout(() => {
-                proceedToNextQuestion();
-            }, 3000);
         }
 
-        function proceedToNextQuestion() {
-            if (currentState.questionNumber >= currentState.totalQuestions) {
-                renderFinalReport();
-            } else {
-                currentState.questionNumber++;
-                currentState.currentQuestion = mockQuestions[currentState.questionNumber - 1] || mockQuestions[0];
-                renderQuestionScreen();
-            }
-        }
-
-        function renderFinalReport() {
+        function renderFinalReport(feedback) {
             stopTimer();
             currentState.status = 'COMPLETED';
+
+            feedback = feedback || { summary: "Interview completed.", strengths: [], gaps: [], next: [] };
+            const strengths = feedback.strengths || [];
+            const gaps = feedback.gaps || [];
 
             // Save interview evaluation report to localStorage for dashboard integration
             const reportData = {
                 date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
                 role: currentState.candidate.role || "Backend Developer",
-                score: mockFinalReport.score,
-                techScore: mockFinalReport.techScore,
-                probScore: mockFinalReport.probScore,
-                commScore: mockFinalReport.commScore,
-                summary: mockFinalReport.summary,
-                strengths: mockFinalReport.strengths,
-                weaknesses: mockFinalReport.weaknesses
+                summary: feedback.summary,
+                strengths: strengths,
+                weaknesses: gaps // Dashboard expects 'weaknesses'
             };
+
             try {
-                localStorage.setItem('latestInterviewReport', JSON.stringify(reportData));
+                localStorage.setItem('latestInterviewReport_' + currentState.candidateId, JSON.stringify(reportData));
             } catch (e) {
                 console.error("Failed to save interview report to localStorage", e);
             }
@@ -773,26 +808,26 @@
 
                     <div style="text-align: center; margin-bottom: 1rem;">
                         <span style="font-size: 0.8rem; font-weight: 700; color: #999999; letter-spacing: 0.05em; text-transform: uppercase;">INTERVIEW COMPLETED</span>
-                        <div style="font-size: 4rem; font-weight: 700; color: #111111; line-height: 1; margin-top: 0.5rem;">${mockFinalReport.score}</div>
-                        <div style="font-size: 0.9rem; color: #666666;">Overall Performance Score / 100</div>
+                        <div style="font-size: 1.2rem; font-weight: 700; color: #111111; line-height: 1.4; margin-top: 1rem;">Report Generated Successfully</div>
+                        <div style="font-size: 0.9rem; color: #666666; margin-top: 0.5rem;">View detailed breakdown on your Dashboard.</div>
                     </div>
 
                     <div style="background: rgba(0,0,0,0.02); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); font-size: 0.95rem; line-height: 1.6; color: #444444; margin-bottom: 1rem;">
-                        <strong>AI Feedback Summary:</strong> ${mockFinalReport.summary}
+                        <strong>AI Feedback Summary:</strong> ${reportData.summary}
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1rem;">
                         <div style="background: #FFFFFF; padding: 1.2rem; border-radius: 16px; border: 1px solid rgba(0,0,0,0.08);">
                             <h4 style="font-size: 0.85rem; font-weight: 700; color: #10B981; text-transform: uppercase; margin-bottom: 0.8rem;">✓ Strengths</h4>
-                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: #333333;">
-                                ${mockFinalReport.strengths.map(s => `<li>• ${s}</li>`).join('')}
+                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: #333333; padding-left: 0;">
+                                ${strengths.length > 0 ? strengths.map(s => `<li>• ${s}</li>`).join('') : '<li>• No distinct strengths identified</li>'}
                             </ul>
                         </div>
                         
                         <div style="background: #FFFFFF; padding: 1.2rem; border-radius: 16px; border: 1px solid rgba(0,0,0,0.08);">
                             <h4 style="font-size: 0.85rem; font-weight: 700; color: #F59E0B; text-transform: uppercase; margin-bottom: 0.8rem;">! Areas to Improve</h4>
-                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: #333333;">
-                                ${mockFinalReport.weaknesses.map(w => `<li>• ${w}</li>`).join('')}
+                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: #333333; padding-left: 0;">
+                                ${gaps.length > 0 ? gaps.map(w => `<li>• ${w}</li>`).join('') : '<li>• No critical gaps identified</li>'}
                             </ul>
                         </div>
                     </div>
@@ -830,7 +865,7 @@
                 
                 if (currentState.timerSeconds <= 0) {
                     stopTimer();
-                    alert("Time is up! Submitting active interview session details...");
+                    alert("Time is up!");
                     renderFinalReport();
                 }
             }, 1000);

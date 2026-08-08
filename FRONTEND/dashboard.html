@@ -600,16 +600,15 @@
     <!-- Script File -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Load user session
             const userStr = localStorage.getItem('user');
             if (userStr) {
                 try {
                     const user = JSON.parse(userStr);
-                    // Update greeting
                     const greetingTitle = document.getElementById('greeting-title');
                     if (greetingTitle) {
                         greetingTitle.textContent = `Hi, ${user.username}!`;
                     }
-                    // Update sidebar profile image if present
                     const profileImg = document.getElementById('sidebar-profile-img');
                     if (profileImg && user.avatar) {
                         profileImg.src = user.avatar;
@@ -618,181 +617,183 @@
                 } catch (e) {
                     console.error("Failed to parse user session", e);
                 }
-                // ── Highlight Calendar based on selected Candidate (001-020) from candidates.json ────────────────
-                async function applyCandidateCalendarData() {
-                    try {
-                        const res = await fetch('candidates.json');
-                        const json = await res.json();
+            }
 
-                        // Get selected candidate code (default: '001')
-                        const urlParams = new URLSearchParams(window.location.search);
-                        const selectedCode = urlParams.get('cand') || localStorage.getItem('selectedCandidate') || '001';
-                        const formattedId = "CAND-" + selectedCode.padStart(3, '0');
+            // ── Highlight Calendar based on selected Candidate (001-020) from candidates.json ────────────────
+            async function applyCandidateCalendarData() {
+                try {
+                    const res = await fetch('candidates.json');
+                    const json = await res.json();
 
-                        const candidate = json.candidates.find(c => c.member && (c.member.id === formattedId || c.member.id === selectedCode)) || json.candidates[0];
-                        if (!candidate || !candidate.missions) return;
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const selectedCode = urlParams.get('cand') || localStorage.getItem('selectedCandidate') || '001';
+                    const formattedId = "CAND-" + selectedCode.padStart(3, '0');
 
-                        // Optionally update greeting with candidate name
-                        if (candidate.member && candidate.member.name) {
-                            const greetingTitle = document.getElementById('greeting-title');
-                            if (greetingTitle) {
-                                greetingTitle.textContent = `Hi, ${candidate.member.name}!`;
-                            }
+                    const candidate = json.candidates.find(c => c.member && (c.member.id === formattedId || c.member.id === selectedCode)) || json.candidates[0];
+                    if (!candidate || !candidate.missions) return;
+
+                    if (candidate.member && candidate.member.name) {
+                        const greetingTitle = document.getElementById('greeting-title');
+                        if (greetingTitle) {
+                            greetingTitle.textContent = `Hi, ${candidate.member.name}!`;
                         }
-
-                        const calGrid = document.getElementById('berun-calendar-grid');
-                        if (!calGrid) return;
-
-                        const cells = calGrid.querySelectorAll('.berun-cal-date-cell');
-                        const missionMap = {};
-                        candidate.missions.forEach(m => {
-                            missionMap[m.day] = m;
-                        });
-
-                        cells.forEach(cell => {
-                            const dayNum = parseInt(cell.textContent.trim(), 10);
-                            if (isNaN(dayNum)) return;
-
-                            const m = missionMap[dayNum];
-                            if (m) {
-                                cell.classList.remove('done', 'scheduled');
-                                if (m.skipped || m.passed === false) {
-                                    cell.style.background = '#FF3B30'; // Red color for missed/skipped
-                                    cell.style.color = '#FFFFFF';
-                                    cell.title = `Day ${dayNum}: ${m.title} (Missed/Skipped)`;
-                                } else if (m.passed === true) {
-                                    cell.style.background = '#34C759'; // Green color for attended/passed
-                                    cell.style.color = '#FFFFFF';
-                                    cell.title = `Day ${dayNum}: ${m.title} (Passed - ${m.attempts} attempt(s))`;
-                                }
-                            } else {
-                                // Reset default cells if no mission on this day
-                                cell.style.background = '';
-                                cell.style.color = '';
-                            }
-                        });
-
-                        // Synchronize Monthly Topic Progress graph & statistics with candidate's training days
-                        if (typeof updateCandidateTopicProgress === 'function') {
-                            updateCandidateTopicProgress(candidate);
-                        }
-                    } catch (e) {
-                        console.error("Failed to load candidate calendar data", e);
                     }
+
+                    const calGrid = document.getElementById('berun-calendar-grid');
+                    if (!calGrid) return;
+
+                    const cells = calGrid.querySelectorAll('.berun-cal-date-cell');
+                    const missionMap = {};
+                    candidate.missions.forEach(m => {
+                        missionMap[m.day] = m;
+                    });
+
+                    cells.forEach(cell => {
+                        const dayNum = parseInt(cell.textContent.trim(), 10);
+                        if (isNaN(dayNum)) return;
+
+                        const m = missionMap[dayNum];
+                        if (m) {
+                            cell.classList.remove('done', 'scheduled');
+                            if (m.skipped || m.passed === false) {
+                                cell.style.background = '#FF3B30';
+                                cell.style.color = '#FFFFFF';
+                                cell.title = `Day ${dayNum}: ${m.title} (Missed/Skipped)`;
+                            } else if (m.passed === true) {
+                                cell.style.background = '#34C759';
+                                cell.style.color = '#FFFFFF';
+                                cell.title = `Day ${dayNum}: ${m.title} (Passed - ${m.attempts} attempt(s))`;
+                            }
+                        } else {
+                            cell.style.background = '';
+                            cell.style.color = '';
+                        }
+                    });
+
+                    if (typeof updateCandidateTopicProgress === 'function') {
+                        updateCandidateTopicProgress(candidate);
+                    }
+                } catch (e) {
+                    console.error("Failed to load candidate calendar data", e);
+                }
+            }
+
+            function loadCandidateInterviewFeedback() {
+                const swContainer = document.getElementById('strengths-weaknesses-list');
+                const badgeEl = document.getElementById('sw-insights-badge');
+                const subtitleEl = document.getElementById('sw-card-subtitle');
+                if (!swContainer) return;
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const selectedCode = urlParams.get('cand') || localStorage.getItem('selectedCandidate') || '001';
+                const formattedId = "CAND-" + selectedCode.padStart(3, '0');
+
+                let report = null;
+                try {
+                    const stored = localStorage.getItem('latestInterviewReport_' + formattedId);
+                    if (stored) {
+                        report = JSON.parse(stored);
+                    }
+                } catch (e) {
+                    console.error("Failed to parse latestInterviewReport from localStorage", e);
                 }
 
-                function loadCandidateInterviewFeedback() {
-                    const swContainer = document.getElementById('strengths-weaknesses-list');
-                    const badgeEl = document.getElementById('sw-insights-badge');
-                    const subtitleEl = document.getElementById('sw-card-subtitle');
-                    if (!swContainer) return;
-
-                    let report = null;
-                    try {
-                        const stored = localStorage.getItem('latestInterviewReport');
-                        if (stored) {
-                            report = JSON.parse(stored);
-                        }
-                    } catch (e) {
-                        console.error("Failed to parse latestInterviewReport from localStorage", e);
+                if (report && ((report.strengths && report.strengths.length) || (report.weaknesses && report.weaknesses.length))) {
+                    if (subtitleEl) {
+                        subtitleEl.textContent = `Interview performance breakdown (${report.role || 'Backend Developer'} • ${report.date || 'Recent'})`;
                     }
 
-                    if (report && ((report.strengths && report.strengths.length) || (report.weaknesses && report.weaknesses.length))) {
-                        if (subtitleEl) {
-                            subtitleEl.textContent = `Interview performance breakdown (${report.role || 'Backend Developer'} • ${report.date || 'Recent'})`;
-                        }
+                    let html = '';
+                    let totalCount = 0;
 
-                        let html = '';
-                        let totalCount = 0;
-
-                        if (report.strengths && report.strengths.length) {
-                            report.strengths.forEach((s) => {
-                                totalCount++;
-                                html += `
-                                <div class="berun-habit-row">
-                                    <div class="habit-user-info">
-                                        <div style="width: 34px; height: 34px; border-radius: 50%; background: #2E7D32; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; font-weight: 800;">
-                                            ✓
-                                        </div>
-                                        <div>
-                                            <div class="habit-name">${s}</div>
-                                            <div class="habit-sub">Interview Strength • Evaluated</div>
-                                        </div>
+                    if (report.strengths && report.strengths.length) {
+                        report.strengths.forEach((s) => {
+                            totalCount++;
+                            html += `
+                            <div class="berun-habit-row">
+                                <div class="habit-user-info">
+                                    <div style="width: 34px; height: 34px; border-radius: 50%; background: #2E7D32; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; font-weight: 800;">
+                                        ✓
                                     </div>
-                                    <div style="display: flex; align-items: center; gap: 0.8rem;">
-                                        <span class="tag-badge" style="background: rgba(46, 125, 50, 0.12); color: #2E7D32; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
-                                            Strength
-                                        </span>
-                                        <a href="practice.html?topic=${encodeURIComponent(s)}" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
-                                            Refine
-                                        </a>
-                                    </div>
-                                </div>`;
-                            });
-                        }
-
-                        if (report.weaknesses && report.weaknesses.length) {
-                            report.weaknesses.forEach((w) => {
-                                totalCount++;
-                                html += `
-                                <div class="berun-habit-row">
-                                    <div class="habit-user-info">
-                                        <div style="width: 34px; height: 34px; border-radius: 50%; background: #D97706; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; font-weight: 800;">
-                                            !
-                                        </div>
-                                        <div>
-                                            <div class="habit-name">${w}</div>
-                                            <div class="habit-sub">Area to Improve • Interview Feedback</div>
-                                        </div>
-                                    </div>
-                                    <div style="display: flex; align-items: center; gap: 0.8rem;">
-                                        <span class="tag-badge" style="background: rgba(217, 119, 6, 0.15); color: #D97706; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
-                                            Needs Focus
-                                        </span>
-                                        <a href="practice.html?topic=${encodeURIComponent(w)}" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
-                                            Improve
-                                        </a>
-                                    </div>
-                                </div>`;
-                            });
-                        }
-
-                        if (badgeEl) badgeEl.textContent = `${totalCount} Insights`;
-                        swContainer.innerHTML = html;
-                    } else {
-                        // Display waiting for interview results state
-                        if (subtitleEl) {
-                            subtitleEl.textContent = "Waiting for interview completion...";
-                        }
-                        if (badgeEl) {
-                            badgeEl.textContent = "Pending";
-                        }
-                        swContainer.innerHTML = `
-                        <div class="berun-habit-row" style="flex-direction: column; align-items: flex-start; gap: 0.8rem; padding: 1.5rem; text-align: left; background: #F7F3EE; border: 1px dashed #D8C8B5; border-radius: 16px;">
-                            <div style="display: flex; align-items: center; gap: 0.8rem;">
-                                <div style="width: 38px; height: 38px; border-radius: 50%; background: #1C1C1E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                                    ⏳
-                                </div>
-                                <div>
-                                    <div style="font-size: 0.92rem; font-weight: 800; color: #1C1C1E;">Waiting for Interview Results...</div>
-                                    <div style="font-size: 0.78rem; color: #666460; font-weight: 500; margin-top: 0.15rem;">
-                                        Complete an AI Technical Interview to generate your performance-based strengths & weaknesses.
+                                    <div>
+                                        <div class="habit-name">${s}</div>
+                                        <div class="habit-sub">Interview Strength • Evaluated</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div style="width: 100%; display: flex; justify-content: flex-end; margin-top: 0.3rem;">
-                                <a href="interview.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.78rem; padding: 0.45rem 1.1rem;">
-                                    Take Interview →
-                                </a>
-                            </div>
-                        </div>`;
+                                <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                    <span class="tag-badge" style="background: rgba(46, 125, 50, 0.12); color: #2E7D32; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
+                                        Strength
+                                    </span>
+                                    <a href="practice.html?topic=${encodeURIComponent(s)}" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                        Refine
+                                    </a>
+                                </div>
+                            </div>`;
+                        });
                     }
+
+                    if (report.weaknesses && report.weaknesses.length) {
+                        report.weaknesses.forEach((w) => {
+                            totalCount++;
+                            html += `
+                            <div class="berun-habit-row">
+                                <div class="habit-user-info">
+                                    <div style="width: 34px; height: 34px; border-radius: 50%; background: #D97706; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; font-weight: 800;">
+                                        !
+                                    </div>
+                                    <div>
+                                        <div class="habit-name">${w}</div>
+                                        <div class="habit-sub">Area to Improve • Interview Feedback</div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                    <span class="tag-badge" style="background: rgba(217, 119, 6, 0.15); color: #D97706; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
+                                        Needs Focus
+                                    </span>
+                                    <a href="practice.html?topic=${encodeURIComponent(w)}" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
+                                        Improve
+                                    </a>
+                                </div>
+                            </div>`;
+                        });
+                    }
+
+                    if (badgeEl) badgeEl.textContent = `${totalCount} Insights`;
+                    swContainer.innerHTML = html;
+                } else {
+                    // Display waiting for interview results state
+                    if (subtitleEl) {
+                        subtitleEl.textContent = "Waiting for interview completion...";
+                    }
+                    if (badgeEl) {
+                        badgeEl.textContent = "Pending";
+                    }
+                    swContainer.innerHTML = `
+                    <div class="berun-habit-row" style="flex-direction: column; align-items: flex-start; gap: 0.8rem; padding: 1.5rem; text-align: left; background: #F7F3EE; border: 1px dashed #D8C8B5; border-radius: 16px;">
+                        <div style="display: flex; align-items: center; gap: 0.8rem;">
+                            <div style="width: 38px; height: 38px; border-radius: 50%; background: #1C1C1E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                                ⏳
+                            </div>
+                            <div>
+                                <div style="font-size: 0.92rem; font-weight: 800; color: #1C1C1E;">Waiting for Interview Results...</div>
+                                <div style="font-size: 0.78rem; color: #666460; font-weight: 500; margin-top: 0.15rem;">
+                                    Complete an AI Technical Interview to generate your performance-based strengths & weaknesses.
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 100%; display: flex; justify-content: flex-end; margin-top: 0.3rem;">
+                            <a href="interview.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.78rem; padding: 0.45rem 1.1rem;">
+                                Take Interview →
+                            </a>
+                        </div>
+                    </div>`;
                 }
+            }
 
-                document.addEventListener('DOMContentLoaded', () => {
-                    applyCandidateCalendarData();
-                    loadCandidateInterviewFeedback();
-                });
+            // Run functions on load
+            applyCandidateCalendarData();
+            loadCandidateInterviewFeedback();
+        });
     </script>
     <script src="script.js"></script>
 </body>
