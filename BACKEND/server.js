@@ -1,15 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 
 // Load env variables
 dotenv.config();
-
-// Connect to database
-// Uncomment the line below once MONGODB_URI is provided in .env
-// connectDB();
 
 const app = express();
 
@@ -19,9 +14,7 @@ app.use(express.json());
 
 // Mount routers
 app.use('/api/candidates', require('./routes/candidateRoutes'));
-app.use('/api/courses', require('./routes/courseRoutes'));
-app.use('/api/interviews', require('./routes/interviewRoutes'));
-app.use('/api/ai', require('./routes/aiRoutes'));
+app.use('/api/interview', require('./routes/interviewRoutes'));
 
 // Global error handler
 app.use(errorHandler);

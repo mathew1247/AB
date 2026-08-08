@@ -1,15 +1,15 @@
 const express = require('express');
-const { startInterview, submitAnswer, finishInterview } = require('../controllers/interviewController');
+const { startInterview, submitAnswer, endInterview } = require('../controllers/interviewController');
 
 const router = express.Router();
 
 router.route('/start')
     .post(startInterview);
 
-router.route('/:id/answer')
+router.route('/answer')
     .post(submitAnswer);
 
-router.route('/:id/finish')
-    .post(finishInterview);
+router.route('/end')
+    .post(endInterview);
 
 module.exports = router;

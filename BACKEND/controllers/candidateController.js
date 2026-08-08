@@ -1,12 +1,25 @@
-const Candidate = require('../models/Candidate');
+const fs = require('fs');
+const path = require('path');
+
+const candidatesPath = path.join(__dirname, '../tests/datasets/candidates.json');
+
+const getCandidatesData = () => {
+    try {
+        const fileData = fs.readFileSync(candidatesPath, 'utf8');
+        return JSON.parse(fileData).candidates;
+    } catch (err) {
+        console.error("Error reading candidates.json", err);
+        return [];
+    }
+};
 
 // @desc    Get all candidates
 // @route   GET /api/candidates
 // @access  Public
-exports.getCandidates = async (req, res, next) => {
+exports.getCandidates = (req, res, next) => {
     try {
-        const candidates = await Candidate.find();
-        res.status(200).json(candidates);
+        const candidates = getCandidatesData();
+        res.status(200).json(candidates.map(c => c.member));
     } catch (err) {
         next(err);
     }
@@ -15,9 +28,11 @@ exports.getCandidates = async (req, res, next) => {
 // @desc    Get single candidate
 // @route   GET /api/candidates/:id
 // @access  Public
-exports.getCandidate = async (req, res, next) => {
+exports.getCandidate = (req, res, next) => {
     try {
-        const candidate = await Candidate.findOne({ candidateId: req.params.id });
+        const candidates = getCandidatesData();
+        const candidate = candidates.find(c => c.member.id === req.params.id);
+        
         if (!candidate) {
             return res.status(404).json({ success: false, error: 'Candidate not found' });
         }
@@ -26,3 +41,8 @@ exports.getCandidate = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.getCandidateById = (id) => {
+    const candidates = getCandidatesData();
+    return candidates.find(c => c.member.id === id);
+}

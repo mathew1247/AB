@@ -2,84 +2,122 @@ const Groq = require('groq-sdk');
 
 const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : null;
 
-// Fallback mock responses if Groq API is not configured
-const mockGenerateQuestion = (topic, difficulty) => ({
-    text: `Mock Question: Can you explain a concept in ${topic} suitable for ${difficulty} level?`
-});
-
-const mockEvaluateAnswer = () => ({
-    score: 85,
-    correct: true,
-    technicalAccuracy: 90,
-    completeness: 80,
-    feedback: 'Good answer, but could use more real-world examples.',
-    weakAreas: ['real-world examples'],
-    nextDifficulty: 'hard'
-});
-
-exports.generateQuestion = async ({ role, experience, topic, difficulty, previousQuestions, weakAreas }) => {
-    if (!groq) {
-        console.warn("GROQ_API_KEY is not set. Returning mock question.");
-        return mockGenerateQuestion(topic, difficulty);
-    }
-
-    const prompt = `You are an expert technical interviewer for a ${role} with ${experience} years of experience.
-Topic: ${topic}. Difficulty: ${difficulty}.
-Weak Areas to focus on: ${weakAreas ? weakAreas.join(', ') : 'None'}.
-Previous questions asked: ${previousQuestions.join(' | ')}.
-
-Generate ONE clear, concise interview question. Do NOT provide the answer. ONLY output the question text.`;
-
-    try {
-        const chatCompletion = await groq.chat.completions.create({
-            messages: [{ role: "user", content: prompt }],
-            model: "llama3-8b-8192",
-            temperature: 0.7,
-            max_tokens: 100
-        });
-
-        return { text: chatCompletion.choices[0].message.content.trim() };
-    } catch (error) {
-        console.error("Error generating question from Groq:", error);
-        return mockGenerateQuestion(topic, difficulty);
-    }
+// Mock Fallbacks if no Groq Key
+const mockFallback = {
+    generateFirst: (role) => ({ text: `Mock first question for ${role}?`, topic: 'General', difficulty: 'medium' }),
+    evaluate: () => ({ correctness: "correct", score: 8, feedback: "Good answer.", strengths: ["Good base"], weaknesses: [] }),
+    generateNext: () => ({ text: "Mock next question?", topic: 'General', difficulty: 'hard' }),
+    report: () => ({ overallScore: 80, technicalLevel: "Strong", strengths: [], weaknesses: [], topicsToImprove: [], summary: "Mock report." })
 };
 
-exports.evaluateAnswer = async ({ role, experience, question, answer }) => {
-    if (!groq) {
-        console.warn("GROQ_API_KEY is not set. Returning mock evaluation.");
-        return mockEvaluateAnswer();
-    }
+exports.generateFirstQuestion = async (candidateData) => {
+    if (!groq) return mockFallback.generateFirst(candidateData.member.jobRole);
 
-    const prompt = `You are a technical interviewer for a ${role} with ${experience} years experience.
-Question asked: "${question}"
-Candidate's answer: "${answer}"
+    const { jobRole, yearsExperience, education } = candidateData.member;
+    const missions = candidateData.missions || [];
 
-Evaluate the answer and return a JSON object with EXACTLY these keys:
+    const prompt = `You are an expert technical interviewer.
+Candidate Profile:
+- Role: ${jobRole}
+- Experience: ${yearsExperience} years
+- Education: ${education}
+- Missions history: ${JSON.stringify(missions)}
+
+Generate the MOST appropriate first interview question for this candidate based on their profile.
+Return structured JSON only:
 {
-  "score": (0-100),
-  "correct": (boolean),
-  "technicalAccuracy": (0-100),
-  "completeness": (0-100),
-  "feedback": (string, brief 1-2 sentence constructive feedback),
-  "weakAreas": (array of strings, e.g. ["pointers", "real-world examples"]),
-  "nextDifficulty": (string, one of: "easy", "medium", "hard")
-}
+    "text": "The question text",
+    "topic": "The technical topic (e.g., Data Engineering, JavaScript)",
+    "difficulty": "easy, medium, or hard"
+}`;
 
-Return ONLY valid JSON.`;
+    return await callGroqJson(prompt);
+};
 
+exports.evaluateAnswer = async ({ candidate, question, answer }) => {
+    if (!groq) return mockFallback.evaluate();
+
+    const { jobRole, yearsExperience } = candidate.member;
+
+    const prompt = `You are an expert technical interviewer evaluating an answer.
+Candidate Role: ${jobRole} (${yearsExperience} years experience)
+Question: "${question}"
+Candidate Answer: "${answer}"
+
+Evaluate the answer objectively. Do not judge personal characteristics.
+Return structured JSON only:
+{
+    "correctness": "correct, partially correct, or incorrect",
+    "score": <number 0-10>,
+    "feedback": "1-2 sentence constructive feedback",
+    "strengths": ["list of identified strengths"],
+    "weaknesses": ["list of missing concepts or errors"]
+}`;
+
+    return await callGroqJson(prompt);
+};
+
+exports.generateNextQuestion = async ({ candidate, evaluation, previousQuestions, currentTopic, currentDifficulty }) => {
+    if (!groq) return mockFallback.generateNext();
+
+    const { jobRole } = candidate.member;
+    const { score, correctness, weaknesses } = evaluation;
+
+    const prompt = `You are an expert technical interviewer.
+Candidate Role: ${jobRole}
+Previous Score: ${score}/10 (${correctness})
+Weaknesses detected: ${weaknesses.join(', ')}
+Previous Questions asked (DO NOT REPEAT THESE): ${previousQuestions.join(' | ')}
+Last Topic: ${currentTopic}, Last Difficulty: ${currentDifficulty}
+
+ADAPTIVE LOGIC RULES:
+- If previous answer was correct (score >= 7): Increase difficulty, ask a deeper follow-up question.
+- If partially correct (score 4-6): Target the missing concept/weakness. Maintain difficulty.
+- If incorrect (score <= 3): Test a foundational concept related to the weakness. Reduce difficulty.
+
+NEVER repeat a previous question.
+Return structured JSON only:
+{
+    "text": "The next question text",
+    "topic": "The relevant technical topic",
+    "difficulty": "easy, medium, or hard",
+    "reason": "Why you chose this question based on the adaptive logic rules"
+}`;
+
+    return await callGroqJson(prompt);
+};
+
+exports.generateFinalReport = async (session) => {
+    if (!groq) return mockFallback.report();
+
+    const prompt = `Generate a final interview report for a ${session.candidateProfile.member.jobRole}.
+Questions asked: ${session.questionHistory.length}
+Total points gathered: ${session.score} (Max possible: ${session.questionHistory.length * 10})
+
+Based on this, return structured JSON only:
+{
+  "overallScore": <number 0-100>,
+  "technicalLevel": "Strong, Average, or Needs Improvement",
+  "strengths": ["list"],
+  "weaknesses": ["list"],
+  "topicsToImprove": ["list"],
+  "summary": "Concise 2-sentence summary of performance"
+}`;
+
+    return await callGroqJson(prompt);
+};
+
+async function callGroqJson(prompt) {
     try {
         const chatCompletion = await groq.chat.completions.create({
-            messages: [{ role: "user", content: prompt }],
+            messages: [{ role: "system", content: prompt }],
             model: "llama3-8b-8192",
-            temperature: 0.2, // Lower temperature for more deterministic JSON
+            temperature: 0.2,
             response_format: { type: "json_object" }
         });
-
-        const content = chatCompletion.choices[0].message.content;
-        return JSON.parse(content);
+        return JSON.parse(chatCompletion.choices[0].message.content);
     } catch (error) {
-        console.error("Error evaluating answer from Groq:", error);
-        return mockEvaluateAnswer();
+        console.error("Groq API Error:", error);
+        throw new Error("Unable to parse AI response.");
     }
-};
+}
