@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewAI - Ace Every Technical Interview</title>
+    <meta name="description"
+        content="Practice with an AI interviewer that adapts to your answers, challenges your knowledge, and prepares you for real-world technical interviews.">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+</head>
+
+<body class="landing-body">
+
+    <!-- Outer Rounded Canvas Container matching screenshot design presentation -->
+    <div class="app-container">
+
+        <!-- Top Navigation Header -->
+        <header class="navbar">
+            <a href="#" class="brand-logo" id="brand-logo-link">
+                <span class="logo-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 20 12 4 5 20" />
+                        <path d="M12 4v16" />
+                        <path d="M7 16h10" />
+                    </svg>
+                </span>
+                InterviewAI
+            </a>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link active" id="nav-home">Home</a></li>
+                    <li><a href="#features" class="nav-link" id="nav-features">Features</a></li>
+                    <li><a href="#how-it-works" class="nav-link" id="nav-how-it-works">How It Works</a></li>
+                    <li><a href="#about" class="nav-link" id="nav-about">About</a></li>
+                    <li><a href="#contact" class="nav-link" id="nav-contact">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions">
+            </div>
+        </header>
+
+        <!-- Home: Hero Section -->
+        <main class="hero" id="home">
+            <!-- Left Content Column -->
+            <div class="hero-content">
+                <h1 class="hero-headline">
+                    Ace Every<br>
+                    Technical<br>
+                    <span class="headline-highlight">
+                        Interview!
+
+                        <!-- Handwritten Blue Sparkle Doodle SVG -->
+                        <svg class="sparkle-doodle" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M30 40C25 20 40 10 50 25C60 40 45 55 35 45C25 35 55 15 75 30C85 38 75 55 60 50"
+                                stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M15 25L22 20M80 15L88 22M65 65L72 72" stroke="#2563EB" stroke-width="2.5"
+                                stroke-linecap="round" />
+                        </svg>
+
+                        <!-- Handwritten Orange Brush Underline SVG -->
+                        <svg class="underline-doodle" viewBox="0 0 240 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 14C50 6 150 4 236 12C180 18 80 18 12 18" stroke="#FF6B4A" stroke-width="4.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    Practice with an AI interviewer that adapts to your answers, challenges your knowledge, and prepares
+                    you for real-world technical interviews.
+                </p>
+
+                <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-top: 1rem;">
+                    <a href="dashboard.html"
+                        onclick="localStorage.setItem('selectedCandidate', document.getElementById('session-code-select').value)"
+                        class="btn btn-dark btn-lg" id="btn-get-started"
+                        style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
+                        Get Started
+                    </a>
+
+                    <!-- Custom Floating-Label Candidate Dropdown (Matching Reference Image Design) -->
+                    <div class="custom-dropdown-wrapper"
+                        style="position: relative; display: inline-block; font-family: inherit; margin-left: 0.2rem;">
+                        <!-- Top Notched Field Label -->
+                        <span class="custom-dropdown-label"
+                            style="position: absolute; top: -9px; left: 14px; background: #FAF6F0; padding: 0 6px; font-size: 0.68rem; font-weight: 800; color: #6C5CE7; letter-spacing: 0.5px; z-index: 2; border-radius: 4px; pointer-events: none;">
+                            Candidate ID
+                        </span>
+
+                        <!-- Main Frame Trigger Button -->
+                        <div class="custom-dropdown-trigger" id="custom-dropdown-trigger" tabindex="0"
+                            style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-width: 170px; background: #FFFFFF; color: #1C1C1E; border: 1.5px solid #6C5CE7; padding: 0.75rem 1.1rem; border-radius: 14px; font-size: 0.92rem; font-weight: 800; cursor: pointer; user-select: none; box-shadow: 0 4px 14px rgba(108, 92, 231, 0.08); transition: all 0.2s ease;">
+                            <span id="custom-dropdown-selected-text">001 - Sarah Johnson</span>
+                            <svg id="custom-dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="#6C5CE7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                style="transition: transform 0.2s ease; flex-shrink: 0;">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+
+                        <!-- Floating Dropdown Menu Panel -->
+                        <div class="custom-dropdown-menu" id="custom-dropdown-menu"
+                            style="display: none; position: absolute; top: calc(100% + 6px); left: 0; width: 240px; background: #FFFFFF; border: 1px solid rgba(108, 92, 231, 0.2); border-radius: 16px; box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12); padding: 0.4rem; z-index: 100; max-height: 230px; overflow-y: auto;">
+                            <!-- Dynamically populated options -->
+                        </div>
+
+                        <!-- Hidden native select for backward compatibility -->
+                        <select id="session-code-select" style="display: none;">
+                            <option value="001" selected>001</option>
+                            <option value="002">002</option>
+                            <option value="003">003</option>
+                            <option value="004">004</option>
+                            <option value="005">005</option>
+                            <option value="006">006</option>
+                            <option value="007">007</option>
+                            <option value="008">008</option>
+                            <option value="009">009</option>
+                            <option value="010">010</option>
+                            <option value="011">011</option>
+                            <option value="012">012</option>
+                            <option value="013">013</option>
+                            <option value="014">014</option>
+                            <option value="015">015</option>
+                            <option value="016">016</option>
+                            <option value="017">017</option>
+                            <option value="018">018</option>
+                            <option value="019">019</option>
+                            <option value="020">020</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Visual Column (Phone App Mockup + Interactive Play Button Overlay) -->
+            <div class="hero-visual">
+                <div class="visual-background-bg"></div>
+
+                <!-- Phone Mockup Container -->
+                <div class="phone-mockup-wrapper" id="phone-mockup-container"
+                    style="border-radius: 28px; overflow: hidden; border: 8px solid #0F172A; background: #0F172A; box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);">
+                    <img src="assets/candidate_spotlight.png" alt="Candidate Spotlight - Ace Technical Interviews"
+                        class="phone-mockup-img" id="phone-mockup-img"
+                        onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=600';"
+                        style="border-radius: 20px; width: 100%; height: auto; display: block; object-fit: cover;">
+                </div>
+            </div>
+        </main>
+
+
+        <!-- Features Section -->
+        <section class="catalog-section" id="features" style="margin-top: 4rem;">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Key Features</h2>
+                    <p class="section-subtitle">Supercharge your interview prep with cutting-edge AI capabilities built
+                        for software engineers.</p>
+                </div>
+            </div>
+
+            <div class="cabins-grid" style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));">
+                <!-- Feature 1 -->
+                <article class="cabin-card" style="padding: 2rem;">
+                    <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 700;">Adaptive Interviews</h3>
+                    <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.6;">Dynamically adjusts
+                        difficulty based on your responses, testing depth where you excel and guiding where you need
+                        practice.</p>
+                </article>
+
+                <!-- Feature 2 -->
+                <article class="cabin-card" style="padding: 2rem;">
+                    <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 700;">AI Follow-up Questions</h3>
+                    <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.6;">Probes edge cases,
+                        time/space complexity, and alternative approaches just like a senior engineer interviewer.</p>
+                </article>
+
+                <!-- Feature 3 -->
+                <article class="cabin-card" style="padding: 2rem;">
+                    <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 700;">Context Memory</h3>
+                    <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.6;">Remembers prior answers
+                        throughout the session, creating a cohesive, multi-turn interview dialogue.</p>
+                </article>
+
+                <!-- Feature 4 -->
+                <article class="cabin-card" style="padding: 2rem;">
+                    <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 700;">Real-Time Evaluation</h3>
+                    <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.6;">Get instant feedback,
+                        actionable scoring, and detailed solution breakdowns right after your interview session.</p>
+                </article>
+            </div>
+        </section>
+
+
+        <!-- How It Works Section -->
+        <section class="catalog-section" id="how-it-works" style="margin-top: 4rem;">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">How It Works</h2>
+                    <p class="section-subtitle">A simple 4-step process to transform your technical interview
+                        preparation.</p>
+                </div>
+            </div>
+
+            <div class="cabins-grid" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));">
+                <!-- Step 1 -->
+                <article class="cabin-card" style="padding: 2rem; position: relative;">
+                    <div
+                        style="font-size: 0.85rem; font-weight: 800; color: var(--accent-blue); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem;">
+                        Step 01</div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 700;">Select Domain</h3>
+                    <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.6;">Choose from Frontend,
+                        Python, Database, DSA, Backend, or Full Stack categories.</p>
+                </article>
+
+                <!-- Step 2 -->
+                <article class="cabin-card" style="padding: 2rem; position: relative;">
+                    <div
+                        style="font-size: 0.85rem; font-weight: 800; color: var(--accent-blue); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem;">
+                        Step 02</div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 700;">Start AI Session</h3>
+                    <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.6;">Initiate an interactive
+                        session with customized role level and difficulty settings.</p>
+                </article>
+
+                <!-- Step 3 -->
+                <article class="cabin-card" style="padding: 2rem; position: relative;">
+                    <div
+                        style="font-size: 0.85rem; font-weight: 800; color: var(--accent-blue); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem;">
+                        Step 03</div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 700;">Answer & Pivot</h3>
+                    <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.6;">Respond to questions while
+                        the AI adapts dynamically with intelligent follow-up queries.</p>
+                </article>
+
+                <!-- Step 4 -->
+                <article class="cabin-card" style="padding: 2rem; position: relative;">
+                    <div
+                        style="font-size: 0.85rem; font-weight: 800; color: var(--accent-blue); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem;">
+                        Step 04</div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 700;">Get Feedback</h3>
+                    <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.6;">Review comprehensive
+                        scorecards, strengths, key improvements, and ideal answers.</p>
+                </article>
+            </div>
+            <!-- About Section -->
+            <section class="catalog-section" id="about" style="margin-top: 4rem;">
+                <div class="section-header">
+                    <div>
+                        <div
+                            style="font-size: 0.85rem; font-weight: 800; color: var(--accent-blue); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem;">
+                            ℹ️ ABOUT
+                        </div>
+                        <h2 class="section-title">A Smarter Way to Prepare for Technical Interviews</h2>
+                        <p class="section-subtitle">This section explains what InterviewAI is and why it exists.</p>
+                    </div>
+                </div>
+
+                <div class="cabin-card" style="padding: 2.5rem;">
+                    <p style="color: var(--text-body); font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.2rem;">
+                        InterviewAI is an AI-powered technical interview platform designed to simulate realistic
+                        interview experiences through adaptive conversations.
+                    </p>
+                    <p style="color: var(--text-body); font-size: 1rem; line-height: 1.7; margin-bottom: 1.8rem;">
+                        Unlike traditional interview preparation platforms that rely on fixed question lists,
+                        InterviewAI understands candidate responses and dynamically generates relevant follow-up
+                        questions.
+                    </p>
+                    <div
+                        style="background: var(--accent-blue-light); padding: 1.4rem 1.8rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent-blue);">
+                        <h4
+                            style="font-size: 0.95rem; font-weight: 800; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem;">
+                            The goal is simple:</h4>
+                        <p style="font-size: 1.05rem; font-weight: 700; color: var(--text-dark);">
+                            Practice realistically. Understand your performance. Improve with every interview.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+    </div>
+
+    <!-- Action Modal Popup -->
+    <div class="modal-overlay" id="action-modal" onclick="if(event.target === this) closeModal()">
+        <div class="modal-card">
+            <h3 class="modal-title" id="modal-title">Action Title</h3>
+            <p class="modal-desc" id="modal-desc">Detailed instruction or confirmation message.</p>
+            <button class="btn-pill btn-pill-dark" style="width: 100%; justify-content: center;"
+                onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectEl = document.getElementById('session-code-select');
+            const getStartedBtn = document.getElementById('btn-get-started');
+            const trigger = document.getElementById('custom-dropdown-trigger');
+            const menu = document.getElementById('custom-dropdown-menu');
+            const selectedText = document.getElementById('custom-dropdown-selected-text');
+            const arrow = document.getElementById('custom-dropdown-arrow');
+
+            const candidateList = [
+                { id: '001', name: 'Sarah Johnson' },
+                { id: '002', name: 'Alex Turner' },
+                { id: '003', name: 'Emily Chen' },
+                { id: '004', name: 'Marcus Vance' },
+                { id: '005', name: 'Priya Sharma' },
+                { id: '006', name: 'David Miller' },
+                { id: '007', name: 'Elena Rostova' },
+                { id: '008', name: 'James Wilson' },
+                { id: '009', name: 'Aisha Patel' },
+                { id: '010', name: 'Carlos Mendez' },
+                { id: '011', name: 'Sophia Wang' },
+                { id: '012', name: 'Michael Brown' },
+                { id: '013', name: 'Olivia Taylor' },
+                { id: '014', name: 'Lucas Santos' },
+                { id: '015', name: 'Emma Watson' },
+                { id: '016', name: 'Liam O\'Connor' },
+                { id: '017', name: 'Chloe Bennett' },
+                { id: '018', name: 'Noah Kim' },
+                { id: '019', name: 'Zoe Garcia' },
+                { id: '020', name: 'Alexander Wright' }
+            ];
+
+            let activeVal = localStorage.getItem('selectedCandidate') || '001';
+            activeVal = activeVal.replace('CAND-', '').padStart(3, '0');
+
+            function renderCustomOptions() {
+                if (!menu) return;
+                menu.innerHTML = '';
+                candidateList.forEach(cand => {
+                    const isSelected = (cand.id === activeVal);
+                    const item = document.createElement('div');
+                    item.className = `custom-dropdown-item ${isSelected ? 'active' : ''}`;
+                    item.style.cssText = `
+                        padding: 0.6rem 0.85rem;
+                        margin-bottom: 0.2rem;
+                        border-radius: 10px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        cursor: pointer;
+                        font-size: 0.88rem;
+                        font-weight: 700;
+                        color: ${isSelected ? '#6C5CE7' : '#1C1C1E'};
+                        background: ${isSelected ? '#F0EDFF' : 'transparent'};
+                        transition: all 0.15s ease;
+                    `;
+
+                    item.addEventListener('mouseenter', () => {
+                        if (!isSelected) item.style.background = '#F7F5FE';
+                    });
+                    item.addEventListener('mouseleave', () => {
+                        if (!isSelected) item.style.background = 'transparent';
+                    });
+
+                    const textSpan = document.createElement('span');
+                    textSpan.textContent = `${cand.id} - ${cand.name}`;
+
+                    const badgeSpan = document.createElement('span');
+                    if (isSelected) {
+                        badgeSpan.textContent = '✓';
+                        badgeSpan.style.cssText = `
+                            background: #6C5CE7;
+                            color: #FFFFFF;
+                            font-size: 0.7rem;
+                            font-weight: 800;
+                            padding: 0.15rem 0.45rem;
+                            border-radius: 9999px;
+                        `;
+                    } else {
+                        badgeSpan.textContent = cand.id;
+                        badgeSpan.style.cssText = `
+                            font-size: 0.72rem;
+                            font-weight: 600;
+                            color: #999;
+                        `;
+                    }
+
+                    item.appendChild(textSpan);
+                    item.appendChild(badgeSpan);
+
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        selectCandidate(cand.id);
+                    });
+
+                    menu.appendChild(item);
+                });
+            }
+
+            function selectCandidate(val) {
+                activeVal = val;
+                if (selectEl) {
+                    selectEl.value = val;
+                }
+                const found = candidateList.find(c => c.id === val);
+                if (selectedText && found) {
+                    selectedText.textContent = `${found.id} - ${found.name}`;
+                }
+                syncCandidateSelection();
+                renderCustomOptions();
+                closeCustomMenu();
+            }
+
+            function syncCandidateSelection() {
+                const candId = 'CAND-' + activeVal;
+                localStorage.setItem('selectedCandidate', activeVal);
+                localStorage.setItem('selectedCandidateId', candId);
+                if (getStartedBtn) {
+                    getStartedBtn.href = `dashboard.html?candidateId=${candId}&cand=${activeVal}`;
+                }
+            }
+
+            function toggleCustomMenu() {
+                if (!menu) return;
+                const isOpen = menu.style.display === 'block';
+                if (isOpen) {
+                    closeCustomMenu();
+                } else {
+                    openCustomMenu();
+                }
+            }
+
+            function openCustomMenu() {
+                if (!menu) return;
+                menu.style.display = 'block';
+                if (arrow) arrow.style.transform = 'rotate(180deg)';
+                if (trigger) trigger.style.borderColor = '#6C5CE7';
+            }
+
+            function closeCustomMenu() {
+                if (!menu) return;
+                menu.style.display = 'none';
+                if (arrow) arrow.style.transform = 'rotate(0deg)';
+            }
+
+            if (trigger) {
+                trigger.addEventListener('click', toggleCustomMenu);
+            }
+
+            document.addEventListener('click', (e) => {
+                const wrapper = document.querySelector('.custom-dropdown-wrapper');
+                if (wrapper && !wrapper.contains(e.target)) {
+                    closeCustomMenu();
+                }
+            });
+
+            renderCustomOptions();
+            selectCandidate(activeVal);
+        });
+    </script>
+</body>
+
+</html>
