@@ -155,57 +155,78 @@
         </main>
 
 
-        <!-- Features Section -->
+        <!-- Features Section (Exact Reference Card Design) -->
         <section class="catalog-section" id="features" style="margin-top: 4rem;">
-            <div class="section-header">
-                <div>
-                    <h2 class="section-title">Key Features</h2>
-                    <p class="section-subtitle">Supercharge your interview prep with cutting-edge AI capabilities built
-                        for software engineers.</p>
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2.5rem;">
+                <div style="max-width: 480px;">
+                    <h2 class="section-title" style="font-size: 2.2rem; font-weight: 800; line-height: 1.25; color: #12161A;">
+                        Enjoy the Finest Features for Your Interview Prep
+                    </h2>
+                </div>
+                <div style="max-width: 460px;">
+                    <p class="section-subtitle" style="font-size: 0.95rem; color: #64748B; line-height: 1.6; margin-bottom: 0.8rem;">
+                        Supercharge your technical interview preparation with cutting-edge AI capabilities designed to simplify your practice without any friction.
+                    </p>
+                    <a href="dashboard.html" style="font-size: 0.92rem; font-weight: 800; color: #2A60F7; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
+                        Get Started &gt;
+                    </a>
                 </div>
             </div>
 
-            <div class="cabins-grid" style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem;">
-                <!-- Feature 1 -->
-                <article class="cabin-card" style="padding: 2.2rem 1.8rem; transition: var(--transition);">
-                    <div style="width: 46px; height: 46px; border-radius: 14px; background: var(--accent-blue-light); color: var(--accent-blue); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1.2rem; font-weight: 800;">
-                        🎯
+            <div class="cabins-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem;">
+                <!-- Feature Card 1 (Active Highlight Card - Royal Blue) -->
+                <article class="cabin-card" style="background: #2A60F7; border-radius: 20px; padding: 2.2rem 1.6rem; border: none; box-shadow: 0 16px 36px rgba(42, 96, 247, 0.28); color: #FFFFFF;">
+                    <div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: #2A60F7; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3"/>
+                            <path d="M18 12a2 2 0 0 0 0 4h3v-4z"/>
+                        </svg>
                     </div>
-                    <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 800; color: #12161A;">Adaptive Interviews</h3>
-                    <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.65;">
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #FFFFFF;">Adaptive Interviews</h3>
+                    <p style="font-size: 0.88rem; line-height: 1.65; color: rgba(255, 255, 255, 0.9);">
                         Dynamically adjusts difficulty based on your responses, testing depth where you excel and guiding where you need practice.
                     </p>
                 </article>
 
-                <!-- Feature 2 -->
-                <article class="cabin-card" style="padding: 2.2rem 1.8rem; transition: var(--transition);">
-                    <div style="width: 46px; height: 46px; border-radius: 14px; background: #EEF2FF; color: #6366F1; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1.2rem; font-weight: 800;">
-                        💬
+                <!-- Feature Card 2 (Light Gray Card) -->
+                <article class="cabin-card" style="background: #F4F5F7; border-radius: 20px; padding: 2.2rem 1.6rem; border: 1px solid rgba(0,0,0,0.03); color: #12161A;">
+                    <div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: #12161A; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <circle cx="12" cy="11" r="2"/>
+                            <path d="M12 13v3"/>
+                        </svg>
                     </div>
-                    <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 800; color: #12161A;">AI Follow-up Questions</h3>
-                    <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.65;">
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #12161A;">Safe & Rigorous</h3>
+                    <p style="font-size: 0.88rem; line-height: 1.65; color: #64748B;">
                         Probes edge cases, time/space complexity, and alternative approaches just like a senior engineer interviewer.
                     </p>
                 </article>
 
-                <!-- Feature 3 -->
-                <article class="cabin-card" style="padding: 2.2rem 1.8rem; transition: var(--transition);">
-                    <div style="width: 46px; height: 46px; border-radius: 14px; background: #F0FDF4; color: #10B981; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1.2rem; font-weight: 800;">
-                        🧠
+                <!-- Feature Card 3 (Light Gray Card) -->
+                <article class="cabin-card" style="background: #F4F5F7; border-radius: 20px; padding: 2.2rem 1.6rem; border: 1px solid rgba(0,0,0,0.03); color: #12161A;">
+                    <div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: #12161A; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
                     </div>
-                    <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 800; color: #12161A;">Context Memory</h3>
-                    <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.65;">
-                        Remembers prior answers throughout the session, creating a cohesive, multi-turn interview dialogue.
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #12161A;">Context Memory</h3>
+                    <p style="font-size: 0.88rem; line-height: 1.65; color: #64748B;">
+                        Remembers prior answers throughout the session, creating a cohesive, multi-turn interview dialogue 24 hours a week.
                     </p>
                 </article>
 
-                <!-- Feature 4 -->
-                <article class="cabin-card" style="padding: 2.2rem 1.8rem; transition: var(--transition);">
-                    <div style="width: 46px; height: 46px; border-radius: 14px; background: var(--accent-orange-light); color: var(--accent-orange); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1.2rem; font-weight: 800;">
-                        📊
+                <!-- Feature Card 4 (Light Gray Card) -->
+                <article class="cabin-card" style="background: #F4F5F7; border-radius: 20px; padding: 2.2rem 1.6rem; border: 1px solid rgba(0,0,0,0.03); color: #12161A;">
+                    <div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: #12161A; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
                     </div>
-                    <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 800; color: #12161A;">Real-Time Evaluation</h3>
-                    <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.65;">
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #12161A;">Quick Feedback</h3>
+                    <p style="font-size: 0.88rem; line-height: 1.65; color: #64748B;">
                         Get instant feedback, actionable scoring, and detailed solution breakdowns right after your interview session.
                     </p>
                 </article>
@@ -371,7 +392,7 @@
                                 selectCandidate(activeVal);
                             }
                         })
-                        .catch(() => {});
+                        .catch(() => { });
                 });
 
             let activeVal = localStorage.getItem('selectedCandidate') || '001';
