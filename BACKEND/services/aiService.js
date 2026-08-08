@@ -39,19 +39,22 @@ exports.evaluateAnswer = async ({ candidate, question, answer }) => {
 
     const { jobRole, yearsExperience } = candidate.member;
 
-    const prompt = `You are an expert technical interviewer evaluating an answer.
+    const prompt = `You are an expert technical interviewer evaluating a candidate's answer.
 Candidate Role: ${jobRole} (${yearsExperience} years experience)
 Question: "${question}"
 Candidate Answer: "${answer}"
 
-Evaluate the answer objectively. Do not judge personal characteristics.
+CRITICAL EVALUATION RULES:
+1. STRICT TOPIC ALIGNMENT: If the question requires a specific subject or language (e.g., SQL/relational databases) and the candidate answers with an unrelated subject/language (e.g., Java concepts, general algorithms, or completely different stack technologies), you MUST classify the correctness as "incorrect", assign a score of 0, and note the technology mismatch in the weaknesses.
+2. Evaluate the answer objectively. Do not judge personal characteristics.
+
 Return structured JSON only:
 {
     "correctness": "correct, partially correct, or incorrect",
     "score": <number 0-10>,
-    "feedback": "1-2 sentence constructive feedback",
-    "strengths": ["list of identified strengths"],
-    "weaknesses": ["list of missing concepts or errors"]
+    "feedback": "1-2 sentence constructive feedback highlighting the topic mismatch or evaluation findings",
+    "strengths": ["list of identified strengths, empty if mismatch"],
+    "weaknesses": ["list of missing concepts, errors, or topic mismatch details"]
 }`;
 
     return await callGroqJson(prompt);

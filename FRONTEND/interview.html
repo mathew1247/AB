@@ -353,9 +353,203 @@
 
         /* Bottom Floating Bar */
         .dia-bottom-widget {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .dia-pill-text {
+            font-size: 0.88rem;
+            color: var(--text-sub);
+            font-weight: 500;
+        }
+
+        .dia-pill-btn {
+            background: var(--black-pill);
+            color: var(--white);
+            border: none;
+            padding: 0.6rem 1.3rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .dia-pill-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .dia-sub-link {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2.5rem;
+            transition: color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .dia-sub-link:hover {
+            color: var(--text-main);
+        }
+
+        /* Background Window Wireframe Card */
+        .dia-window-mockup {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-box);
+            box-shadow: var(--shadow-subtle);
+            padding: 2.2rem 2.5rem 2.2rem 2.5rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .dia-window-dots {
+            display: flex;
+            gap: 0.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dia-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #E5E5E8;
+        }
+
+        .q-meta-row {
             display: flex;
             align-items: center;
-            gap: 1.2rem;
+            gap: 0.8rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .q-text {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.35;
+            letter-spacing: -0.02em;
+        }
+
+        /* Floating Input Search Pill (Signature Dia Bar) */
+        .dia-input-pill {
+            width: 100%;
+            max-width: 780px;
+            background: var(--white);
+            border-radius: var(--radius-box);
+            border: 1px solid rgba(0, 0, 0, 0.09);
+            box-shadow: var(--shadow-float);
+            padding: 1.2rem 1.6rem;
+            margin-top: 1.8rem;
+            position: relative;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .dia-input-pill:focus-within {
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+            border-color: rgba(0, 0, 0, 0.18);
+        }
+
+        .dia-input-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+
+        .dia-search-icon {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .answer-textarea {
+            width: 100%;
+            min-height: 70px;
+            border: none;
+            outline: none;
+            font-family: var(--font-sans);
+            font-size: 1.05rem;
+            color: var(--text-main);
+            background: transparent;
+            resize: none;
+            line-height: 1.5;
+        }
+
+        .answer-textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .dia-input-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.4rem;
+            border-top: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .dia-add-tabs {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+        }
+
+        .dia-add-tabs:hover {
+            color: var(--text-sub);
+        }
+
+        .dia-send-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--black-pill);
+            color: var(--white);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .dia-send-btn:hover:not(:disabled) {
+            transform: scale(1.06);
+            background: #222222;
+        }
+
+        .dia-send-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Bottom Floating Bar */
+        .dia-bottom-widget {
+            display: flex;
+            align-items: center;
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
             border: 1px solid var(--border-light);
@@ -530,10 +724,6 @@
 
     <!-- Bottom Floating Control Bar -->
     <div class="dia-bottom-widget">
-        <div class="dia-widget-btn">
-            <span>⏱️</span> <span id="header-timer">20:00</span>
-        </div>
-        <span style="color: var(--border-light);">|</span>
         <button class="dia-widget-btn" onclick="showEndModal()">
             End Interview
         </button>
@@ -561,9 +751,7 @@
             totalQuestions: 10,
             questionNumber: 1,
             status: "ACTIVE", // ACTIVE, EVALUATING, COMPLETED
-            currentQuestion: null,
-            timerSeconds: 1200,
-            timerInterval: null
+            currentQuestion: null
         };
 
         // --- Initialization ---
@@ -578,13 +766,10 @@
             currentState.candidate.role = role;
             currentState.questionNumber = 1;
             currentState.status = 'ACTIVE';
-            currentState.timerSeconds = 1200;
             
             const roleDisplay = document.getElementById('header-role-display');
             if (roleDisplay) roleDisplay.textContent = `${role} Mode`;
 
-            startTimer();
-            
             const viewport = document.getElementById('workspace-viewport');
             viewport.innerHTML = `<div style="text-align:center; margin-top: 5rem;">
                 <h2 style="font-size: 1.5rem; color: #333;">Connecting to AI Interviewer...</h2>
@@ -650,6 +835,11 @@
                     <h2 class="q-text">${q.text}</h2>
                 </div>
 
+                <!-- Inline Warning Response Message (Visible below question and above input area) -->
+                <div id="validation-response-block" style="display: none; width: 100%; max-width: 780px; margin-top: 1.5rem; padding: 1.2rem 1.5rem; background: #FFF5F5; border: 1px solid #FEB2B2; border-radius: 16px; color: #C53030; font-size: 0.92rem; font-weight: 500; line-height: 1.5; animation: msg-rise 0.3s ease;">
+                    ⚠️ You have entered something else expecting the correct answer. Please provide a detailed response
+                </div>
+
                 <!-- Signature Dia Input Search Pill -->
                 <div class="dia-input-pill">
                     <div class="dia-input-row">
@@ -698,13 +888,20 @@
         async function submitAnswer() {
             const ta = document.getElementById('answer-input');
             const btn = document.getElementById('btn-submit');
+            const warnBlock = document.getElementById('validation-response-block');
+            const answerVal = ta ? ta.value.trim() : "";
             
-            if (!ta || ta.value.trim().length < 10) {
-                alert("Please provide a more detailed answer before submitting.");
+            // Validation for undefined/empty/non-meaningful input
+            if (!answerVal || answerVal.length < 10) {
+                if (warnBlock) {
+                    warnBlock.style.display = 'block';
+                    warnBlock.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
                 return;
             }
 
-            const answer = ta.value.trim();
+            if (warnBlock) warnBlock.style.display = 'none';
+            const answer = answerVal;
             ta.disabled = true;
             if (btn) btn.disabled = true;
             
@@ -721,6 +918,20 @@
                 });
                 
                 const data = await res.json();
+                
+                if (data.reply && data.reply.includes("You have entered something else expecting the correct answer")) {
+                    // Re-enable input and show warning block
+                    ta.disabled = false;
+                    if (btn) btn.disabled = false;
+                    renderQuestionScreen();
+                    
+                    const newWarnBlock = document.getElementById('validation-response-block');
+                    if (newWarnBlock) {
+                        newWarnBlock.style.display = 'block';
+                        newWarnBlock.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                    return;
+                }
                 
                 if (data.done) {
                     renderFinalReport(data.feedback);
@@ -775,7 +986,6 @@
         }
 
         function renderFinalReport(feedback) {
-            stopTimer();
             currentState.status = 'COMPLETED';
 
             feedback = feedback || { summary: "Interview completed.", strengths: [], gaps: [], next: [] };
@@ -840,7 +1050,7 @@
             `;
         }
 
-        // --- Modals and Timers ---
+        // --- Modals ---
         function showEndModal() {
             const modal = document.getElementById('end-modal');
             if (modal) modal.classList.add('active');
@@ -854,37 +1064,6 @@
         function confirmEndInterview() {
             hideEndModal();
             renderFinalReport();
-        }
-
-        function startTimer() {
-            stopTimer();
-            updateTimerDisplay();
-            currentState.timerInterval = setInterval(() => {
-                currentState.timerSeconds--;
-                updateTimerDisplay();
-                
-                if (currentState.timerSeconds <= 0) {
-                    stopTimer();
-                    alert("Time is up!");
-                    renderFinalReport();
-                }
-            }, 1000);
-        }
-
-        function stopTimer() {
-            if (currentState.timerInterval) {
-                clearInterval(currentState.timerInterval);
-                currentState.timerInterval = null;
-            }
-        }
-
-        function updateTimerDisplay() {
-            const m = Math.floor(currentState.timerSeconds / 60);
-            const s = currentState.timerSeconds % 60;
-            const el = document.getElementById('header-timer');
-            if (el) {
-                el.innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-            }
         }
     </script>
 </body>

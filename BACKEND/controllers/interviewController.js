@@ -65,6 +65,17 @@ exports.handleInterview = async (req, res, next) => {
                 previousQuestions: session.questionHistory
             });
 
+            // If the AI flags a complete topic/technology mismatch or invalid response
+            if (evaluation.correctness === "incorrect" && 
+                (evaluation.feedback.toLowerCase().includes("mismatch") || 
+                 evaluation.feedback.toLowerCase().includes("unrelated") ||
+                 evaluation.score === 0)) {
+                return res.status(200).json({
+                    reply: "You have entered something else expecting the correct answer. Please provide a detailed response",
+                    done: false
+                });
+            }
+
             // Save history
             session.questionHistory.push(currentQ.text);
             session.answerHistory.push(message);
