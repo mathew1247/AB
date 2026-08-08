@@ -6,6 +6,7 @@ import { env } from "./config/env";
 import { assertCorsConfigured, expressCorsOptions } from "./config/cors";
 import { errorHandler, notFoundHandler } from "./middleware/error.middleware";
 import { interviewRoutes } from "./routes/interview.routes";
+import { authRoutes } from "./routes/auth.routes";
 
 export function createApp(): Express {
   assertCorsConfigured();
@@ -34,6 +35,7 @@ export function createApp(): Express {
     }),
   );
   app.use("/api", interviewRoutes);
+  app.use("/api", authRoutes);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
