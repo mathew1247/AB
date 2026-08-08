@@ -80,14 +80,19 @@
                 </p>
 
                 <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-top: 1rem;">
-                    <a href="dashboard.html" onclick="localStorage.setItem('selectedCandidate', document.getElementById('session-code-select').value)" class="btn btn-dark btn-lg" id="btn-get-started" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <a href="dashboard.html"
+                        onclick="localStorage.setItem('selectedCandidate', document.getElementById('session-code-select').value)"
+                        class="btn btn-dark btn-lg" id="btn-get-started"
+                        style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
                         Get Started
                     </a>
 
                     <!-- Custom Floating-Label Candidate Dropdown (Matching Reference Image Design) -->
-                    <div class="custom-dropdown-wrapper" style="position: relative; display: inline-block; font-family: inherit; margin-left: 0.2rem;">
+                    <div class="custom-dropdown-wrapper"
+                        style="position: relative; display: inline-block; font-family: inherit; margin-left: 0.2rem;">
                         <!-- Top Notched Field Label -->
-                        <span class="custom-dropdown-label" style="position: absolute; top: -9px; left: 14px; background: #FAF6F0; padding: 0 6px; font-size: 0.68rem; font-weight: 800; color: #6C5CE7; letter-spacing: 0.5px; z-index: 2; border-radius: 4px; pointer-events: none;">
+                        <span class="custom-dropdown-label"
+                            style="position: absolute; top: -9px; left: 14px; background: #FAF6F0; padding: 0 6px; font-size: 0.68rem; font-weight: 800; color: #6C5CE7; letter-spacing: 0.5px; z-index: 2; border-radius: 4px; pointer-events: none;">
                             Candidate ID
                         </span>
 
@@ -95,7 +100,9 @@
                         <div class="custom-dropdown-trigger" id="custom-dropdown-trigger" tabindex="0"
                             style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-width: 170px; background: #FFFFFF; color: #1C1C1E; border: 1.5px solid #6C5CE7; padding: 0.75rem 1.1rem; border-radius: 14px; font-size: 0.92rem; font-weight: 800; cursor: pointer; user-select: none; box-shadow: 0 4px 14px rgba(108, 92, 231, 0.08); transition: all 0.2s ease;">
                             <span id="custom-dropdown-selected-text">001 - Sarah Johnson</span>
-                            <svg id="custom-dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6C5CE7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.2s ease; flex-shrink: 0;">
+                            <svg id="custom-dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="#6C5CE7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                style="transition: transform 0.2s ease; flex-shrink: 0;">
                                 <polyline points="6 9 12 15 18 9"></polyline>
                             </svg>
                         </div>
@@ -162,10 +169,6 @@
             <div class="cabins-grid" style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));">
                 <!-- Feature 1 -->
                 <article class="cabin-card" style="padding: 2rem;">
-                    <div
-                        style="width: 48px; height: 48px; background: var(--accent-blue-light); color: var(--accent-blue); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.2rem;">
-                        🎯
-                    </div>
                     <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 700;">Adaptive Interviews</h3>
                     <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.6;">Dynamically adjusts
                         difficulty based on your responses, testing depth where you excel and guiding where you need
@@ -174,10 +177,6 @@
 
                 <!-- Feature 2 -->
                 <article class="cabin-card" style="padding: 2rem;">
-                    <div
-                        style="width: 48px; height: 48px; background: var(--accent-orange-light); color: var(--accent-orange); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.2rem;">
-                        🧠
-                    </div>
                     <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 700;">AI Follow-up Questions</h3>
                     <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.6;">Probes edge cases,
                         time/space complexity, and alternative approaches just like a senior engineer interviewer.</p>
@@ -185,10 +184,6 @@
 
                 <!-- Feature 3 -->
                 <article class="cabin-card" style="padding: 2rem;">
-                    <div
-                        style="width: 48px; height: 48px; background: #EEF2FF; color: #4F46E5; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.2rem;">
-                        💾
-                    </div>
                     <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 700;">Context Memory</h3>
                     <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.6;">Remembers prior answers
                         throughout the session, creating a cohesive, multi-turn interview dialogue.</p>
@@ -196,10 +191,6 @@
 
                 <!-- Feature 4 -->
                 <article class="cabin-card" style="padding: 2rem;">
-                    <div
-                        style="width: 48px; height: 48px; background: #ECFDF5; color: #059669; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.2rem;">
-                        ⚡
-                    </div>
                     <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 700;">Real-Time Evaluation</h3>
                     <p style="color: var(--text-body); font-size: 0.9rem; line-height: 1.6;">Get instant feedback,
                         actionable scoring, and detailed solution breakdowns right after your interview session.</p>
@@ -259,33 +250,40 @@
                         scorecards, strengths, key improvements, and ideal answers.</p>
                 </article>
             </div>
-        <!-- About Section -->
-        <section class="catalog-section" id="about" style="margin-top: 4rem;">
-            <div class="section-header">
-                <div>
-                    <div style="font-size: 0.85rem; font-weight: 800; color: var(--accent-blue); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem;">
-                        ℹ️ ABOUT
+            <!-- About Section -->
+            <section class="catalog-section" id="about" style="margin-top: 4rem;">
+                <div class="section-header">
+                    <div>
+                        <div
+                            style="font-size: 0.85rem; font-weight: 800; color: var(--accent-blue); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem;">
+                            ℹ️ ABOUT
+                        </div>
+                        <h2 class="section-title">A Smarter Way to Prepare for Technical Interviews</h2>
+                        <p class="section-subtitle">This section explains what InterviewAI is and why it exists.</p>
                     </div>
-                    <h2 class="section-title">A Smarter Way to Prepare for Technical Interviews</h2>
-                    <p class="section-subtitle">This section explains what InterviewAI is and why it exists.</p>
                 </div>
-            </div>
 
-            <div class="cabin-card" style="padding: 2.5rem;">
-                <p style="color: var(--text-body); font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.2rem;">
-                    InterviewAI is an AI-powered technical interview platform designed to simulate realistic interview experiences through adaptive conversations.
-                </p>
-                <p style="color: var(--text-body); font-size: 1rem; line-height: 1.7; margin-bottom: 1.8rem;">
-                    Unlike traditional interview preparation platforms that rely on fixed question lists, InterviewAI understands candidate responses and dynamically generates relevant follow-up questions.
-                </p>
-                <div style="background: var(--accent-blue-light); padding: 1.4rem 1.8rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent-blue);">
-                    <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem;">The goal is simple:</h4>
-                    <p style="font-size: 1.05rem; font-weight: 700; color: var(--text-dark);">
-                        Practice realistically. Understand your performance. Improve with every interview.
+                <div class="cabin-card" style="padding: 2.5rem;">
+                    <p style="color: var(--text-body); font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.2rem;">
+                        InterviewAI is an AI-powered technical interview platform designed to simulate realistic
+                        interview experiences through adaptive conversations.
                     </p>
+                    <p style="color: var(--text-body); font-size: 1rem; line-height: 1.7; margin-bottom: 1.8rem;">
+                        Unlike traditional interview preparation platforms that rely on fixed question lists,
+                        InterviewAI understands candidate responses and dynamically generates relevant follow-up
+                        questions.
+                    </p>
+                    <div
+                        style="background: var(--accent-blue-light); padding: 1.4rem 1.8rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent-blue);">
+                        <h4
+                            style="font-size: 0.95rem; font-weight: 800; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem;">
+                            The goal is simple:</h4>
+                        <p style="font-size: 1.05rem; font-weight: 700; color: var(--text-dark);">
+                            Practice realistically. Understand your performance. Improve with every interview.
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
     </div>
 
@@ -294,7 +292,8 @@
         <div class="modal-card">
             <h3 class="modal-title" id="modal-title">Action Title</h3>
             <p class="modal-desc" id="modal-desc">Detailed instruction or confirmation message.</p>
-            <button class="btn-pill btn-pill-dark" style="width: 100%; justify-content: center;" onclick="closeModal()">Close</button>
+            <button class="btn-pill btn-pill-dark" style="width: 100%; justify-content: center;"
+                onclick="closeModal()">Close</button>
         </div>
     </div>
 
@@ -302,7 +301,7 @@
     <div class="toast-container" id="toast-container"></div>
     <script src="script.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const selectEl = document.getElementById('session-code-select');
             const getStartedBtn = document.getElementById('btn-get-started');
             const trigger = document.getElementById('custom-dropdown-trigger');
