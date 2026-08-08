@@ -251,10 +251,10 @@ function renderCourse(index) {
         const path1 = `assets/${imageName}`;
         const path2 = imageName;
         
+        // Immediate primary assignment
+        cardEl.style.background = `linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url('${path1}') center/cover no-repeat`;
+
         const preloader = new Image();
-        preloader.onload = function () {
-          cardEl.style.background = `linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url('${path1}') center/cover no-repeat`;
-        };
         preloader.onerror = function () {
           cardEl.style.background = `linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url('${path2}') center/cover no-repeat`;
         };

@@ -5,33 +5,33 @@
   --font-primary: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-hand: 'Caveat', cursive;
 
-  /* Global Landing Page Colors */
-  --bg-page: #E9ECEF;
-  --bg-card: #FFFFFF;
-  --text-dark: #12161A;
-  --text-body: #5A6472;
-  --text-muted: #8C96A3;
+  /* Global Landing Page & Dashboard Palette Alignment */
+  --bg-page: #46342E;          /* Warm chocolate brown framing background */
+  --bg-card: #FAF6F0;          /* Warm cream taupe canvas */
+  --text-dark: #1C1C1E;        /* Deep obsidian dark text */
+  --text-body: #4A463D;        /* Warm dark taupe body text */
+  --text-muted: #6B6659;       /* Muted taupe text */
 
-  --primary-dark: #16191D;
-  --primary-dark-hover: #292D33;
+  --primary-dark: #1C1C1E;
+  --primary-dark-hover: #2D2D30;
 
-  --accent-blue: #2A60F7;
-  --accent-blue-light: #EEF4FF;
-  --accent-orange: #FF6B4A;
-  --accent-orange-light: #FFF0ED;
+  --accent-blue: #1C1C1E;
+  --accent-blue-light: #F3EFEA;
+  --accent-orange: #FFC82C;
+  --accent-orange-light: #FFF8E5;
 
-  /* Shared Identical Color Theme Palette for index.html & dashboard.html */
-  --berun-bg-outer: var(--bg-page);
+  /* Shared Identical Color Theme Palette */
+  --berun-bg-outer: #46342E;
   --berun-bg-card: #FAF6F0;
-  --berun-bg-white: var(--bg-card);
-  --berun-bg-dark: var(--text-dark);
-  --berun-bg-taupe: var(--accent-blue-light);
-  --berun-bg-yellow: var(--accent-blue);
-  --berun-bg-red: var(--accent-orange);
+  --berun-bg-white: #FFFFFF;
+  --berun-bg-dark: #1C1C1E;
+  --berun-bg-taupe: #F3EFEA;
+  --berun-bg-yellow: #FFC82C;
+  --berun-bg-red: #E63946;
 
-  --berun-text-dark: var(--text-dark);
-  --berun-text-body: var(--text-body);
-  --berun-text-muted: var(--text-muted);
+  --berun-text-dark: #1C1C1E;
+  --berun-text-body: #4A463D;
+  --berun-text-muted: #6B6659;
   --berun-border: rgba(0, 0, 0, 0.08);
 
   --radius-sm: 10px;
