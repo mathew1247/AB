@@ -4,781 +4,601 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Be.run - Minimalist Activity & Health Dashboard</title>
+    <title>InterviewAI - Ace Every Technical Interview</title>
     <meta name="description"
-        content="Track your daily workouts, training schedule, step counters, weight loss progress, and personal habit routines.">
-    <!-- Stylesheet -->
+        content="Practice with an AI interviewer that adapts to your answers, challenges your knowledge, and prepares you for real-world technical interviews.">
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="styles.css">
     <!-- Favicon -->
     <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏃</text></svg>">
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
 </head>
 
-<body class="berun-dashboard-body">
+<body class="landing-body">
 
-    <!-- Outer App Dashboard Card Frame -->
-    <div class="berun-app-card">
+    <!-- Outer Rounded Canvas Container matching screenshot design presentation -->
+    <div class="app-container">
 
-        <!-- Left Vertical Floating Sidebar -->
-        <aside class="berun-sidebar">
-            <!-- Brand Logo -->
-            <div class="berun-logo-icon" onclick="showToast('Be.run Dashboard Home')" title="Be.run Workspace">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z" fill="currentColor" />
-                </svg>
-                <span style="font-size: 0.65rem; margin-top: 2px; font-weight: 800;">Be.run</span>
+        <!-- Top Navigation Header -->
+        <header class="navbar">
+            <a href="#" class="brand-logo" id="brand-logo-link">
+                <span class="logo-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 20 12 4 5 20" />
+                        <path d="M12 4v16" />
+                        <path d="M7 16h10" />
+                    </svg>
+                </span>
+                InterviewAI
+            </a>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link active" id="nav-home">Home</a></li>
+                    <li><a href="#features" class="nav-link" id="nav-features">Features</a></li>
+                    <li><a href="#how-it-works" class="nav-link" id="nav-how-it-works">How It Works</a></li>
+                    <li><a href="#about" class="nav-link" id="nav-about">About</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions">
+            </div>
+        </header>
+
+        <!-- Home: Hero Section -->
+        <main class="hero" id="home">
+            <!-- Left Content Column -->
+            <div class="hero-content">
+                <h1 class="hero-headline">
+                    Ace Every<br>
+                    Technical<br>
+                    <span class="headline-highlight">
+                        Interview!
+
+                        <!-- Handwritten Blue Sparkle Doodle SVG -->
+                        <svg class="sparkle-doodle" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M30 40C25 20 40 10 50 25C60 40 45 55 35 45C25 35 55 15 75 30C85 38 75 55 60 50"
+                                stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M15 25L22 20M80 15L88 22M65 65L72 72" stroke="#2563EB" stroke-width="2.5"
+                                stroke-linecap="round" />
+                        </svg>
+
+                        <!-- Handwritten Orange Brush Underline SVG -->
+                        <svg class="underline-doodle" viewBox="0 0 240 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 14C50 6 150 4 236 12C180 18 80 18 12 18" stroke="#FF6B4A" stroke-width="4.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    Practice with an AI interviewer that adapts to your answers, challenges your knowledge, and prepares
+                    you for real-world technical interviews.
+                </p>
+
+                <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-top: 1rem;">
+                    <a href="dashboard.html"
+                        onclick="localStorage.setItem('selectedCandidate', document.getElementById('session-code-select').value)"
+                        class="btn btn-dark btn-lg" id="btn-get-started"
+                        style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
+                        Get Started
+                    </a>
+
+                    <!-- Custom Floating-Label Candidate Dropdown (Matching Reference Image Design) -->
+                    <div class="custom-dropdown-wrapper"
+                        style="position: relative; display: inline-block; font-family: inherit; margin-left: 0.2rem;">
+                        <!-- Top Notched Field Label -->
+                        <span class="custom-dropdown-label"
+                            style="position: absolute; top: -9px; left: 14px; background: #FAF6F0; padding: 0 6px; font-size: 0.68rem; font-weight: 800; color: #6C5CE7; letter-spacing: 0.5px; z-index: 2; border-radius: 4px; pointer-events: none;">
+                            Candidate ID
+                        </span>
+
+                        <!-- Main Frame Trigger Button -->
+                        <div class="custom-dropdown-trigger" id="custom-dropdown-trigger" tabindex="0"
+                            style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-width: 170px; background: #FFFFFF; color: #1C1C1E; border: 1.5px solid #6C5CE7; padding: 0.75rem 1.1rem; border-radius: 14px; font-size: 0.92rem; font-weight: 800; cursor: pointer; user-select: none; box-shadow: 0 4px 14px rgba(108, 92, 231, 0.08); transition: all 0.2s ease;">
+                            <span id="custom-dropdown-selected-text">001 - Sarah Johnson</span>
+                            <svg id="custom-dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="#6C5CE7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                style="transition: transform 0.2s ease; flex-shrink: 0;">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+
+                        <!-- Floating Dropdown Menu Panel -->
+                        <div class="custom-dropdown-menu" id="custom-dropdown-menu"
+                            style="display: none; position: absolute; top: calc(100% + 6px); left: 0; width: 240px; background: #FFFFFF; border: 1px solid rgba(108, 92, 231, 0.2); border-radius: 16px; box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12); padding: 0.4rem; z-index: 100; max-height: 230px; overflow-y: auto;">
+                            <!-- Dynamically populated options -->
+                        </div>
+
+                        <!-- Hidden native select for backward compatibility -->
+                        <select id="session-code-select" style="display: none;">
+                            <option value="001" selected>001</option>
+                            <option value="002">002</option>
+                            <option value="003">003</option>
+                            <option value="004">004</option>
+                            <option value="005">005</option>
+                            <option value="006">006</option>
+                            <option value="007">007</option>
+                            <option value="008">008</option>
+                            <option value="009">009</option>
+                            <option value="010">010</option>
+                            <option value="011">011</option>
+                            <option value="012">012</option>
+                            <option value="013">013</option>
+                            <option value="014">014</option>
+                            <option value="015">015</option>
+                            <option value="016">016</option>
+                            <option value="017">017</option>
+                            <option value="018">018</option>
+                            <option value="019">019</option>
+                            <option value="020">020</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
-            <!-- Vertical Navigation Icons -->
-            <nav class="berun-nav-list">
-                <!-- Home / Dashboard -->
-                <button class="berun-nav-btn active" title="Dashboard Home" onclick="setActiveSidebar(this, 'Home')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                    </svg>
-                </button>
+            <!-- Right Visual Column (Phone App Mockup + Interactive Play Button Overlay) -->
+            <div class="hero-visual">
+                <div class="visual-background-bg"></div>
 
-                <!-- Speedometer / Activity -->
-                <button class="berun-nav-btn" title="Activity Analytics" onclick="setActiveSidebar(this, 'Activity')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10" />
-                        <path d="M12 6v6l4 2" />
-                    </svg>
-                </button>
-
-                <!-- Flag / Goals -->
-                <button class="berun-nav-btn" title="Goals & Milestones" onclick="setActiveSidebar(this, 'Goals')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
-                        <line x1="4" y1="22" x2="4" y2="15" />
-                    </svg>
-                </button>
-
-                <!-- Calendar -->
-                <button class="berun-nav-btn" title="Training Days Calendar"
-                    onclick="setActiveSidebar(this, 'Calendar')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                        <line x1="16" y1="2" x2="16" y2="6" />
-                        <line x1="8" y1="2" x2="8" y2="6" />
-                        <line x1="3" y1="10" x2="21" y2="10" />
-                    </svg>
-                </button>
-            </nav>
-        </aside>
-
-        <!-- Main Dashboard Workspace -->
-        <main class="berun-main-wrapper">
-
-            <!-- Top Header Row -->
-            <header class="berun-topbar">
-                <div class="berun-greeting">
-                    <h1 id="greeting-title">Hi, Amanda!</h1>
-                    <p>Let's take a look at your activity today</p>
+                <!-- Phone Mockup Container -->
+                <div class="phone-mockup-wrapper" id="phone-mockup-container"
+                    style="border-radius: 28px; overflow: hidden; border: 8px solid #0F172A; background: #0F172A; box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);">
+                    <img src="assets/candidate_spotlight.png" alt="Candidate Spotlight - Ace Technical Interviews"
+                        class="phone-mockup-img" id="phone-mockup-img"
+                        onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=600';"
+                        style="border-radius: 20px; width: 100%; height: auto; display: block; object-fit: cover;">
                 </div>
-
-                <div class="berun-topbar-actions">
-                    <!-- Apply Action Button (Redirects to LinkedIn Job Portal) -->
-                    <a href="https://www.linkedin.com/jobs/" target="_blank" rel="noopener noreferrer"
-                        class="berun-btn-dark"
-                        style="text-decoration: none; font-size: 0.82rem; padding: 0.5rem 1.15rem; display: inline-flex; align-items: center; justify-content: center;">
-                        Apply
-                    </a>
-                </div>
-            </header>
-
-            <!-- Top Grid Section (Workout Results & Training Days) -->
-            <section class="berun-grid-top">
-
-                <!-- Left Card: Technical Skills Carousel (Replaces Workout Results for Today) -->
-                <article class="berun-workout-card" id="tech-skills-carousel-card" style="background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url('assets/code_build_create.png') center/cover no-repeat; color: #FFFFFF;">
-                    <!-- Top Header Row -->
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                        <div>
-                            <h2 class="berun-card-title" style="color: #FFFFFF;">Technical Skills</h2>
-                            <p style="font-size: 0.78rem; color: rgba(255, 255, 255, 0.85); margin-top: 0.2rem; font-weight: 500;">
-                                Explore and continue your interview preparation.
-                            </p>
-                        </div>
-                        <!-- Step / Counter Indicator -->
-                        <span id="course-counter-indicator"
-                            style="background: rgba(255, 255, 255, 0.2); color: #FFFFFF; font-size: 0.75rem; font-weight: 800; padding: 0.3rem 0.7rem; border-radius: var(--radius-pill); border: 1px solid rgba(255, 255, 255, 0.2);">
-                            1 / 8
-                        </span>
-                    </div>
-
-                    <!-- Single Course Display Slide Container (Positioned slightly above Previous/Next buttons) -->
-                    <div id="course-slide-wrapper" style="margin-top: auto; margin-bottom: 0.4rem;">
-                        <!-- Title & Tags -->
-                        <div
-                            style="display: flex; align-items: flex-end; justify-content: space-between; padding: 0.3rem 0;">
-                            <div>
-                                <div id="course-title"
-                                    style="font-size: 1.25rem; font-weight: 800; color: #FFFFFF;">Environment & Tooling
-                                </div>
-                                <div id="course-tags" style="font-size: 0.82rem; color: rgba(255, 255, 255, 0.85); font-weight: 600; margin-top: 0.15rem;">
-                                    Days 1–3 • Module 1 • Setup & Tools</div>
-                            </div>
-                            <span id="course-level"
-                                style="background: rgba(255, 255, 255, 0.2); color: #FFFFFF; padding: 0.3rem 0.8rem; border-radius: var(--radius-pill); font-size: 0.78rem; font-weight: 800;">
-                                Module 1
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Navigation Controls Row -->
-                    <div
-                        style="display: flex; justify-content: flex-start; align-items: center; margin-top: 0.4rem;">
-                        <div style="display: flex; gap: 0.4rem;">
-                            <button id="prev-course-btn" class="carousel-nav-btn"
-                                onclick="prevCourse()">Previous</button>
-                            <button id="next-course-btn" class="carousel-nav-btn" onclick="nextCourse()">Next</button>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Right Dark Card: Your Training Days Calendar -->
-                <article class="berun-training-card">
-                    <div class="berun-training-header">
-                        <h2 class="berun-training-title">Your Training Days</h2>
-                        <div style="font-size: 0.82rem; font-weight: 700; color: #FFFFFF;" id="training-month-label">
-                            January 2026
-                        </div>
-                    </div>
-
-                    <!-- Calendar Grid -->
-                    <div class="berun-cal-grid" id="berun-calendar-grid">
-                        <span class="berun-cal-day-label">M</span>
-                        <span class="berun-cal-day-label">T</span>
-                        <span class="berun-cal-day-label">W</span>
-                        <span class="berun-cal-day-label">T</span>
-                        <span class="berun-cal-day-label">F</span>
-                        <span class="berun-cal-day-label">S</span>
-                        <span class="berun-cal-day-label">S</span>
-
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(1)">1</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(2)">2</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(3)">3</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(4)">4</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(5)">5</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(6)">6</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(7)">7</span>
-
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(8)">8</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(9)">9</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(10)">10</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(11)">11</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(12)">12</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(13)">13</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(14)">14</span>
-
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(15)">15</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(16)">16</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(17)">17</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(18)">18</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(19)">19</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(20)">20</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(21)">21</span>
-
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(22)">22</span>
-                        <span class="berun-cal-date-cell" style="border: 1px solid #8E8E93;"
-                            onclick="selectCalendarDate(23)" title="Current Day">23</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(24)">24</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(25)">25</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(26)">26</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(27)">27</span>
-                        <span class="berun-cal-date-cell" onclick="selectCalendarDate(28)">28</span>
-                    </div>
-
-                    <!-- Bottom Legend -->
-                    <div class="berun-cal-legend">
-                        <div style="display: flex; align-items: center; gap: 0.4rem;">
-                            <span
-                                style="width: 8px; height: 8px; border: 1px solid #8E8E93; border-radius: 50%;"></span>
-                            Current day
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 0.4rem;">
-                            <span
-                                style="width: 8px; height: 8px; background: #FFCC00; border-radius: 50%;"></span>
-                            Passed
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 0.4rem;">
-                            <span
-                                style="width: 8px; height: 8px; background: #FF3B30; border-radius: 50%;"></span>
-                            Skipped
-                        </div>
-                    </div>
-                </article>
-
-            </section>
-
-            <!-- Bottom Grid Section (Steps + Weight Loss Left, My Habits Right) -->
-            <section class="berun-grid-bottom">
-
-                <!-- Left Column: Monthly Topic Progress Tracker Card (Controlled with Buttons) -->
-                <article class="berun-habits-card"
-                    style="height: 100%; display: flex; flex-direction: column; justify-content: space-between; background: var(--berun-bg-card); border-radius: var(--radius-xl); padding: 1.4rem;">
-                    <!-- Top Header Row with Navigation Buttons -->
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem;">
-                        <div>
-                            <h3
-                                style="font-size: 1.1rem; font-weight: 800; color: var(--berun-text-dark); display: flex; align-items: center; gap: 0.4rem;">
-                                Monthly Topic Progress
-                            </h3>
-                            <p
-                                style="font-size: 0.75rem; color: var(--berun-text-body); margin-top: 0.15rem; font-weight: 500;">
-                                Track monthly accuracy & mastery progress for each topic
-                            </p>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <button id="prev-topic-graph-btn" class="carousel-nav-btn" onclick="prevTopicGraph()"
-                                disabled style="opacity: 0.4; cursor: not-allowed;">Previous</button>
-                            <button id="next-topic-graph-btn" class="carousel-nav-btn"
-                                onclick="nextTopicGraph()">Next</button>
-                        </div>
-                    </div>
-
-                    <!-- Topic Selector Tabs -->
-                    <div
-                        style="display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.3rem; margin-bottom: 0.8rem;">
-                        <button class="topic-graph-tab active" data-key="dsa" onclick="switchTopicGraph('dsa', this)"
-                            style="background: #1C1C1E; color: #FFFFFF; border: none; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
-                            Data Structures
-                        </button>
-                        <button class="topic-graph-tab" data-key="algo" onclick="switchTopicGraph('algo', this)"
-                            style="background: #EAE3D9; color: #666460; border: none; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
-                            Algorithms
-                        </button>
-                        <button class="topic-graph-tab" data-key="sql" onclick="switchTopicGraph('sql', this)"
-                            style="background: #EAE3D9; color: #666460; border: none; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
-                            SQL Queries
-                        </button>
-                        <button class="topic-graph-tab" data-key="sys" onclick="switchTopicGraph('sys', this)"
-                            style="background: #EAE3D9; color: #666460; border: none; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
-                            System Design
-                        </button>
-                        <button class="topic-graph-tab" data-key="py" onclick="switchTopicGraph('py', this)"
-                            style="background: #EAE3D9; color: #666460; border: none; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
-                            Python & OOP
-                        </button>
-                    </div>
-
-                    <!-- Slide Wrapper for Smooth Transition -->
-                    <div id="topic-graph-slide-wrapper"
-                        style="transition: opacity 0.2s ease, transform 0.2s ease; will-change: opacity, transform;">
-                        <!-- Graph Chart Display Container -->
-                        <div
-                            style="background: #F7F3EE; border: 1px solid #E2D9CC; border-radius: 18px; padding: 1rem; margin-bottom: 0.8rem; position: relative;">
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
-                                <span id="graph-topic-name"
-                                    style="font-size: 0.82rem; font-weight: 800; color: #1C1C1E;">
-                                    Data Structures Mastery
-                                </span>
-                                <span id="graph-peak-score"
-                                    style="font-size: 0.82rem; font-weight: 800; color: #2E7D32;">
-                                    92% Peak Accuracy
-                                </span>
-                            </div>
-
-                            <!-- SVG Line & Area Graph Chart -->
-                            <div style="width: 100%; height: 140px; position: relative;">
-                                <svg viewBox="0 0 400 130" style="width: 100%; height: 100%; overflow: visible;"
-                                    id="topic-progress-svg">
-                                    <defs>
-                                        <linearGradient id="graphGradient" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stop-color="#FFCC00" stop-opacity="0.45" />
-                                            <stop offset="100%" stop-color="#FFCC00" stop-opacity="0.0" />
-                                        </linearGradient>
-                                    </defs>
-
-                                    <!-- Grid Line Dividers -->
-                                    <line x1="0" y1="20" x2="400" y2="20" stroke="#E2D9CC" stroke-dasharray="3,3"
-                                        stroke-width="1" />
-                                    <line x1="0" y1="60" x2="400" y2="60" stroke="#E2D9CC" stroke-dasharray="3,3"
-                                        stroke-width="1" />
-                                    <line x1="0" y1="100" x2="400" y2="100" stroke="#E2D9CC" stroke-dasharray="3,3"
-                                        stroke-width="1" />
-
-                                    <!-- Gradient Fill Area -->
-                                    <path id="graph-area-path"
-                                        d="M 30 90 Q 130 65, 230 40 T 370 15 L 370 115 L 30 115 Z"
-                                        fill="url(#graphGradient)" />
-
-                                    <!-- Main Curve Line -->
-                                    <path id="graph-line-path" d="M 30 90 Q 130 65, 230 40 T 370 15" fill="none"
-                                        stroke="#1C1C1E" stroke-width="3" stroke-linecap="round" />
-
-                                    <!-- Month Data Points & Nodes -->
-                                    <!-- May: 45% -->
-                                    <circle id="node-may" cx="30" cy="90" r="5" fill="#FFCC00" stroke="#1C1C1E"
-                                        stroke-width="2" />
-                                    <text id="text-may" x="30" y="80" text-anchor="middle" font-size="10"
-                                        font-weight="700" fill="#666460">45%</text>
-
-                                    <!-- June: 62% -->
-                                    <circle id="node-june" cx="140" cy="65" r="5" fill="#FFCC00" stroke="#1C1C1E"
-                                        stroke-width="2" />
-                                    <text id="text-june" x="140" y="55" text-anchor="middle" font-size="10"
-                                        font-weight="700" fill="#666460">62%</text>
-
-                                    <!-- July: 78% -->
-                                    <circle id="node-july" cx="250" cy="40" r="5" fill="#FFCC00" stroke="#1C1C1E"
-                                        stroke-width="2" />
-                                    <text id="text-july" x="250" y="30" text-anchor="middle" font-size="10"
-                                        font-weight="700" fill="#666460">78%</text>
-
-                                    <!-- August: 92% -->
-                                    <circle id="node-aug" cx="370" cy="15" r="6" fill="#1C1C1E" stroke="#FFCC00"
-                                        stroke-width="2" />
-                                    <text id="text-aug" x="370" y="8" text-anchor="middle" font-size="10"
-                                        font-weight="800" fill="#1C1C1E">92%</text>
-                                </svg>
-
-                                <!-- Month Labels Row -->
-                                <div
-                                    style="display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: 700; color: #666460; padding: 0 0.5rem; margin-top: 0.2rem;">
-                                    <span>May</span>
-                                    <span>June</span>
-                                    <span>July</span>
-                                    <span style="color: #1C1C1E; font-weight: 800;">August (Current)</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Key Stats Footer Row -->
-                        <div
-                            style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; background: #F7F3EE; padding: 0.7rem 0.9rem; border-radius: 14px; border: 1px solid #E2D9CC; text-align: center;">
-                            <div>
-                                <div style="font-size: 0.68rem; color: #666460; font-weight: 600;">Total Questions</div>
-                                <div id="stat-questions" style="font-size: 0.92rem; font-weight: 800; color: #1C1C1E;">
-                                    142 Solved</div>
-                            </div>
-                            <div style="border-left: 1px solid #E2D9CC; border-right: 1px solid #E2D9CC;">
-                                <div style="font-size: 0.68rem; color: #666460; font-weight: 600;">Avg Accuracy</div>
-                                <div id="stat-accuracy" style="font-size: 0.92rem; font-weight: 800; color: #2E7D32;">
-                                    88.4%</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.68rem; color: #666460; font-weight: 600;">Active Streak</div>
-                                <div id="stat-streak" style="font-size: 0.92rem; font-weight: 800; color: #1C1C1E;">18
-                                    Days 🔥</div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Right Column: Strengths & Weaknesses Card (Replaces Top Company Questions) -->
-                <article class="berun-habits-card">
-                    <div class="berun-habits-header">
-                        <div>
-                            <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--berun-text-dark);">Candidate Strengths & Weaknesses</h3>
-                            <p id="sw-card-subtitle"
-                                style="font-size: 0.75rem; color: var(--berun-text-body); margin-top: 0.1rem; font-weight: 500;">
-                                Waiting for interview completion...
-                            </p>
-                        </div>
-                        <span id="sw-insights-badge"
-                            style="font-size: 0.72rem; font-weight: 800; background: #1C1C1E; color: #FFFFFF; padding: 0.25rem 0.65rem; border-radius: var(--radius-pill);">
-                            Pending
-                        </span>
-                    </div>
-
-                    <!-- Candidate Strengths & Weaknesses List Rows -->
-                    <div id="strengths-weaknesses-list"
-                        style="display: flex; flex-direction: column; gap: 0.7rem; max-height: 340px; overflow-y: auto; padding-right: 0.2rem;">
-
-                        <div class="berun-habit-row" style="flex-direction: column; align-items: flex-start; gap: 0.8rem; padding: 1.5rem; text-align: left; background: #F7F3EE; border: 1px dashed #D8C8B5; border-radius: 16px;">
-                            <div style="display: flex; align-items: center; gap: 0.8rem;">
-                                <div style="width: 38px; height: 38px; border-radius: 50%; background: #1C1C1E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                                    ⏳
-                                </div>
-                                <div>
-                                    <div style="font-size: 0.92rem; font-weight: 800; color: #1C1C1E;">Waiting for Interview Results...</div>
-                                    <div style="font-size: 0.78rem; color: #666460; font-weight: 500; margin-top: 0.15rem;">
-                                        Complete an AI Technical Interview to generate your performance-based strengths & weaknesses.
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="width: 100%; display: flex; justify-content: flex-end; margin-top: 0.3rem;">
-                                <a href="interview.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.78rem; padding: 0.45rem 1.1rem;">
-                                    Take Interview
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                </article>
-
-            </section>
-
+            </div>
         </main>
 
-    </div>
 
-    <!-- Reusable Calendar Date Activity & Covered Topics Modal Overlay -->
-    <div class="modal-overlay" id="calendar-date-modal" onclick="if(event.target === this) closeCalendarDateModal()">
-        <div class="modal-card"
-            style="max-width: 780px; text-align: left; padding: 2.2rem; border-radius: var(--radius-xl); position: relative; max-height: 90vh; overflow-y: auto; background: var(--berun-bg-card);">
-            <!-- Modal Header Row -->
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.2rem;">
-                <div>
-                    <div style="display: flex; align-items: center; gap: 0.8rem;">
-                        <h3 id="date-modal-title"
-                            style="font-size: 1.4rem; font-weight: 800; color: #1C1C1E; line-height: 1.2;">
-                            Topic Coverage for Selected Date
-                        </h3>
-                        <span id="date-modal-summary"
-                            style="font-size: 0.72rem; font-weight: 800; background: #1C1C1E; color: #FFFFFF; padding: 0.2rem 0.65rem; border-radius: var(--radius-pill);">
-                            3 Topics Covered
-                        </span>
-                    </div>
-                    <p style="font-size: 0.8rem; font-weight: 600; color: #666460; margin-top: 0.2rem;">
-                        Topic-wise breakdown of concepts, queries, and algorithm problems practiced on this day.
+        <!-- Features Section (Exact Reference Card Design) -->
+        <section class="catalog-section" id="features" style="margin-top: 4rem;">
+            <div class="section-header"
+                style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2.5rem;">
+                <div style="max-width: 480px;">
+                    <h2 class="section-title"
+                        style="font-size: 2.2rem; font-weight: 800; line-height: 1.25; color: #12161A;">
+                        Enjoy the Finest Features for Your Interview Prep
+                    </h2>
+                </div>
+                <div style="max-width: 460px;">
+                    <p class="section-subtitle" style="font-size: 0.95rem; color: #64748B; line-height: 1.6;">
+                        Supercharge your technical interview preparation with cutting-edge AI capabilities designed to
+                        simplify your practice without any friction.
                     </p>
                 </div>
-                <button onclick="closeCalendarDateModal()"
-                    style="background: rgba(28, 28, 30, 0.08); border: none; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 700; color: #1C1C1E; cursor: pointer;">
-                    ×
-                </button>
             </div>
 
-            <!-- Date Activity Cards Grid (Populated dynamically) -->
-            <div id="date-cards-grid"
-                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.2rem; margin-top: 0.8rem;">
-                <!-- Dynamically populated cards matching screenshot aesthetic -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Reusable Dual-Card Course Progress Modal Overlay (Matching Screenshot Cards A & B Design) -->
-    <div class="modal-overlay" id="progress-modal" onclick="if(event.target === this) closeProgressModal()">
-        <div class="modal-card"
-            style="max-width: 840px; text-align: left; padding: 2.2rem; border-radius: var(--radius-xl); position: relative; max-height: 90vh; overflow-y: auto; background: var(--berun-bg-card);">
-            <!-- Modal Header Row -->
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.2rem;">
-                <div>
-                    <h3 id="modal-course-name"
-                        style="font-size: 1.5rem; font-weight: 800; color: #1C1C1E; line-height: 1.2;">
-                        Python Development
-                    </h3>
-                    <div id="modal-topics-summary"
-                        style="font-size: 0.85rem; font-weight: 700; color: #666460; margin-top: 0.2rem;">
-                        12 Completed · 3 Incomplete
-                    </div>
-                </div>
-                <button onclick="closeProgressModal()"
-                    style="background: rgba(28, 28, 30, 0.08); border: none; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 700; color: #1C1C1E; cursor: pointer; transition: background 0.2s ease;">
-                    ×
-                </button>
-            </div>
-
-            <!-- Dual Cards Container (Card A Left & Card B Right) -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 0.5rem;">
-
-                <!-- CARD A: Left Card (Light Warm Gold/Beige Card for Completed Topics) -->
-                <div
-                    style="background: linear-gradient(135deg, #E8DCC9 0%, #D8CBB6 100%); border-radius: 24px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06); border: 1px solid rgba(255, 255, 255, 0.5);">
-                    <div>
-                        <!-- Card Header -->
-                        <div style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem;">
-                            <div
-                                style="width: 38px; height: 38px; border-radius: 12px; background: #1C1C1E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 1rem;">
-                                ✓
-                            </div>
-                            <div>
-                                <h4 style="font-size: 1.1rem; font-weight: 800; color: #1C1C1E;">Completed Topics</h4>
-                                <div style="font-size: 0.75rem; color: #575246; font-weight: 600;">Topics masterfully
-                                    passed</div>
-                            </div>
-                        </div>
-
-                        <!-- Completed Topics Items List -->
-                        <div id="modal-completed-list"
-                            style="display: flex; flex-direction: column; gap: 0.4rem; max-height: 220px; overflow-y: auto; padding-right: 0.3rem;">
-                            <!-- Populated dynamically -->
-                        </div>
-                    </div>
-
-                    <!-- Bottom Action Bar (Card A) -->
+            <div class="cabins-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem;">
+                <!-- Feature Card 1 -->
+                <article class="cabin-card"
+                    style="background: #F4F5F7; border-radius: 20px; padding: 2.2rem 1.6rem; border: 1px solid rgba(0,0,0,0.03); color: #12161A;">
                     <div
-                        style="margin-top: 1.2rem; background: #1C1C1E; color: #FFFFFF; padding: 0.8rem 1rem; border-radius: 14px; display: flex; justify-content: space-between; align-items: center;">
-                        <span id="modal-course-percent" style="font-size: 0.9rem; font-weight: 800;">82%
-                            Completed</span>
-                        <span style="font-size: 0.72rem; font-weight: 600; color: var(--berun-bg-yellow);">Verified
-                            ✓</span>
+                        style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: #12161A; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3" />
+                            <path d="M18 12a2 2 0 0 0 0 4h3v-4z" />
+                        </svg>
                     </div>
-                </div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #12161A;">Adaptive
+                        Interviews</h3>
+                    <p style="font-size: 0.88rem; line-height: 1.65; color: #64748B;">
+                        Dynamically adjusts difficulty based on your responses, testing depth where you excel and
+                        guiding where you need practice.
+                    </p>
+                </article>
 
-                <!-- CARD B: Right Card (Sleek Dark Card for Incomplete Topics) -->
-                <div
-                    style="background: linear-gradient(135deg, #242426 0%, #161618 100%); border-radius: 24px; padding: 1.5rem; color: #FFFFFF; display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.08);">
-                    <div>
-                        <!-- Card Header -->
-                        <div style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem;">
-                            <div
-                                style="width: 38px; height: 38px; border-radius: 12px; background: rgba(255, 255, 255, 0.1); color: #FFCC00; display: flex; align-items: center; justify-content: center; font-size: 1rem; border: 1px solid rgba(255, 204, 0, 0.3);">
-                                ⚙️
-                            </div>
-                            <div>
-                                <h4 style="font-size: 1.1rem; font-weight: 800; color: #FFFFFF;">Incomplete Topics</h4>
-                                <div style="font-size: 0.75rem; color: #8E8E93; font-weight: 600;">Topics remaining to
-                                    practice</div>
-                            </div>
-                        </div>
-
-                        <!-- Incomplete Topics Items List -->
-                        <div id="modal-pending-list"
-                            style="display: flex; flex-direction: column; gap: 0.4rem; max-height: 220px; overflow-y: auto; padding-right: 0.3rem;">
-                            <!-- Populated dynamically -->
-                        </div>
-                    </div>
-
-                    <!-- Bottom Action Bar (Card B CTA Button) -->
+                <!-- Feature Card 2 (Light Gray Card) -->
+                <article class="cabin-card"
+                    style="background: #F4F5F7; border-radius: 20px; padding: 2.2rem 1.6rem; border: 1px solid rgba(0,0,0,0.03); color: #12161A;">
                     <div
-                        style="margin-top: 1.2rem; background: linear-gradient(135deg, #E8DCC9 0%, #D8CBB6 100%); color: #1C1C1E; padding: 0.8rem 1rem; border-radius: 14px; text-align: center;">
-                        <a href="practice.html"
-                            style="text-decoration: none; color: #1C1C1E; font-size: 0.88rem; font-weight: 800; display: block;">
-                            Continue Learning →
-                        </a>
+                        style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: #12161A; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            <circle cx="12" cy="11" r="2" />
+                            <path d="M12 13v3" />
+                        </svg>
+                    </div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #12161A;">Safe &
+                        Rigorous</h3>
+                    <p style="font-size: 0.88rem; line-height: 1.65; color: #64748B;">
+                        Probes edge cases, time/space complexity, and alternative approaches just like a senior engineer
+                        interviewer.
+                    </p>
+                </article>
+
+                <!-- Feature Card 3 (Light Gray Card) -->
+                <article class="cabin-card"
+                    style="background: #F4F5F7; border-radius: 20px; padding: 2.2rem 1.6rem; border: 1px solid rgba(0,0,0,0.03); color: #12161A;">
+                    <div
+                        style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: #12161A; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                    </div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #12161A;">Context
+                        Memory</h3>
+                    <p style="font-size: 0.88rem; line-height: 1.65; color: #64748B;">
+                        Remembers prior answers throughout the session, creating a cohesive, multi-turn interview
+                        dialogue 24 hours a week.
+                    </p>
+                </article>
+
+                <!-- Feature Card 4 (Light Gray Card) -->
+                <article class="cabin-card"
+                    style="background: #F4F5F7; border-radius: 20px; padding: 2.2rem 1.6rem; border: 1px solid rgba(0,0,0,0.03); color: #12161A;">
+                    <div
+                        style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: #12161A; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                            <polyline points="22 4 12 14.01 9 11.01" />
+                        </svg>
+                    </div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #12161A;">Quick
+                        Feedback</h3>
+                    <p style="font-size: 0.88rem; line-height: 1.65; color: #64748B;">
+                        Get instant feedback, actionable scoring, and detailed solution breakdowns right after your
+                        interview session.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+
+        <!-- How It Works Section (Step-by-Step Workflow) -->
+        <section class="catalog-section" id="how-it-works" style="margin-top: 4rem;">
+            <div class="section-header"
+                style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2.5rem;">
+                <div style="max-width: 480px;">
+                    <h2 class="section-title"
+                        style="font-size: 2.2rem; font-weight: 800; line-height: 1.25; color: #12161A;">
+                        Simple 4-Step Process to Ace Your Interview
+                    </h2>
+                </div>
+                <div style="max-width: 460px;">
+                    <p class="section-subtitle" style="font-size: 0.95rem; color: #64748B; line-height: 1.6;">
+                        Follow these 4 clear steps from domain selection to receiving instant actionable feedback on your technical performance.
+                    </p>
+                </div>
+            </div>
+
+            <div class="cabins-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem;">
+                <!-- Step 01 Card -->
+                <article class="cabin-card"
+                    style="background: #F4F5F7; border-radius: 20px; padding: 2.2rem 1.6rem; border: 1px solid rgba(0,0,0,0.03); color: #12161A; position: relative;">
+                    <div
+                        style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: #12161A; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; font-size: 0.85rem; font-weight: 800; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        01
+                    </div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #12161A;">Select Role & Domain</h3>
+                    <p style="font-size: 0.88rem; line-height: 1.65; color: #64748B;">
+                        Choose your specific engineering track (Frontend, Python, System Design, DSA, Backend) and set your target seniority level.
+                    </p>
+                </article>
+
+                <!-- Step 02 Card -->
+                <article class="cabin-card"
+                    style="background: #F4F5F7; border-radius: 20px; padding: 2.2rem 1.6rem; border: 1px solid rgba(0,0,0,0.03); color: #12161A; position: relative;">
+                    <div
+                        style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: #12161A; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; font-size: 0.85rem; font-weight: 800; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        02
+                    </div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #12161A;">Engage AI Interviewer</h3>
+                    <p style="font-size: 0.88rem; line-height: 1.65; color: #64748B;">
+                        Experience a live voice & text interview where the AI conducts a realistic multi-turn technical conversation tailored to your background.
+                    </p>
+                </article>
+
+                <!-- Step 03 Card -->
+                <article class="cabin-card"
+                    style="background: #F4F5F7; border-radius: 20px; padding: 2.2rem 1.6rem; border: 1px solid rgba(0,0,0,0.03); color: #12161A; position: relative;">
+                    <div
+                        style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: #12161A; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; font-size: 0.85rem; font-weight: 800; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        03
+                    </div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #12161A;">Deep-Dive Follow-ups</h3>
+                    <p style="font-size: 0.88rem; line-height: 1.65; color: #64748B;">
+                        The AI analyzes your initial answers in real-time and asks probing follow-up questions to test your edge-case depth and trade-offs.
+                    </p>
+                </article>
+
+                <!-- Step 04 Card -->
+                <article class="cabin-card"
+                    style="background: #F4F5F7; border-radius: 20px; padding: 2.2rem 1.6rem; border: 1px solid rgba(0,0,0,0.03); color: #12161A; position: relative;">
+                    <div
+                        style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: #12161A; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; font-size: 0.85rem; font-weight: 800; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        04
+                    </div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #12161A;">Instant Detailed Feedback</h3>
+                    <p style="font-size: 0.88rem; line-height: 1.65; color: #64748B;">
+                        Receive an actionable performance report with code optimization tips, topic strengths, and candidate readiness scoring.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <!-- About Section (Mission, Vision & Platform Purpose) -->
+        <section class="catalog-section" id="about" style="margin-top: 5rem;">
+            <div style="margin-bottom: 2.5rem;">
+                <!-- Pill Tag Badge -->
+                
+
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1.5rem;">
+                    <div>
+                        <h2 style="font-size: 2.5rem; font-weight: 800; line-height: 1.15; color: #1E293B; margin-bottom: 0.8rem; letter-spacing: -0.02em;">
+                            A Smarter Way to Prepare<br>for Technical Interviews
+                        </h2>
+                        <p style="font-size: 0.95rem; color: #64748B; line-height: 1.6; max-width: 520px;">
+                            Learn why InterviewAI was created and how adaptive artificial intelligence bridges the gap between practice and real-world hiring.
+                        </p>
                     </div>
                 </div>
-
             </div>
-        </div>
+
+            <!-- About Cards Grid (Matching Features Card Style) -->
+            <div class="cabins-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem;">
+                <!-- About Card 1 -->
+                <article class="cabin-card" style="background: #F4F5F7; border-radius: 20px; padding: 2.2rem 1.6rem; border: 1px solid rgba(0,0,0,0.03); color: #12161A;">
+                    <div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: #12161A; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <circle cx="12" cy="12" r="6"/>
+                            <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #12161A;">Realistic AI Simulation</h3>
+                    <p style="font-size: 0.88rem; line-height: 1.65; color: #64748B;">
+                        Traditional interview prep relies on static question lists. InterviewAI creates an organic, conversational environment that mirrors actual senior developer interviews.
+                    </p>
+                </article>
+
+                <!-- About Card 2 -->
+                <article class="cabin-card" style="background: #F4F5F7; border-radius: 20px; padding: 2.2rem 1.6rem; border: 1px solid rgba(0,0,0,0.03); color: #12161A;">
+                    <div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: #12161A; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                            <line x1="12" y1="22.08" x2="12" y2="12"/>
+                        </svg>
+                    </div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #12161A;">Dynamic Response Understanding</h3>
+                    <p style="font-size: 0.88rem; line-height: 1.65; color: #64748B;">
+                        Powered by advanced LLM core models, our platform evaluates your technical reasoning process rather than just checking for rigid keyword matches.
+                    </p>
+                </article>
+
+                <!-- About Card 3 -->
+                <article class="cabin-card" style="background: #F4F5F7; border-radius: 20px; padding: 2.2rem 1.6rem; border: 1px solid rgba(0,0,0,0.03); color: #12161A;">
+                    <div style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: #12161A; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 3v12"/>
+                            <path d="M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                            <path d="M6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                            <path d="M18 9a9 9 0 0 1-9 9"/>
+                        </svg>
+                    </div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; color: #12161A;">Empowering Continuous Mastery</h3>
+                    <p style="font-size: 0.88rem; line-height: 1.65; color: #64748B;">
+                        Our mission is simple: provide candidates with actionable insights, personalized learning pathways, and measurable confidence to succeed in top tech roles.
+                    </p>
+                </article>
+            </div>
+        </section>
+
     </div>
 
     <!-- Action Modal Popup -->
     <div class="modal-overlay" id="action-modal" onclick="if(event.target === this) closeModal()">
         <div class="modal-card">
-            <h3 class="modal-title" id="modal-title" style="color: var(--berun-text-dark);">Action Title</h3>
-            <p class="modal-desc" id="modal-desc" style="color: var(--berun-text-body);">Detailed instruction or
-                confirmation message.</p>
-            <button class="berun-btn-dark" style="width: 100%; justify-content: center;"
+            <h3 class="modal-title" id="modal-title">Action Title</h3>
+            <p class="modal-desc" id="modal-desc">Detailed instruction or confirmation message.</p>
+            <button class="btn-pill btn-pill-dark" style="width: 100%; justify-content: center;"
                 onclick="closeModal()">Close</button>
         </div>
     </div>
 
     <!-- Toast Notification Container -->
     <div class="toast-container" id="toast-container"></div>
-
-    <!-- Script File -->
+    <script src="script.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Load user session
-            const userStr = localStorage.getItem('user');
-            if (userStr) {
-                try {
-                    const user = JSON.parse(userStr);
-                    const greetingTitle = document.getElementById('greeting-title');
-                    if (greetingTitle) {
-                        greetingTitle.textContent = `Hi, ${user.username}!`;
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectEl = document.getElementById('session-code-select');
+            const getStartedBtn = document.getElementById('btn-get-started');
+            const trigger = document.getElementById('custom-dropdown-trigger');
+            const menu = document.getElementById('custom-dropdown-menu');
+            const selectedText = document.getElementById('custom-dropdown-selected-text');
+            const arrow = document.getElementById('custom-dropdown-arrow');
+
+            let candidateList = [
+                { id: '001', name: 'Sarah Johnson' },
+                { id: '002', name: 'Alex Turner' },
+                { id: '003', name: 'Emily Chen' },
+                { id: '004', name: 'David Miller' },
+                { id: '005', name: 'Michael Brown' },
+                { id: '006', name: 'Wendy Foster' },
+                { id: '007', name: 'Ethan Brooks' },
+                { id: '008', name: 'Harold Whitfield' },
+                { id: '009', name: 'Zara Ahmadi' },
+                { id: '010', name: 'Gerald Combs' },
+                { id: '011', name: 'Mia Alvarez' },
+                { id: '012', name: 'Chen Wei' },
+                { id: '013', name: 'Ravi Patel' },
+                { id: '014', name: 'Bethany Cole' },
+                { id: '015', name: 'Noah Kim' },
+                { id: '016', name: 'Isabella Rossi' },
+                { id: '017', name: 'Tyler Brooks' },
+                { id: '018', name: 'Diane Foster' },
+                { id: '019', name: 'Frank DeLuca' },
+                { id: '020', name: 'Priyanka Sharma' }
+            ];
+
+            fetch('FRONTEND/candidates.json')
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.candidates && data.candidates.length > 0) {
+                        candidateList = data.candidates.map(c => ({
+                            id: c.member.id.replace('CAND-', '').padStart(3, '0'),
+                            name: c.member.name
+                        }));
+                        renderCustomOptions();
+                        selectCandidate(activeVal);
                     }
-                    const profileImg = document.getElementById('sidebar-profile-img');
-                    if (profileImg && user.avatar) {
-                        profileImg.src = user.avatar;
-                        profileImg.alt = `${user.username} Profile`;
-                    }
-                } catch (e) {
-                    console.error("Failed to parse user session", e);
-                }
-            }
-
-            // ── Highlight Calendar based on selected Candidate (001-020) from candidates.json ────────────────
-            async function applyCandidateCalendarData() {
-                try {
-                    const res = await fetch('candidates.json');
-                    const json = await res.json();
-
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const selectedCode = urlParams.get('cand') || localStorage.getItem('selectedCandidate') || '001';
-                    const formattedId = "CAND-" + selectedCode.padStart(3, '0');
-
-                    const candidate = json.candidates.find(c => c.member && (c.member.id === formattedId || c.member.id === selectedCode)) || json.candidates[0];
-                    if (!candidate || !candidate.missions) return;
-
-                    if (candidate.member && candidate.member.name) {
-                        const greetingTitle = document.getElementById('greeting-title');
-                        if (greetingTitle) {
-                            greetingTitle.textContent = `Hi, ${candidate.member.name}!`;
-                        }
-                    }
-
-                    const calGrid = document.getElementById('berun-calendar-grid');
-                    if (!calGrid) return;
-
-                    const cells = calGrid.querySelectorAll('.berun-cal-date-cell');
-                    const missionMap = {};
-                    candidate.missions.forEach(m => {
-                        missionMap[m.day] = m;
-                    });
-
-                    cells.forEach(cell => {
-                        const dayNum = parseInt(cell.textContent.trim(), 10);
-                        cell.classList.remove('done', 'scheduled', 'skipped');
-                        if (isNaN(dayNum)) return;
-
-                        const m = missionMap[dayNum];
-                        if (m) {
-                            if (m.skipped || m.passed === false) {
-                                cell.classList.add('skipped');
-                                cell.style.background = '#FF3B30'; // Red circular highlight for skipped mission
-                                cell.style.color = '#FFFFFF';
-                                cell.style.borderRadius = '50%';
-                                cell.style.border = 'none';
-                                cell.title = `Day ${dayNum}: ${m.title} (Skipped Mission)`;
-                            } else if (m.passed === true) {
-                                cell.classList.add('done');
-                                cell.style.background = '#FFCC00'; // Yellow circular highlight for passed mission
-                                cell.style.color = '#1C1C1E';
-                                cell.style.borderRadius = '50%';
-                                cell.style.border = 'none';
-                                cell.title = `Day ${dayNum}: ${m.title} (Passed - ${m.attempts || 1} attempt(s))`;
+                })
+                .catch(() => {
+                    fetch('candidates.json')
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data && data.candidates && data.candidates.length > 0) {
+                                candidateList = data.candidates.map(c => ({
+                                    id: c.member.id.replace('CAND-', '').padStart(3, '0'),
+                                    name: c.member.name
+                                }));
+                                renderCustomOptions();
+                                selectCandidate(activeVal);
                             }
-                        } else {
-                            // Reset default cells if no mission on this day
-                            cell.style.background = '';
-                            cell.style.color = '';
-                            cell.style.borderRadius = '';
-                        }
+                        })
+                        .catch(() => { });
+                });
+
+            let activeVal = localStorage.getItem('selectedCandidate') || '001';
+            activeVal = activeVal.replace('CAND-', '').padStart(3, '0');
+
+            function renderCustomOptions() {
+                if (!menu) return;
+                menu.innerHTML = '';
+                candidateList.forEach(cand => {
+                    const isSelected = (cand.id === activeVal);
+                    const item = document.createElement('div');
+                    item.className = `custom-dropdown-item ${isSelected ? 'active' : ''}`;
+                    item.style.cssText = `
+                        padding: 0.6rem 0.85rem;
+                        margin-bottom: 0.2rem;
+                        border-radius: 10px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        cursor: pointer;
+                        font-size: 0.88rem;
+                        font-weight: 700;
+                        color: ${isSelected ? '#6C5CE7' : '#1C1C1E'};
+                        background: ${isSelected ? '#F0EDFF' : 'transparent'};
+                        transition: all 0.15s ease;
+                    `;
+
+                    item.addEventListener('mouseenter', () => {
+                        if (!isSelected) item.style.background = '#F7F5FE';
+                    });
+                    item.addEventListener('mouseleave', () => {
+                        if (!isSelected) item.style.background = 'transparent';
                     });
 
-                    // Synchronize Monthly Topic Progress graph & statistics with candidate's training days
-                    if (typeof updateCandidateTopicProgress === 'function') {
-                        updateCandidateTopicProgress(candidate);
+                    const textSpan = document.createElement('span');
+                    textSpan.textContent = `${cand.id} - ${cand.name}`;
+
+                    const badgeSpan = document.createElement('span');
+                    if (isSelected) {
+                        badgeSpan.textContent = '✓';
+                        badgeSpan.style.cssText = `
+                            background: #6C5CE7;
+                            color: #FFFFFF;
+                            font-size: 0.7rem;
+                            font-weight: 800;
+                            padding: 0.15rem 0.45rem;
+                            border-radius: 9999px;
+                        `;
+                    } else {
+                        badgeSpan.textContent = cand.id;
+                        badgeSpan.style.cssText = `
+                            font-size: 0.72rem;
+                            font-weight: 600;
+                            color: #999;
+                        `;
                     }
-                } catch (e) {
-                    console.error("Failed to load candidate calendar data", e);
+
+                    item.appendChild(textSpan);
+                    item.appendChild(badgeSpan);
+
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        selectCandidate(cand.id);
+                    });
+
+                    menu.appendChild(item);
+                });
+            }
+
+            function selectCandidate(val) {
+                activeVal = val;
+                if (selectEl) {
+                    selectEl.value = val;
+                }
+                const found = candidateList.find(c => c.id === val);
+                if (selectedText && found) {
+                    selectedText.textContent = `${found.id} - ${found.name}`;
+                }
+                syncCandidateSelection();
+                renderCustomOptions();
+                closeCustomMenu();
+            }
+
+            function syncCandidateSelection() {
+                const candId = 'CAND-' + activeVal;
+                localStorage.setItem('selectedCandidate', activeVal);
+                localStorage.setItem('selectedCandidateId', candId);
+                if (getStartedBtn) {
+                    getStartedBtn.href = `dashboard.html?candidateId=${candId}&cand=${activeVal}`;
                 }
             }
 
-            function loadCandidateInterviewFeedback() {
-                const swContainer = document.getElementById('strengths-weaknesses-list');
-                const badgeEl = document.getElementById('sw-insights-badge');
-                const subtitleEl = document.getElementById('sw-card-subtitle');
-                if (!swContainer) return;
-
-                const urlParams = new URLSearchParams(window.location.search);
-                const selectedCode = urlParams.get('cand') || localStorage.getItem('selectedCandidate') || '001';
-                const formattedId = "CAND-" + selectedCode.padStart(3, '0');
-
-                let report = null;
-                try {
-                    const stored = localStorage.getItem('latestInterviewReport_' + formattedId);
-                    if (stored) {
-                        report = JSON.parse(stored);
-                    }
-                } catch (e) {
-                    console.error("Failed to parse latestInterviewReport from localStorage", e);
-                }
-
-                if (report && ((report.strengths && report.strengths.length) || (report.weaknesses && report.weaknesses.length))) {
-                    if (subtitleEl) {
-                        subtitleEl.textContent = `Interview performance breakdown (${report.role || 'Backend Developer'} • ${report.date || 'Recent'})`;
-                    }
-
-                    let html = '';
-                    let totalCount = 0;
-
-                    if (report.strengths && report.strengths.length) {
-                        report.strengths.forEach((s) => {
-                            totalCount++;
-                            html += `
-                            <div class="berun-habit-row">
-                                <div class="habit-user-info">
-                                    <div style="width: 34px; height: 34px; border-radius: 50%; background: #2E7D32; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; font-weight: 800;">
-                                        ✓
-                                    </div>
-                                    <div>
-                                        <div class="habit-name">${s}</div>
-                                        <div class="habit-sub">Interview Strength • Evaluated</div>
-                                    </div>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 0.8rem;">
-                                    <span class="tag-badge" style="background: rgba(46, 125, 50, 0.12); color: #2E7D32; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
-                                        Strength
-                                    </span>
-                                    <a href="practice.html?topic=${encodeURIComponent(s)}" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
-                                        Refine
-                                    </a>
-                                </div>
-                            </div>`;
-                        });
-                    }
-
-                    if (report.weaknesses && report.weaknesses.length) {
-                        report.weaknesses.forEach((w) => {
-                            totalCount++;
-                            html += `
-                            <div class="berun-habit-row">
-                                <div class="habit-user-info">
-                                    <div style="width: 34px; height: 34px; border-radius: 50%; background: #D97706; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; font-weight: 800;">
-                                        !
-                                    </div>
-                                    <div>
-                                        <div class="habit-name">${w}</div>
-                                        <div class="habit-sub">Area to Improve • Interview Feedback</div>
-                                    </div>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 0.8rem;">
-                                    <span class="tag-badge" style="background: rgba(217, 119, 6, 0.15); color: #D97706; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: var(--radius-pill);">
-                                        Needs Focus
-                                    </span>
-                                    <a href="practice.html?topic=${encodeURIComponent(w)}" class="berun-btn-dark" style="text-decoration: none; font-size: 0.75rem; padding: 0.35rem 0.85rem;">
-                                        Improve
-                                    </a>
-                                </div>
-                            </div>`;
-                        });
-                    }
-
-                    // Add "Take New Interview" button at the bottom of the list
-                    html += `
-                    <div style="width: 100%; display: flex; justify-content: flex-end; margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px dashed #D8C8B5;">
-                        <a href="interview.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.78rem; padding: 0.45rem 1.1rem; display: inline-flex; align-items: center; gap: 0.4rem;">
-                            Take New Interview →
-                        </a>
-                    </div>`;
-
-                    if (badgeEl) badgeEl.textContent = `${totalCount} Insights`;
-                    swContainer.innerHTML = html;
+            function toggleCustomMenu() {
+                if (!menu) return;
+                const isOpen = menu.style.display === 'block';
+                if (isOpen) {
+                    closeCustomMenu();
                 } else {
-                    // Display waiting for interview results state
-                    if (subtitleEl) {
-                        subtitleEl.textContent = "Waiting for interview completion...";
-                    }
-                    if (badgeEl) {
-                        badgeEl.textContent = "Pending";
-                    }
-                    swContainer.innerHTML = `
-                    <div class="berun-habit-row" style="flex-direction: column; align-items: flex-start; gap: 0.8rem; padding: 1.5rem; text-align: left; background: #F7F3EE; border: 1px dashed #D8C8B5; border-radius: 16px;">
-                        <div style="display: flex; align-items: center; gap: 0.8rem;">
-                            <div style="width: 38px; height: 38px; border-radius: 50%; background: #1C1C1E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                                ⏳
-                            </div>
-                            <div>
-                                <div style="font-size: 0.92rem; font-weight: 800; color: #1C1C1E;">Waiting for Interview Results...</div>
-                                <div style="font-size: 0.78rem; color: #666460; font-weight: 500; margin-top: 0.15rem;">
-                                    Complete an AI Technical Interview to generate your performance-based strengths & weaknesses.
-                                </div>
-                            </div>
-                        </div>
-                        <div style="width: 100%; display: flex; justify-content: flex-end; margin-top: 0.3rem;">
-                            <a href="interview.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.78rem; padding: 0.45rem 1.1rem;">
-                                Take Interview →
-                            </a>
-                        </div>
-                    </div>`;
+                    openCustomMenu();
                 }
             }
 
-            // Run functions on load
-            applyCandidateCalendarData();
-            loadCandidateInterviewFeedback();
+            function openCustomMenu() {
+                if (!menu) return;
+                menu.style.display = 'block';
+                if (arrow) arrow.style.transform = 'rotate(180deg)';
+                if (trigger) trigger.style.borderColor = '#6C5CE7';
+            }
+
+            function closeCustomMenu() {
+                if (!menu) return;
+                menu.style.display = 'none';
+                if (arrow) arrow.style.transform = 'rotate(0deg)';
+            }
+
+            if (trigger) {
+                trigger.addEventListener('click', toggleCustomMenu);
+            }
+
+            document.addEventListener('click', (e) => {
+                const wrapper = document.querySelector('.custom-dropdown-wrapper');
+                if (wrapper && !wrapper.contains(e.target)) {
+                    closeCustomMenu();
+                }
+            });
+
+            renderCustomOptions();
+            selectCandidate(activeVal);
         });
     </script>
-    <script src="script.js"></script>
 </body>
 
 </html>
