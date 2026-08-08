@@ -57,7 +57,7 @@ const courses = [
     aiRecommended: "JSON & Pandas Basics",
     masteryPerformance: "90% (+12%)",
     icon: "📊",
-    image: "assets/data_foundations_bg.png",
+    image: "assets/data_foundations.png",
     completed: [
       "Reading & Processing Structured Data",
       "Data Cleaning & Normalization",
@@ -148,7 +148,7 @@ const courses = [
     aiRecommended: "Model Context Protocol (MCP)",
     masteryPerformance: "65% (+9%)",
     icon: "⚡",
-    image: "assets/OT Cybersecurity for Connected Safety Systems.jpg",
+    image: "assets/agentic_ai.png",
     completed: [
       "LangChain Agents",
       "Tool Integration for Agents",
@@ -171,7 +171,7 @@ const courses = [
     aiRecommended: "Docker & Kubernetes",
     masteryPerformance: "60% (+8%)",
     icon: "🛡️",
-    image: "assets/Living Intelligence_ Preparing for the AI Future of Rental Decisions.jpg",
+    image: "assets/security_deployment.png",
     completed: [
       "LLM Evaluation & Benchmarking",
       "Cost Optimization & Caching Strategies",
