@@ -841,3 +841,188 @@ function prevTopicGraph() {
         renderTopicGraphSlide(currentTopicGraphIndex);
     }
 }
+
+// Training Days Month Navigation Logic (January to December 2026)
+const trainingMonths = [
+    {
+        name: 'January 2026',
+        startDayOffset: 3, // Thursday (M=0, T=1, W=2, T=3, F=4, S=5, S=6)
+        daysInMonth: 31,
+        doneDays: [2, 5, 8, 12, 15, 19, 22, 26, 29],
+        scheduledDays: [14, 28],
+        currentDay: null
+    },
+    {
+        name: 'February 2026',
+        startDayOffset: 6, // Sunday
+        daysInMonth: 28,
+        doneDays: [3, 6, 10, 13, 17, 20, 24, 27],
+        scheduledDays: [12, 25],
+        currentDay: null
+    },
+    {
+        name: 'March 2026',
+        startDayOffset: 6, // Sunday
+        daysInMonth: 31,
+        doneDays: [2, 6, 9, 13, 16, 20, 23, 27, 30],
+        scheduledDays: [11, 25],
+        currentDay: null
+    },
+    {
+        name: 'April 2026',
+        startDayOffset: 2, // Wednesday
+        daysInMonth: 30,
+        doneDays: [1, 4, 8, 11, 15, 18, 22, 25, 29],
+        scheduledDays: [10, 24],
+        currentDay: null
+    },
+    {
+        name: 'May 2026',
+        startDayOffset: 4, // Friday
+        daysInMonth: 31,
+        doneDays: [2, 5, 9, 12, 16, 21, 25, 29],
+        scheduledDays: [14, 28],
+        currentDay: null
+    },
+    {
+        name: 'June 2026',
+        startDayOffset: 0, // Monday
+        daysInMonth: 30,
+        doneDays: [1, 5, 8, 12, 15, 19, 22, 26, 28],
+        scheduledDays: [17, 19],
+        currentDay: 23
+    },
+    {
+        name: 'July 2026',
+        startDayOffset: 2, // Wednesday
+        daysInMonth: 31,
+        doneDays: [3, 7, 10, 14, 18, 21, 25, 28],
+        scheduledDays: [11, 23],
+        currentDay: null
+    },
+    {
+        name: 'August 2026',
+        startDayOffset: 5, // Saturday
+        daysInMonth: 31,
+        doneDays: [1, 4, 7, 11, 14, 18, 22, 25, 29],
+        scheduledDays: [15, 30],
+        currentDay: 8
+    },
+    {
+        name: 'September 2026',
+        startDayOffset: 1, // Tuesday
+        daysInMonth: 30,
+        doneDays: [2, 6, 9, 13, 16, 20, 23, 27],
+        scheduledDays: [10, 24],
+        currentDay: null
+    },
+    {
+        name: 'October 2026',
+        startDayOffset: 3, // Thursday
+        daysInMonth: 31,
+        doneDays: [2, 5, 9, 12, 16, 20, 23, 27, 30],
+        scheduledDays: [14, 28],
+        currentDay: null
+    },
+    {
+        name: 'November 2026',
+        startDayOffset: 6, // Sunday
+        daysInMonth: 30,
+        doneDays: [3, 6, 10, 13, 17, 20, 24, 27],
+        scheduledDays: [12, 25],
+        currentDay: null
+    },
+    {
+        name: 'December 2026',
+        startDayOffset: 1, // Tuesday
+        daysInMonth: 31,
+        doneDays: [1, 4, 8, 11, 15, 18, 22, 25, 29],
+        scheduledDays: [10, 24],
+        currentDay: null
+    }
+];
+
+let currentTrainingMonthIndex = 5; // Default June 2026
+
+function renderTrainingMonth() {
+    const monthData = trainingMonths[currentTrainingMonthIndex];
+    if (!monthData) return;
+
+    const labelEl = document.getElementById('training-month-label');
+    const gridEl = document.getElementById('berun-calendar-grid');
+    const prevBtn = document.getElementById('prev-month-btn');
+    const nextBtn = document.getElementById('next-month-btn');
+
+    if (labelEl) labelEl.innerText = monthData.name;
+
+    if (prevBtn) {
+        prevBtn.disabled = currentTrainingMonthIndex === 0;
+        prevBtn.style.opacity = currentTrainingMonthIndex === 0 ? '0.3' : '1';
+        prevBtn.style.cursor = currentTrainingMonthIndex === 0 ? 'not-allowed' : 'pointer';
+    }
+
+    if (nextBtn) {
+        nextBtn.disabled = currentTrainingMonthIndex === trainingMonths.length - 1;
+        nextBtn.style.opacity = currentTrainingMonthIndex === trainingMonths.length - 1 ? '0.3' : '1';
+        nextBtn.style.cursor = currentTrainingMonthIndex === trainingMonths.length - 1 ? 'not-allowed' : 'pointer';
+    }
+
+    if (gridEl) {
+        let html = `
+            <span class="berun-cal-day-label">M</span>
+            <span class="berun-cal-day-label">T</span>
+            <span class="berun-cal-day-label">W</span>
+            <span class="berun-cal-day-label">T</span>
+            <span class="berun-cal-day-label">F</span>
+            <span class="berun-cal-day-label">S</span>
+            <span class="berun-cal-day-label">S</span>
+        `;
+
+        // Empty offset cells for starting day
+        for (let i = 0; i < monthData.startDayOffset; i++) {
+            html += `<span class="berun-cal-date-cell" style="opacity: 0.15; cursor: default;"></span>`;
+        }
+
+        // Days of month
+        for (let day = 1; day <= monthData.daysInMonth; day++) {
+            let classes = 'berun-cal-date-cell';
+            let inlineStyle = '';
+            let titleText = `View topics for ${monthData.name.split(' ')[0]} ${day}`;
+
+            if (monthData.doneDays.includes(day)) {
+                classes += ' done';
+            } else if (monthData.scheduledDays.includes(day)) {
+                classes += ' scheduled';
+                titleText = `Scheduled session for ${monthData.name.split(' ')[0]} ${day}`;
+            }
+
+            if (monthData.currentDay === day) {
+                inlineStyle = 'border: 1px solid #8E8E93;';
+                titleText = `Active session for ${monthData.name.split(' ')[0]} ${day}`;
+            }
+
+            html += `<span class="${classes}" ${inlineStyle ? `style="${inlineStyle}"` : ''} onclick="selectCalendarDate(${day})" title="${titleText}">${day}</span>`;
+        }
+
+        gridEl.innerHTML = html;
+    }
+}
+
+function prevTrainingMonth() {
+    if (currentTrainingMonthIndex > 0) {
+        currentTrainingMonthIndex--;
+        renderTrainingMonth();
+    }
+}
+
+function nextTrainingMonth() {
+    if (currentTrainingMonthIndex < trainingMonths.length - 1) {
+        currentTrainingMonthIndex++;
+        renderTrainingMonth();
+    }
+}
+
+// Initialize calendar rendering on load
+window.addEventListener('DOMContentLoaded', () => {
+    renderTrainingMonth();
+});

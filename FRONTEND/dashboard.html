@@ -202,13 +202,21 @@
                 <article class="berun-training-card">
                     <div class="berun-training-header">
                         <h2 class="berun-training-title">Your Training Days</h2>
-                        <div style="font-size: 0.82rem; font-weight: 600; color: #8E8E93; cursor: pointer;">
-                            June ▾
+                        <div style="display: flex; align-items: center; gap: 0.35rem;">
+                            <button id="prev-month-btn" onclick="prevTrainingMonth()" title="Previous Month" style="background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); color: #FFFFFF; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; cursor: pointer; transition: background 0.2s ease;">
+                                &lt;
+                            </button>
+                            <span id="training-month-label" style="font-size: 0.82rem; font-weight: 700; color: #FFFFFF; min-width: 80px; text-align: center;">
+                                June 2026
+                            </span>
+                            <button id="next-month-btn" onclick="nextTrainingMonth()" title="Next Month" style="background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); color: #FFFFFF; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; cursor: pointer; transition: background 0.2s ease;">
+                                &gt;
+                            </button>
                         </div>
                     </div>
 
                     <!-- Calendar Grid -->
-                    <div class="berun-cal-grid">
+                    <div class="berun-cal-grid" id="berun-calendar-grid">
                         <span class="berun-cal-day-label">M</span>
                         <span class="berun-cal-day-label">T</span>
                         <span class="berun-cal-day-label">W</span>
