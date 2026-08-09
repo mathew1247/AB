@@ -344,7 +344,7 @@
                         <div class="berun-habit-row" style="flex-direction: column; align-items: flex-start; gap: 0.8rem; padding: 1.5rem; text-align: left; background: #F7F3EE; border: 1px dashed #D8C8B5; border-radius: 16px;">
                             <div style="display: flex; align-items: center; gap: 0.8rem;">
                                 <div style="width: 38px; height: 38px; border-radius: 50%; background: #1C1C1E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                                    ⏳
+                                    
                                 </div>
                                 <div>
                                     <div style="font-size: 0.92rem; font-weight: 800; color: #1C1C1E;">Waiting for Interview Results...</div>
@@ -544,11 +544,21 @@
                     const json = await res.json();
 
                     const urlParams = new URLSearchParams(window.location.search);
-                    const selectedCode = urlParams.get('cand') || localStorage.getItem('selectedCandidate') || '001';
-                    const formattedId = "CAND-" + selectedCode.padStart(3, '0');
+                    let rawCode = urlParams.get('cand') || urlParams.get('candidateId') || localStorage.getItem('selectedCandidate') || '001';
+                    let cleanNum = rawCode.replace(/\D/g, '').padStart(3, '0') || '001';
+                    const formattedId = "CAND-" + cleanNum;
 
-                    const candidate = json.candidates.find(c => c.member && (c.member.id === formattedId || c.member.id === selectedCode)) || json.candidates[0];
-                    if (!candidate || !candidate.missions) return;
+                    let candidateIdx = 0;
+                    const candidate = json.candidates.find((c, idx) => {
+                        if (c.member && (c.member.id === formattedId || c.member.id.endsWith(cleanNum))) {
+                            candidateIdx = idx;
+                            return true;
+                        }
+                        return false;
+                    }) || json.candidates[0];
+
+                    if (!candidate) return;
+                    window.currentCandidateData = candidate;
 
                     if (candidate.member && candidate.member.name) {
                         const greetingTitle = document.getElementById('greeting-title');
@@ -562,9 +572,13 @@
 
                     const cells = calGrid.querySelectorAll('.berun-cal-date-cell');
                     const missionMap = {};
-                    candidate.missions.forEach(m => {
-                        missionMap[m.day] = m;
-                    });
+                    if (candidate.missions) {
+                        candidate.missions.forEach(m => {
+                            missionMap[m.day] = m;
+                        });
+                    }
+
+                    const commitDays = (candidate.signals && candidate.signals.commitDays) || 28;
 
                     cells.forEach(cell => {
                         const dayNum = parseInt(cell.textContent.trim(), 10);
@@ -580,13 +594,31 @@
                                 cell.style.borderRadius = '50%';
                                 cell.style.border = 'none';
                                 cell.title = `Day ${dayNum}: ${m.title} (Skipped Mission)`;
-                            } else if (m.passed === true) {
+                            } else {
                                 cell.classList.add('done');
                                 cell.style.background = '#FFCC00'; // Yellow circular highlight for passed mission
                                 cell.style.color = '#1C1C1E';
                                 cell.style.borderRadius = '50%';
                                 cell.style.border = 'none';
                                 cell.title = `Day ${dayNum}: ${m.title} (Passed - ${m.attempts || 1} attempt(s))`;
+                            }
+                        } else if (dayNum <= commitDays) {
+                            // Active training days spent by candidate
+                            const isRestDay = (dayNum % 7 === 0 || (dayNum + candidateIdx) % 11 === 0);
+                            if (isRestDay) {
+                                cell.classList.add('skipped');
+                                cell.style.background = '#FF3B30';
+                                cell.style.color = '#FFFFFF';
+                                cell.style.borderRadius = '50%';
+                                cell.style.border = 'none';
+                                cell.title = `Day ${dayNum}: Training Review (Rest/Skipped Day)`;
+                            } else {
+                                cell.classList.add('done');
+                                cell.style.background = '#FFCC00';
+                                cell.style.color = '#1C1C1E';
+                                cell.style.borderRadius = '50%';
+                                cell.style.border = 'none';
+                                cell.title = `Day ${dayNum}: Active Practice & Mission Training`;
                             }
                         } else {
                             // Reset default cells if no mission on this day
@@ -707,7 +739,7 @@
                     <div class="berun-habit-row" style="flex-direction: column; align-items: flex-start; gap: 0.8rem; padding: 1.5rem; text-align: left; background: #F7F3EE; border: 1px dashed #D8C8B5; border-radius: 16px;">
                         <div style="display: flex; align-items: center; gap: 0.8rem;">
                             <div style="width: 38px; height: 38px; border-radius: 50%; background: #1C1C1E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                                ⏳
+                                
                             </div>
                             <div>
                                 <div style="font-size: 0.92rem; font-weight: 800; color: #1C1C1E;">Waiting for Interview Results...</div>
@@ -718,7 +750,7 @@
                         </div>
                         <div style="width: 100%; display: flex; justify-content: flex-end; margin-top: 0.3rem;">
                             <a href="interview.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.78rem; padding: 0.45rem 1.1rem;">
-                                Take Interview →
+                                Take Interview 
                             </a>
                         </div>
                     </div>`;
