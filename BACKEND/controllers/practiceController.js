@@ -29,7 +29,9 @@ exports.generatePracticeQuestions = async (req, res, next) => {
             return res.status(400).json({ success: false, error: 'topic is required' });
         }
 
+        const randomSeed = Math.random().toString(36).substring(7);
         const prompt = `You are an expert technical tutor. Generate exactly 10 single-mark multiple-choice questions about the topic: "${topic}".
+To ensure maximum variety, generate a completely different, unique set of questions. Do not repeat previous questions. Random seed code: ${randomSeed}.
 Each question must be challenging, have exactly 4 options, a correctIndex (0-3), and a short explanation of the correct choice.
 Return structured JSON only matching this schema:
 {
@@ -57,6 +59,7 @@ Return structured JSON only matching this schema:
                     body: JSON.stringify({
                         model: 'gemma-4-31b',
                         messages: [{ role: 'user', content: prompt }],
+                        temperature: 0.8,
                         response_format: { type: 'json_object' }
                     })
                 });
@@ -83,7 +86,7 @@ Return structured JSON only matching this schema:
                 const chatCompletion = await groq.chat.completions.create({
                     messages: [{ role: "system", content: prompt }],
                     model: "llama-3.3-70b-versatile",
-                    temperature: 0.2,
+                    temperature: 0.8,
                     response_format: { type: "json_object" }
                 });
                 const parsed = JSON.parse(chatCompletion.choices[0].message.content);
