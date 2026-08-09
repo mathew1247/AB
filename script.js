@@ -524,6 +524,49 @@ const calendarDateTopics = {
 };
 
 function selectCalendarDate(dayNumber) {
+  // Highlight active selected calendar day cell
+  const calCells = document.querySelectorAll('.berun-cal-date-cell');
+  calCells.forEach(cell => {
+    cell.style.boxShadow = '';
+  });
+  const activeCell = Array.from(calCells).find(c => parseInt(c.textContent.trim(), 10) === dayNumber);
+  if (activeCell) {
+    activeCell.style.boxShadow = '0 0 0 3px #1C1C1E';
+  }
+
+  // Map Training Day to primary topic track
+  let targetTopicKey = 'dsa';
+  if (dayNumber >= 1 && dayNumber <= 6) targetTopicKey = 'dsa';
+  else if (dayNumber >= 7 && dayNumber <= 10) targetTopicKey = 'sys';
+  else if (dayNumber >= 11 && dayNumber <= 15) targetTopicKey = 'py';
+  else if (dayNumber >= 16 && dayNumber <= 20) targetTopicKey = 'algo';
+  else if (dayNumber >= 21 && dayNumber <= 25) targetTopicKey = 'sql';
+  else targetTopicKey = 'sys';
+
+  // Compute Training-Day specific accuracy & progress stats
+  const questionsSolved = Math.round(dayNumber * 5.2) + 12;
+  const accuracyVal = Math.min(98, Math.max(65, Math.round(70 + (dayNumber / 31) * 25)));
+  const activeStreak = Math.min(dayNumber, 28);
+
+  if (topicGraphDatasets[targetTopicKey]) {
+    topicGraphDatasets[targetTopicKey].questions = `${questionsSolved} Solved`;
+    topicGraphDatasets[targetTopicKey].accuracy = `${accuracyVal}.4%`;
+    topicGraphDatasets[targetTopicKey].streak = `${activeStreak} Days 🔥`;
+    topicGraphDatasets[targetTopicKey].peak = `${Math.min(99, accuracyVal + 4)}% Peak Accuracy`;
+  }
+
+  // Update Monthly Topic Progress Subtitle
+  const topicProgressSub = document.getElementById('topic-progress-subtitle');
+  if (topicProgressSub) {
+    topicProgressSub.innerText = `Filtered by Training Day ${dayNumber} (January ${dayNumber}, 2026)`;
+  }
+
+  // Automatically switch topic progress tab
+  const targetTabBtn = document.querySelector(`.topic-graph-tab[data-key="${targetTopicKey}"]`);
+  if (typeof switchTopicGraph === 'function') {
+    switchTopicGraph(targetTopicKey, targetTabBtn);
+  }
+
   const modal = document.getElementById('calendar-date-modal');
   const titleEl = document.getElementById('date-modal-title');
   const summaryEl = document.getElementById('date-modal-summary');
@@ -531,8 +574,8 @@ function selectCalendarDate(dayNumber) {
 
   // Generate topic cards dynamically if date not explicitly mapped
   const activity = calendarDateTopics[dayNumber] || {
-    dateTitle: `June ${dayNumber}, 2026`,
-    badgeSummary: `${dayNumber % 2 === 0 ? '2' : '3'} Topics Covered`,
+    dateTitle: `January ${dayNumber}, 2026`,
+    badgeSummary: `${dayNumber % 2 === 0 ? '2' : '3'} Topics Covered on Day ${dayNumber}`,
     cards: dayNumber % 2 === 0 ? [
       {
         title: "Data Structures - Linked List Operations",
