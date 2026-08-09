@@ -250,7 +250,7 @@ function renderCourse(index) {
         const imageName = course.image.split('/').pop();
         const path1 = `assets/${imageName}`;
         const path2 = imageName;
-        
+
         // Immediate primary assignment
         cardEl.style.background = `linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url('${path1}') center/cover no-repeat`;
 
