@@ -43,14 +43,12 @@
             <section class="berun-grid-top">
 
                 <!-- Left Card: Technical Skills Carousel (Replaces Workout Results for Today) -->
-                <article class="berun-workout-card" id="tech-skills-carousel-card"
-                    style="background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url('assets/code_build_create.png') center/cover no-repeat; color: #FFFFFF;">
+                <article class="berun-workout-card" id="tech-skills-carousel-card" style="background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url('assets/code_build_create.png') center/cover no-repeat; color: #FFFFFF;">
                     <!-- Top Header Row -->
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                         <div>
                             <h2 class="berun-card-title" style="color: #FFFFFF;">Technical Skills</h2>
-                            <p
-                                style="font-size: 0.78rem; color: rgba(255, 255, 255, 0.85); margin-top: 0.2rem; font-weight: 500;">
+                            <p style="font-size: 0.78rem; color: rgba(255, 255, 255, 0.85); margin-top: 0.2rem; font-weight: 500;">
                                 Explore and continue your interview preparation.
                             </p>
                         </div>
@@ -67,11 +65,10 @@
                         <div
                             style="display: flex; align-items: flex-end; justify-content: space-between; padding: 0.3rem 0;">
                             <div>
-                                <div id="course-title" style="font-size: 1.25rem; font-weight: 800; color: #FFFFFF;">
-                                    Environment & Tooling
+                                <div id="course-title"
+                                    style="font-size: 1.25rem; font-weight: 800; color: #FFFFFF;">Environment & Tooling
                                 </div>
-                                <div id="course-tags"
-                                    style="font-size: 0.82rem; color: rgba(255, 255, 255, 0.85); font-weight: 600; margin-top: 0.15rem;">
+                                <div id="course-tags" style="font-size: 0.82rem; color: rgba(255, 255, 255, 0.85); font-weight: 600; margin-top: 0.15rem;">
                                     Days 1–3 • Module 1 • Setup & Tools</div>
                             </div>
                             <span id="course-level"
@@ -82,7 +79,8 @@
                     </div>
 
                     <!-- Navigation Controls Row -->
-                    <div style="display: flex; justify-content: flex-start; align-items: center; margin-top: 0.4rem;">
+                    <div
+                        style="display: flex; justify-content: flex-start; align-items: center; margin-top: 0.4rem;">
                         <div style="display: flex; gap: 0.4rem;">
                             <button id="prev-course-btn" class="carousel-nav-btn"
                                 onclick="prevCourse()">Previous</button>
@@ -152,11 +150,13 @@
                             Current day
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.4rem;">
-                            <span style="width: 8px; height: 8px; background: #FFCC00; border-radius: 50%;"></span>
+                            <span
+                                style="width: 8px; height: 8px; background: #FFCC00; border-radius: 50%;"></span>
                             Passed
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.4rem;">
-                            <span style="width: 8px; height: 8px; background: #FF3B30; border-radius: 50%;"></span>
+                            <span
+                                style="width: 8px; height: 8px; background: #FF3B30; border-radius: 50%;"></span>
                             Skipped
                         </div>
                     </div>
@@ -191,7 +191,30 @@
                         </div>
                     </div>
 
-
+                    <!-- Topic Selector Tabs -->
+                    <div
+                        style="display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.3rem; margin-bottom: 0.8rem;">
+                        <button class="topic-graph-tab active" data-key="dsa" onclick="switchTopicGraph('dsa', this)"
+                            style="background: #1C1C1E; color: #FFFFFF; border: none; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                            Data Structures
+                        </button>
+                        <button class="topic-graph-tab" data-key="algo" onclick="switchTopicGraph('algo', this)"
+                            style="background: #EAE3D9; color: #666460; border: none; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                            Algorithms
+                        </button>
+                        <button class="topic-graph-tab" data-key="sql" onclick="switchTopicGraph('sql', this)"
+                            style="background: #EAE3D9; color: #666460; border: none; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                            SQL Queries
+                        </button>
+                        <button class="topic-graph-tab" data-key="sys" onclick="switchTopicGraph('sys', this)"
+                            style="background: #EAE3D9; color: #666460; border: none; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                            System Design
+                        </button>
+                        <button class="topic-graph-tab" data-key="py" onclick="switchTopicGraph('py', this)"
+                            style="background: #EAE3D9; color: #666460; border: none; padding: 0.3rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                            Python & OOP
+                        </button>
+                    </div>
 
                     <!-- Slide Wrapper for Smooth Transition -->
                     <div id="topic-graph-slide-wrapper"
@@ -302,8 +325,7 @@
                 <article class="berun-habits-card">
                     <div class="berun-habits-header">
                         <div>
-                            <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--berun-text-dark);">Candidate
-                                Strengths & Weaknesses</h3>
+                            <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--berun-text-dark);">Candidate Strengths & Weaknesses</h3>
                             <p id="sw-card-subtitle"
                                 style="font-size: 0.75rem; color: var(--berun-text-body); margin-top: 0.1rem; font-weight: 500;">
                                 Waiting for interview completion...
@@ -319,26 +341,20 @@
                     <div id="strengths-weaknesses-list"
                         style="display: flex; flex-direction: column; gap: 0.7rem; max-height: 340px; overflow-y: auto; padding-right: 0.2rem;">
 
-                        <div class="berun-habit-row"
-                            style="flex-direction: column; align-items: flex-start; gap: 0.8rem; padding: 1.5rem; text-align: left; background: #F7F3EE; border: 1px dashed #D8C8B5; border-radius: 16px;">
+                        <div class="berun-habit-row" style="flex-direction: column; align-items: flex-start; gap: 0.8rem; padding: 1.5rem; text-align: left; background: #F7F3EE; border: 1px dashed #D8C8B5; border-radius: 16px;">
                             <div style="display: flex; align-items: center; gap: 0.8rem;">
-                                <div
-                                    style="width: 38px; height: 38px; border-radius: 50%; background: #1C1C1E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                                <div style="width: 38px; height: 38px; border-radius: 50%; background: #1C1C1E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
                                     ⏳
                                 </div>
                                 <div>
-                                    <div style="font-size: 0.92rem; font-weight: 800; color: #1C1C1E;">Waiting for
-                                        Interview Results...</div>
-                                    <div
-                                        style="font-size: 0.78rem; color: #666460; font-weight: 500; margin-top: 0.15rem;">
-                                        Complete an AI Technical Interview to generate your performance-based strengths
-                                        & weaknesses.
+                                    <div style="font-size: 0.92rem; font-weight: 800; color: #1C1C1E;">Waiting for Interview Results...</div>
+                                    <div style="font-size: 0.78rem; color: #666460; font-weight: 500; margin-top: 0.15rem;">
+                                        Complete an AI Technical Interview to generate your performance-based strengths & weaknesses.
                                     </div>
                                 </div>
                             </div>
                             <div style="width: 100%; display: flex; justify-content: flex-end; margin-top: 0.3rem;">
-                                <a href="interview.html" class="berun-btn-dark"
-                                    style="text-decoration: none; font-size: 0.78rem; padding: 0.45rem 1.1rem;">
+                                <a href="interview.html" class="berun-btn-dark" style="text-decoration: none; font-size: 0.78rem; padding: 0.45rem 1.1rem;">
                                     Take Interview
                                 </a>
                             </div>
