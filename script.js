@@ -553,7 +553,7 @@ function selectCalendarDate(dayNumber) {
   // Update Monthly Topic Progress Subtitle
   const topicProgressSub = document.getElementById('topic-progress-subtitle');
   if (topicProgressSub) {
-    topicProgressSub.innerText = `Filtered by Training Day ${dayNumber} • Module ${targetMod.n}: ${targetMod.title} (Days ${targetMod.days[0]}–${targetMod.days[1]})`;
+    topicProgressSub.innerText = `Filtered by Training Day ${dayNumber} • ${targetMod.title} (Days ${targetMod.days[0]}–${targetMod.days[1]})`;
   }
 
   // Automatically switch topic progress tab
@@ -765,7 +765,7 @@ function updateCandidateTopicProgress(candidate) {
     const y4 = calcY(v4);
 
     topicGraphDatasets[mod.key] = {
-      name: `Module ${mod.n}: ${mod.title}`,
+      name: mod.title,
       peak: `${peakAcc}% Peak Accuracy`,
       lineD: `M 30 ${y1} Q 130 ${y2}, 230 ${y3} T 370 ${y4}`,
       areaD: `M 30 ${y1} Q 130 ${y2}, 230 ${y3} T 370 ${y4} L 370 115 L 30 115 Z`,
