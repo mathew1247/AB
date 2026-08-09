@@ -443,7 +443,7 @@
                 { id: '020', name: 'Priyanka Sharma' }
             ];
 
-            fetch('FRONTEND/candidates.json')
+            fetch('candidates.json')
                 .then(res => res.json())
                 .then(data => {
                     if (data && data.candidates && data.candidates.length > 0) {
