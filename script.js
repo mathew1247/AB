@@ -523,45 +523,7 @@ const calendarDateTopics = {
   }
 };
 
-// Curriculum 8 Modules Data Definition (Matching curriculum.json & candidates.json)
-const curriculumModulesData = [
-  { key: 'm1', n: 1, title: 'Environment & Tooling', days: [1, 3] },
-  { key: 'm2', n: 2, title: 'Data Foundations', days: [4, 6] },
-  { key: 'm3', n: 3, title: 'Embeddings & Vector Search', days: [7, 10] },
-  { key: 'm4', n: 4, title: 'LLM Core, Prompting & Fine-Tuning', days: [11, 15] },
-  { key: 'm5', n: 5, title: 'Chatbot Application Build', days: [16, 20] },
-  { key: 'm6', n: 6, title: 'Agentic AI & MCP', days: [21, 24] },
-  { key: 'm7', n: 7, title: 'Evaluation, Security & Deployment', days: [25, 28] },
-  { key: 'm8', n: 8, title: 'Production & Capstone', days: [29, 31] }
-];
-
 function selectCalendarDate(dayNumber) {
-  // Highlight active selected calendar day cell
-  const calCells = document.querySelectorAll('.berun-cal-date-cell');
-  calCells.forEach(cell => {
-    cell.style.boxShadow = '';
-  });
-  const activeCell = Array.from(calCells).find(c => parseInt(c.textContent.trim(), 10) === dayNumber);
-  if (activeCell) {
-    activeCell.style.boxShadow = '0 0 0 3px #1C1C1E';
-  }
-
-  // Find matching module for selected training day from curriculum.json
-  const targetMod = curriculumModulesData.find(m => dayNumber >= m.days[0] && dayNumber <= m.days[1]) || curriculumModulesData[0];
-  const targetTopicKey = targetMod.key;
-
-  // Update Monthly Topic Progress Subtitle
-  const topicProgressSub = document.getElementById('topic-progress-subtitle');
-  if (topicProgressSub) {
-    topicProgressSub.innerText = `Filtered by Training Day ${dayNumber} • ${targetMod.title} (Days ${targetMod.days[0]}–${targetMod.days[1]})`;
-  }
-
-  // Automatically switch topic progress tab
-  const targetTabBtn = document.querySelector(`.topic-graph-tab[data-key="${targetTopicKey}"]`);
-  if (typeof switchTopicGraph === 'function') {
-    switchTopicGraph(targetTopicKey, targetTabBtn);
-  }
-
   const modal = document.getElementById('calendar-date-modal');
   const titleEl = document.getElementById('date-modal-title');
   const summaryEl = document.getElementById('date-modal-summary');
@@ -569,8 +531,8 @@ function selectCalendarDate(dayNumber) {
 
   // Generate topic cards dynamically if date not explicitly mapped
   const activity = calendarDateTopics[dayNumber] || {
-    dateTitle: `January ${dayNumber}, 2026`,
-    badgeSummary: `${dayNumber % 2 === 0 ? '2' : '3'} Topics Covered on Day ${dayNumber}`,
+    dateTitle: `June ${dayNumber}, 2026`,
+    badgeSummary: `${dayNumber % 2 === 0 ? '2' : '3'} Topics Covered`,
     cards: dayNumber % 2 === 0 ? [
       {
         title: "Data Structures - Linked List Operations",
@@ -725,66 +687,154 @@ function showToast(message) {
   }, 2500);
 }
 
-// Monthly Topic Progress Graph Switcher (Stores 8 Module Graphs)
-const topicGraphDatasets = {};
+// Monthly Topic Progress Graph Switcher
+const topicGraphDatasets = {
+  'dsa': {
+    name: 'Data Structures Mastery',
+    peak: '92% Peak Accuracy',
+    lineD: 'M 30 90 Q 130 65, 230 40 T 370 15',
+    areaD: 'M 30 90 Q 130 65, 230 40 T 370 15 L 370 115 L 30 115 Z',
+    nodes: [{ cx: 30, cy: 90, val: '45%' }, { cx: 140, cy: 65, val: '62%' }, { cx: 250, cy: 40, val: '78%' }, { cx: 370, cy: 15, val: '92%' }],
+    questions: '142 Solved',
+    accuracy: '88.4%',
+    streak: '18 Days 🔥'
+  },
+  'algo': {
+    name: 'Algorithms & Problem Solving',
+    peak: '88% Peak Accuracy',
+    lineD: 'M 30 98 Q 130 75, 230 48 T 370 22',
+    areaD: 'M 30 98 Q 130 75, 230 48 T 370 22 L 370 115 L 30 115 Z',
+    nodes: [{ cx: 30, cy: 98, val: '40%' }, { cx: 140, cy: 75, val: '55%' }, { cx: 250, cy: 48, val: '72%' }, { cx: 370, cy: 22, val: '88%' }],
+    questions: '118 Solved',
+    accuracy: '85.0%',
+    streak: '14 Days 🔥'
+  },
+  'sql': {
+    name: 'SQL & Database Queries',
+    peak: '95% Peak Accuracy',
+    lineD: 'M 30 85 Q 130 55, 230 32 T 370 10',
+    areaD: 'M 30 85 Q 130 55, 230 32 T 370 10 L 370 115 L 30 115 Z',
+    nodes: [{ cx: 30, cy: 85, val: '50%' }, { cx: 140, cy: 55, val: '68%' }, { cx: 250, cy: 32, val: '84%' }, { cx: 370, cy: 10, val: '95%' }],
+    questions: '96 Solved',
+    accuracy: '92.1%',
+    streak: '21 Days 🔥'
+  },
+  'sys': {
+    name: 'System Design Architecture',
+    peak: '82% Peak Accuracy',
+    lineD: 'M 30 105 Q 130 82, 230 58 T 370 30',
+    areaD: 'M 30 105 Q 130 82, 230 58 T 370 30 L 370 115 L 30 115 Z',
+    nodes: [{ cx: 30, cy: 105, val: '30%' }, { cx: 140, cy: 82, val: '48%' }, { cx: 250, cy: 58, val: '65%' }, { cx: 370, cy: 30, val: '82%' }],
+    questions: '64 Solved',
+    accuracy: '80.5%',
+    streak: '9 Days 🔥'
+  },
+  'py': {
+    name: 'Python & Core OOP',
+    peak: '96% Peak Accuracy',
+    lineD: 'M 30 75 Q 130 48, 230 28 T 370 8',
+    areaD: 'M 30 75 Q 130 48, 230 28 T 370 8 L 370 115 L 30 115 Z',
+    nodes: [{ cx: 30, cy: 75, val: '58%' }, { cx: 140, cy: 48, val: '74%' }, { cx: 250, cy: 28, val: '86%' }, { cx: 370, cy: 8, val: '96%' }],
+    questions: '156 Solved',
+    accuracy: '94.2%',
+    streak: '25 Days 🔥'
+  }
+};
 
-// Dynamically compute 8 Monthly Module Progress datasets from candidates.json and curriculum.json
+// Dynamically compute Monthly Topic Progress datasets from candidate training days (missions & signals)
 function updateCandidateTopicProgress(candidate) {
   if (!candidate) return;
   const missions = candidate.missions || [];
   const signals = candidate.signals || { commitDays: 18, missionsCompleted: 28, missionsFirstTry: 18 };
 
-  curriculumModulesData.forEach(mod => {
-    const startDay = mod.days[0];
-    const endDay = mod.days[1];
-    const totDays = endDay - startDay + 1;
+  const totalMissions = signals.missionsCompleted || missions.length || 1;
+  const firstTry = signals.missionsFirstTry || missions.filter(m => m.passed && m.attempts === 1).length;
+  const commitDays = signals.commitDays || 18;
+  const baseAccuracy = Math.round(Math.min(96, Math.max(65, (firstTry / totalMissions) * 100 + 20)));
 
-    // Filter candidate missions belonging to this module
-    const modMissions = missions.filter(m => m.day >= startDay && m.day <= endDay);
-    const passedMissions = modMissions.filter(m => m.passed === true).length;
-    const skippedMissions = modMissions.filter(m => m.skipped === true || m.passed === false).length;
-    const attempts = modMissions.reduce((acc, m) => acc + (m.attempts || 1), 0);
+  const topicConfigs = {
+    'dsa': {
+      name: 'Data Structures Mastery',
+      accDelta: 4,
+      solvedMult: 4.8,
+      v1: Math.round(baseAccuracy * 0.51),
+      v2: Math.round(baseAccuracy * 0.68),
+      v3: Math.round(baseAccuracy * 0.85),
+      v4: Math.min(98, Math.round(baseAccuracy * 1.02))
+    },
+    'algo': {
+      name: 'Algorithms & Problem Solving',
+      accDelta: 0,
+      solvedMult: 4.0,
+      v1: Math.round(baseAccuracy * 0.46),
+      v2: Math.round(baseAccuracy * 0.62),
+      v3: Math.round(baseAccuracy * 0.80),
+      v4: Math.min(96, Math.round(baseAccuracy * 0.97))
+    },
+    'sql': {
+      name: 'SQL & Database Queries',
+      accDelta: 6,
+      solvedMult: 3.2,
+      v1: Math.round(baseAccuracy * 0.54),
+      v2: Math.round(baseAccuracy * 0.72),
+      v3: Math.round(baseAccuracy * 0.88),
+      v4: Math.min(99, Math.round(baseAccuracy * 1.05))
+    },
+    'sys': {
+      name: 'System Design Architecture',
+      accDelta: -5,
+      solvedMult: 2.2,
+      v1: Math.round(baseAccuracy * 0.40),
+      v2: Math.round(baseAccuracy * 0.58),
+      v3: Math.round(baseAccuracy * 0.73),
+      v4: Math.min(92, Math.round(baseAccuracy * 0.90))
+    },
+    'py': {
+      name: 'Python & Core OOP',
+      accDelta: 8,
+      solvedMult: 5.2,
+      v1: Math.round(baseAccuracy * 0.58),
+      v2: Math.round(baseAccuracy * 0.76),
+      v3: Math.round(baseAccuracy * 0.90),
+      v4: Math.min(99, Math.round(baseAccuracy * 1.06))
+    }
+  };
 
-    // Compute metrics
-    const accuracy = attempts > 0 ? Math.min(99, Math.max(62, Math.round((passedMissions / attempts) * 100 + 18))) : (passedMissions > 0 ? 90 : 72);
-    const peakAcc = Math.min(99, accuracy + 5);
-    const questionsCount = Math.round(passedMissions * 5 + attempts * 2.5 + totDays * 4);
-    const daysSpent = Math.min(totDays, passedMissions + skippedMissions) || totDays;
-
-    // 4 Curve progress nodes for this module
-    const v1 = Math.round(accuracy * 0.50);
-    const v2 = Math.round(accuracy * 0.68);
-    const v3 = Math.round(accuracy * 0.84);
-    const v4 = peakAcc;
+  const keys = ['dsa', 'algo', 'sql', 'sys', 'py'];
+  keys.forEach(key => {
+    const cfg = topicConfigs[key];
+    const peakAcc = cfg.v4;
+    const avgAcc = (Math.min(99, Math.round((cfg.v1 + cfg.v2 + cfg.v3 + cfg.v4) / 4))).toFixed(1);
+    const solvedCount = Math.round(totalMissions * cfg.solvedMult);
 
     const calcY = (val) => Math.round(115 - (val / 100.0) * 105);
 
-    const y1 = calcY(v1);
-    const y2 = calcY(v2);
-    const y3 = calcY(v3);
-    const y4 = calcY(v4);
+    const y1 = calcY(cfg.v1);
+    const y2 = calcY(cfg.v2);
+    const y3 = calcY(cfg.v3);
+    const y4 = calcY(cfg.v4);
 
-    topicGraphDatasets[mod.key] = {
-      name: mod.title,
+    topicGraphDatasets[key] = {
+      name: cfg.name,
       peak: `${peakAcc}% Peak Accuracy`,
       lineD: `M 30 ${y1} Q 130 ${y2}, 230 ${y3} T 370 ${y4}`,
       areaD: `M 30 ${y1} Q 130 ${y2}, 230 ${y3} T 370 ${y4} L 370 115 L 30 115 Z`,
       nodes: [
-        { cx: 30, cy: y1, val: `${v1}%` },
-        { cx: 140, cy: y2, val: `${v2}%` },
-        { cx: 250, cy: y3, val: `${v3}%` },
-        { cx: 370, cy: y4, val: `${v4}%` }
+        { cx: 30, cy: y1, val: `${cfg.v1}%` },
+        { cx: 140, cy: y2, val: `${cfg.v2}%` },
+        { cx: 250, cy: y3, val: `${cfg.v3}%` },
+        { cx: 370, cy: y4, val: `${cfg.v4}%` }
       ],
-      questions: `${questionsCount} Solved`,
-      accuracy: `${accuracy}.0%`,
-      streak: `${daysSpent} Days Spent 🔥`
+      questions: `${solvedCount} Solved`,
+      accuracy: `${avgAcc}%`,
+      streak: `${commitDays} Days 🔥`
     };
   });
 
   const activeTab = document.querySelector('.topic-graph-tab.active');
-  const activeKey = activeTab ? activeTab.getAttribute('data-key') : 'm1';
+  const activeKey = activeTab ? activeTab.getAttribute('data-key') : 'dsa';
   if (typeof switchTopicGraph === 'function') {
-    switchTopicGraph(activeKey || 'm1', activeTab);
+    switchTopicGraph(activeKey || 'dsa', activeTab);
   }
 }
 
@@ -842,9 +892,9 @@ function switchTopicGraph(topicKey, btn) {
   });
 }
 
-// Button Navigation Controller for Monthly Topic Progress Card (Iterates 8 Module Graphs)
+// Button Navigation Controller for Monthly Topic Progress Card
 let currentTopicGraphIndex = 0;
-const topicGraphKeys = ['m1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8'];
+const topicGraphKeys = ['dsa', 'algo', 'sql', 'sys', 'py'];
 
 function renderTopicGraphSlide(index) {
   const key = topicGraphKeys[index];
